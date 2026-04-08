@@ -3,501 +3,190 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="LotteryTrack — Scan your lottery inventory in minutes, not hours. Built for NYC bodegas and convenience stores.">
-  <title>LotteryTrack — Lottery Inventory Done in Minutes</title>
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --navy:  #1C2A39;
-      --green: #2E7D5B;
-      --bg:    #F7F9FB;
-      --text:  #1F2933;
-      --light: #C8D8E4;
-      --card:  #ffffff;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── NAV ── */
-    nav {
-      background: var(--navy);
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .nav-logo {
-      color: #fff;
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      text-decoration: none;
-    }
-    .nav-logo span { color: #7FFFD4; }
-    .nav-cta {
-      background: var(--green);
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .nav-cta:hover { opacity: 0.85; }
-
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(135deg, var(--navy) 0%, #243447 100%);
-      color: #fff;
-      padding: 80px 24px 72px;
-      text-align: center;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(46,125,91,0.3);
-      border: 1px solid rgba(46,125,91,0.6);
-      color: #7FFFD4;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-bottom: 24px;
-      text-transform: uppercase;
-    }
-    .hero h1 {
-      font-size: clamp(32px, 6vw, 56px);
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -1px;
-      margin-bottom: 20px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero h1 span { color: #7FFFD4; }
-    .hero p {
-      font-size: clamp(16px, 2.5vw, 20px);
-      color: var(--light);
-      max-width: 520px;
-      margin: 0 auto 40px;
-    }
-    .hero-buttons {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-appstore {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-      color: var(--navy);
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 800;
-      text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-    .btn-appstore:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.25); }
-    .btn-appstore svg { width: 22px; height: 22px; flex-shrink: 0; }
-    .hero-stats {
-      display: flex;
-      gap: 40px;
-      justify-content: center;
-      margin-top: 56px;
-      flex-wrap: wrap;
-    }
-    .hero-stat { text-align: center; }
-    .hero-stat-num {
-      font-size: 36px;
-      font-weight: 900;
-      color: #7FFFD4;
-      line-height: 1;
-    }
-    .hero-stat-label { font-size: 13px; color: var(--light); margin-top: 4px; }
-
-    /* ── SECTION SHELL ── */
-    section { padding: 72px 24px; }
-    .container { max-width: 960px; margin: 0 auto; }
-    .section-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(26px, 4vw, 40px);
-      font-weight: 900;
-      color: var(--navy);
-      line-height: 1.15;
-      letter-spacing: -0.5px;
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 17px;
-      color: #555;
-      max-width: 560px;
-    }
-
-    /* ── PROBLEM ── */
-    .problem { background: var(--navy); color: #fff; }
-    .problem .section-title { color: #fff; }
-    .problem .section-label { color: #7FFFD4; }
-    .problem-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-      margin-top: 48px;
-    }
-    .problem-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 28px 24px;
-    }
-    .problem-card-icon { font-size: 32px; margin-bottom: 14px; }
-    .problem-card h3 { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-    .problem-card p { font-size: 14px; color: var(--light); line-height: 1.6; }
-    .problem-card .stat {
-      font-size: 32px;
-      font-weight: 900;
-      color: #FF6B6B;
-      margin-bottom: 6px;
-      line-height: 1;
-    }
-
-    /* ── HOW IT WORKS ── */
-    .how { background: var(--bg); }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 24px;
-      margin-top: 48px;
-    }
-    .step {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 32px 24px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-      position: relative;
-    }
-    .step-num {
-      width: 40px;
-      height: 40px;
-      background: var(--green);
-      color: #fff;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-    }
-    .step h3 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
-    .step p { font-size: 14px; color: #666; line-height: 1.6; }
-    .step-icon { font-size: 36px; margin-bottom: 12px; }
-
-    /* ── BEFORE / AFTER ── */
-    .compare { background: #fff; }
-    .compare-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 48px;
-    }
-    @media (max-width: 600px) { .compare-grid { grid-template-columns: 1fr; } }
-    .compare-col {
-      border-radius: 16px;
-      padding: 28px 24px;
-    }
-    .compare-before {
-      background: #FFF5F5;
-      border: 2px solid #FFCCCC;
-    }
-    .compare-after {
-      background: #F0FBF5;
-      border: 2px solid #A7E8C7;
-    }
-    .compare-col h3 {
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .compare-before h3 { color: #C00000; }
-    .compare-after  h3 { color: var(--green); }
-    .compare-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 14px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .compare-item-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-    .compare-before .compare-item { color: #7A2020; }
-    .compare-after  .compare-item { color: #1A5C3A; }
-
-    /* ── TESTIMONIAL ── */
-    .testimonial-section { background: var(--bg); }
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-top: 48px;
-    }
-    .testimonial-card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 28px 24px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    }
-    .stars { color: #F59E0B; font-size: 18px; margin-bottom: 14px; letter-spacing: 2px; }
-    .testimonial-card p { font-size: 15px; color: #444; line-height: 1.7; margin-bottom: 16px; font-style: italic; }
-    .testimonial-author { font-size: 13px; font-weight: 700; color: var(--navy); }
-    .testimonial-role { font-size: 12px; color: #999; }
-
-    /* ── CTA ── */
-    .cta {
-      background: linear-gradient(135deg, var(--green) 0%, #1A5C3A 100%);
-      color: #fff;
-      text-align: center;
-      padding: 80px 24px;
-    }
-    .cta h2 {
-      font-size: clamp(28px, 5vw, 44px);
-      font-weight: 900;
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
-    }
-    .cta p {
-      font-size: 18px;
-      color: rgba(255,255,255,0.85);
-      margin-bottom: 40px;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .btn-appstore-white {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-      color: var(--green);
-      padding: 16px 32px;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 800;
-      text-decoration: none;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-      transition: transform 0.15s;
-    }
-    .btn-appstore-white:hover { transform: translateY(-2px); }
-    .btn-appstore-white svg { width: 24px; height: 24px; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--navy);
-      color: var(--light);
-      padding: 40px 24px;
-      text-align: center;
-    }
-    .footer-logo {
-      font-size: 22px;
-      font-weight: 900;
-      color: #fff;
-      margin-bottom: 16px;
-    }
-    .footer-logo span { color: #7FFFD4; }
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .footer-links a {
-      color: var(--light);
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: #fff; }
-    .footer-copy { font-size: 13px; color: #6B7C8D; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      .hero { padding: 60px 20px 56px; }
-      .hero-stats { gap: 28px; }
-      section { padding: 56px 20px; }
-      nav { padding: 14px 20px; }
-    }
-  </style>
+  <meta name="description" content="Lottery Track replaces manual lottery ticket counting for NYC bodegas. Scan barcodes, enter 3 numbers, get your daily statement in under 5 minutes.">
+  <title>Lottery Track — Close Your Lottery Inventory in Minutes | NYC Bodega App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">Lottery<span>Track</span></a>
-    <a href="#" class="nav-cta">Download App</a>
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Lottery <span>Track</span></a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="why-switch.html">Why Switch</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+        <!-- TODO: Replace # with App Store URL when live -->
+        <a href="#" class="btn-nav-download">Download</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html" class="active">Home</a>
+    <a href="why-switch.html">Why Switch</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <!-- TODO: Replace # with App Store URL when live -->
+    <a href="#" class="btn-nav-download">Download on the App Store</a>
+  </div>
 
-  <!-- HERO -->
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
   <section class="hero">
     <div class="container">
-      <div class="hero-badge">Now available on iOS</div>
-      <h1>Your Lottery Inventory.<br><span>Done in Minutes.</span></h1>
-      <p>Stop wasting 20 minutes every night counting tickets by hand. LotteryTrack gives you a professional closing statement in under 5 minutes.</p>
+      <div class="hero-badge">Now available on iPhone</div>
+      <h1>Your Lottery Inventory.<br>Done in Minutes.</h1>
+      <p class="hero-sub">Lottery Track replaces the pen-and-paper lottery closing process for NYC bodegas and small retailers. Scan tickets, enter 3 numbers, get your daily statement. That's it.</p>
       <div class="hero-buttons">
-        <a href="#" class="btn-appstore">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          Download on the App Store
-        </a>
+        <!-- TODO: Replace # with App Store URL when live -->
+        <a href="#" class="btn-primary btn-large">Download on the App Store</a>
+        <a href="#how-it-works" class="btn-outline-white btn-large">See How It Works</a>
       </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num">&lt;5 min</div>
-          <div class="hero-stat-label">Average close time</div>
+      <div class="hero-trust">
+        <div class="trust-badge"><span class="trust-icon">🔒</span> Secure Cloud Storage</div>
+        <div class="trust-badge"><span class="trust-icon">📱</span> iPhone App</div>
+        <div class="trust-badge"><span class="trust-icon">⚡</span> Under 5 Minutes</div>
+        <div class="trust-badge"><span class="trust-icon">🗽</span> Built for NYC</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COST OF DOING NOTHING
+       ============================================================ -->
+  <section class="bg-white">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">The Cost of Doing Nothing</p>
+        <h2 class="section-title">Every night you do this manually,<br>it's costing you money.</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <div class="stat-num">25 min</div>
+          <div class="stat-label">Wasted every closing shift on manual lottery counting</div>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">$150+</div>
-          <div class="hero-stat-label">Monthly payroll saved</div>
+        <div class="stat-card fade-in">
+          <div class="stat-num">$188/mo</div>
+          <div class="stat-label">Lost in payroll just doing lottery math at minimum wage</div>
         </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">100%</div>
-          <div class="hero-stat-label">Accurate statements</div>
+        <div class="stat-card fade-in">
+          <div class="stat-num">25 min</div>
+          <div class="stat-label">Your employees could be serving customers instead of counting tickets</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PROBLEM -->
-  <section class="problem">
-    <div class="container">
-      <div class="section-label">The Problem</div>
-      <h2 class="section-title">Counting lottery tickets<br>is costing you money.</h2>
-      <p class="section-sub" style="color: var(--light);">Every night, store owners and employees waste valuable time manually counting tickets, adding up values, and trying to balance the books — all by hand.</p>
-      <div class="problem-grid">
-        <div class="problem-card">
-          <div class="stat">25 min</div>
-          <h3>Wasted Every Night</h3>
-          <p>The average store spends 10–25 minutes on manual lottery ticket counts. That adds up to over 150 hours a year.</p>
-        </div>
-        <div class="problem-card">
-          <div class="stat">$150/mo</div>
-          <h3>In Payroll Waste</h3>
-          <p>At $15/hr, that's $75–$188 per month in labor just for closing the lottery — before you count errors and recounts.</p>
-        </div>
-        <div class="problem-card">
-          <div class="stat">No trail</div>
-          <h3>Zero Accountability</h3>
-          <p>Manual counts leave no audit trail. If there's a shortage, you have no way to know when it happened or who was working.</p>
-        </div>
-      </div>
+  <!-- ============================================================
+       ROI CALLOUT
+       ============================================================ -->
+  <section class="cta-section bg-green">
+    <div class="container fade-in">
+      <h2>The math is simple.</h2>
+      <p>When your employee closes in 5 minutes instead of 30, they have 25 extra minutes on the floor. Lottery commission in New York is 6%. If your employee sells just $8 in lottery tickets during those 25 minutes, Lottery Track has paid for itself for the entire day. Lottery Track costs about 50 cents a day. One $8 ticket sale covers it. Everything after that is pure profit recovered.</p>
+      <a href="pricing.html" class="btn-outline-white btn-large">Start Saving Tonight &rarr;</a>
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="how">
+  <!-- ============================================================
+       HOW IT WORKS
+       ============================================================ -->
+  <section class="bg-light" id="how-it-works">
     <div class="container">
-      <div class="section-label">How It Works</div>
-      <h2 class="section-title">Three steps.<br>Five minutes. Done.</h2>
-      <p class="section-sub">No training required. If you can use a camera, you can use LotteryTrack.</p>
-      <div class="steps">
-        <div class="step">
+      <div class="fade-in" style="text-align:center;">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Three steps. No training required.</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card fade-in">
           <div class="step-icon">📱</div>
           <div class="step-num">1</div>
-          <h3>Scan Each Book</h3>
-          <p>Point your phone camera at the barcode on each lottery ticket book. The app instantly identifies the game and price — no typing needed.</p>
+          <h3>Scan</h3>
+          <p>Point your phone camera at each lottery book barcode. One scan per book. Takes less than a second.</p>
         </div>
-        <div class="step">
+        <div class="step-card fade-in">
           <div class="step-icon">🔢</div>
           <div class="step-num">2</div>
           <h3>Enter 3 Numbers</h3>
-          <p>Type in your online sales total, validation payouts, and any new books activated. That's it — three fields.</p>
+          <p>Type in New Books Activated, Online Summary Balance, and Instant Validation Payouts from your machine.</p>
         </div>
-        <div class="step">
-          <div class="step-icon">📄</div>
+        <div class="step-card fade-in">
+          <div class="step-icon">✅</div>
           <div class="step-num">3</div>
-          <h3>Get Your Statement</h3>
-          <p>LotteryTrack generates a professional closing statement with your full inventory, cash balance, and a PDF you can share or save instantly.</p>
+          <h3>Done</h3>
+          <p>Lottery Track calculates your Total Cash Balance instantly and generates a clean daily PDF statement you can save or share.</p>
         </div>
       </div>
+      <p class="fade-in" style="text-align:center; margin-top:32px; font-size:15px; color:#556070;">No training needed. If your employees can use a phone camera, they can use Lottery Track.</p>
     </div>
   </section>
 
-  <!-- BEFORE / AFTER -->
-  <section class="compare">
+  <!-- ============================================================
+       BEFORE VS AFTER
+       ============================================================ -->
+  <section class="bg-white">
     <div class="container">
-      <div class="section-label">Before &amp; After</div>
-      <h2 class="section-title">See the difference.</h2>
-      <p class="section-sub">Here's what closing the lottery looks like before and after LotteryTrack.</p>
+      <div class="fade-in" style="text-align:center;">
+        <h2 class="section-title">What closing looks like before and after Lottery Track</h2>
+      </div>
       <div class="compare-grid">
-        <div class="compare-col compare-before">
-          <h3>❌ Before LotteryTrack</h3>
-          <div class="compare-item"><span class="compare-item-icon">😓</span><span>Count every book by hand, one ticket at a time</span></div>
-          <div class="compare-item"><span class="compare-item-icon">🧮</span><span>Add up values on a calculator or scrap paper</span></div>
-          <div class="compare-item"><span class="compare-item-icon">⏱</span><span>10–25 minutes every single night</span></div>
-          <div class="compare-item"><span class="compare-item-icon">❓</span><span>No record of who did what or when</span></div>
-          <div class="compare-item"><span class="compare-item-icon">💸</span><span>$75–$188/month in wasted labor</span></div>
-          <div class="compare-item"><span class="compare-item-icon">😤</span><span>Errors, recounts, and frustration</span></div>
+        <div class="compare-col compare-before fade-in">
+          <h3>Before</h3>
+          <div class="compare-item"><span>❌</span><span>20–30 minutes of manual ticket counting</span></div>
+          <div class="compare-item"><span>❌</span><span>Math errors on every closing shift</span></div>
+          <div class="compare-item"><span>❌</span><span>Paper sheets that get lost or thrown out</span></div>
+          <div class="compare-item"><span>❌</span><span>No record of who closed or when</span></div>
+          <div class="compare-item"><span>❌</span><span>New employees take weeks to learn the process</span></div>
+          <div class="compare-item"><span>❌</span><span>Customers waiting while you count tickets</span></div>
         </div>
-        <div class="compare-col compare-after">
-          <h3>✅ After LotteryTrack</h3>
-          <div class="compare-item"><span class="compare-item-icon">📱</span><span>Scan barcodes in seconds — app does the math</span></div>
-          <div class="compare-item"><span class="compare-item-icon">⚡</span><span>Full close complete in under 5 minutes</span></div>
-          <div class="compare-item"><span class="compare-item-icon">📄</span><span>Professional PDF statement generated instantly</span></div>
-          <div class="compare-item"><span class="compare-item-icon">👤</span><span>Every close stamped with who did it and when</span></div>
-          <div class="compare-item"><span class="compare-item-icon">📊</span><span>30-day reports and analytics at your fingertips</span></div>
-          <div class="compare-item"><span class="compare-item-icon">✅</span><span>Accurate every time — no human math errors</span></div>
+        <div class="compare-col compare-after fade-in">
+          <h3>After Lottery Track</h3>
+          <div class="compare-item"><span>✅</span><span>Under 5 minutes, every single night</span></div>
+          <div class="compare-item"><span>✅</span><span>Zero math errors — app calculates everything</span></div>
+          <div class="compare-item"><span>✅</span><span>30+ days of history saved automatically to the cloud</span></div>
+          <div class="compare-item"><span>✅</span><span>Every session logged to an employee account</span></div>
+          <div class="compare-item"><span>✅</span><span>New employees ready to close in one shift</span></div>
+          <div class="compare-item"><span>✅</span><span>25 extra minutes to serve customers every night</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="testimonial-section">
+  <!-- ============================================================
+       TESTIMONIALS
+       ============================================================ -->
+  <section class="bg-light">
     <div class="container">
-      <div class="section-label">What Store Owners Say</div>
-      <h2 class="section-title">Built for stores like yours.</h2>
-      <div class="testimonial-grid">
-        <div class="testimonial-card">
+      <div class="fade-in" style="text-align:center;">
+        <h2 class="section-title">Trusted by NYC bodega owners</h2>
+      </div>
+      <!-- TODO: Replace with real testimonials -->
+      <div class="testimonials-grid">
+        <div class="testimonial-card fade-in">
           <div class="stars">★★★★★</div>
-          <p>"We used to spend 20 minutes every night just on lottery. Now my employees are done in 3 minutes and I get a PDF sent to my phone. Game changer."</p>
+          <blockquote>"Finally I don't have to stay late fixing my employee's math mistakes."</blockquote>
           <div class="testimonial-author">Mohammed A.</div>
           <div class="testimonial-role">Bodega Owner, Bronx NY</div>
         </div>
-        <div class="testimonial-card">
+        <div class="testimonial-card fade-in">
           <div class="stars">★★★★★</div>
-          <p>"I can see every single close from my phone even when I'm not in the store. The audit trail alone is worth it — I know exactly what's going on."</p>
+          <blockquote>"My night shift guy learned it in one day. It's that simple."</blockquote>
           <div class="testimonial-author">David R.</div>
-          <div class="testimonial-role">Convenience Store Owner, Brooklyn NY</div>
+          <div class="testimonial-role">Convenience Store, Brooklyn NY</div>
         </div>
-        <div class="testimonial-card">
+        <div class="testimonial-card fade-in">
           <div class="stars">★★★★★</div>
-          <p>"My employees actually like closing now. The app is simple, fast, and I don't have to worry about mistakes in the count anymore."</p>
+          <blockquote>"I can see every closing from my phone. I don't even have to be there."</blockquote>
           <div class="testimonial-author">Carlos M.</div>
           <div class="testimonial-role">Deli Owner, Queens NY</div>
         </div>
@@ -505,27 +194,112 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <div class="container">
-      <h2>Start saving time tonight.</h2>
-      <p>Join store owners across New York who have already cut their lottery close down to minutes.</p>
-      <a href="#" class="btn-appstore-white">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        Download on the App Store
-      </a>
+  <!-- ============================================================
+       FINAL CTA
+       ============================================================ -->
+  <section class="cta-section cta-navy">
+    <div class="container fade-in">
+      <h2>Ready to close faster every night?</h2>
+      <p>Join bodega owners across New York who have replaced pen and paper with Lottery Track.</p>
+      <!-- TODO: Replace # with App Store URL when live -->
+      <a href="#" class="btn-primary btn-large">Download Free on the App Store</a>
+      <span class="btn-note">Available on iPhone &nbsp;&middot;&nbsp; Free to download &nbsp;&middot;&nbsp; No credit card required</span>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-logo">Lottery<span>Track</span></div>
-    <div class="footer-links">
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="mailto:support@getlotterytrack.com">support@getlotterytrack.com</a>
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a href="index.html" class="footer-logo">Lottery <span>Track</span></a>
+        <p class="footer-tagline">Lottery inventory management for NYC bodegas and small retailers.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <nav class="footer-nav-links">
+          <a href="index.html">Home</a>
+          <a href="why-switch.html">Why Switch</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <div class="footer-contact-info">
+          <a href="mailto:support@getlotterytrack.com">support@getlotterytrack.com</a>
+          <span>New York City</span>
+          <span>Response within 4 hours</span>
+        </div>
+      </div>
     </div>
-    <div class="footer-copy">© 2025 LotteryTrack. All rights reserved.</div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2025 Lottery Track. All rights reserved.</span>
+      <nav class="footer-legal-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </nav>
+    </div>
   </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    // 1. Nav shadow on scroll
+    const nav = document.getElementById('site-nav');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 10) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }, { passive: true });
+
+    // 2. Hamburger toggle
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile-menu');
+    hamburger.addEventListener('click', function() {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // 3. Scroll fade-in via IntersectionObserver
+    const fadeEls = document.querySelectorAll('.fade-in');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      fadeEls.forEach(function(el) { observer.observe(el); });
+    } else {
+      fadeEls.forEach(function(el) { el.classList.add('visible'); });
+    }
+
+    // 4. Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          // close mobile menu if open
+          mobileMenu.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', false);
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>

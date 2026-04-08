@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get in touch with the Lottery Track team. We respond within 4 hours during business hours.">
+  <title>Contact Lottery Track | Support &amp; Questions</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Lottery <span>Track</span></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="why-switch.html">Why Switch</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html" class="active">Contact</a>
+        <!-- TODO: Replace # with App Store URL when live -->
+        <a href="#" class="btn-nav-download">Download</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="why-switch.html">Why Switch</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html" class="active">Contact</a>
+    <!-- TODO: Replace # with App Store URL when live -->
+    <a href="#" class="btn-nav-download">Download on the App Store</a>
+  </div>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero hero-sm">
+    <div class="container">
+      <h1>We're here to help</h1>
+      <p class="hero-sub">Real support from real people. Usually respond within a few hours.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT CONTENT
+       ============================================================ -->
+  <section class="bg-light">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- LEFT — Contact info -->
+        <div class="fade-in">
+          <h2 style="font-family:var(--font-serif); font-size:22px; font-weight:700; color:var(--navy); margin-bottom:24px;">Contact Information</h2>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon">📧</div>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-value"><a href="mailto:support@getlotterytrack.com">support@getlotterytrack.com</a></div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon">⏰</div>
+            <div>
+              <div class="contact-info-label">Response Time</div>
+              <div class="contact-info-value">Within 4 hours, 9am–6pm EST</div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon">🗽</div>
+            <div>
+              <div class="contact-info-label">Based In</div>
+              <div class="contact-info-value">New York City</div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon">🚨</div>
+            <div>
+              <div class="contact-info-label">Urgent Issues</div>
+              <div class="contact-info-value">Email with subject "URGENT" for priority handling</div>
+            </div>
+          </div>
+
+          <div style="margin-top:32px; padding:20px 24px; background:var(--white); border-radius:var(--radius-md); border-left:4px solid var(--green);">
+            <p style="font-size:14px; color:#556070; line-height:1.7; margin-bottom:10px;">Looking for quick answers?</p>
+            <a href="faq.html" style="font-size:15px; font-weight:700; color:var(--green); text-decoration:none;">Check our FAQ &rarr;</a>
+          </div>
+
+          <div style="margin-top:16px; padding:20px 24px; background:var(--white); border-radius:var(--radius-md); border-left:4px solid var(--navy);">
+            <p style="font-size:14px; color:#556070; line-height:1.7; margin-bottom:10px;">Ready to get started?</p>
+            <!-- TODO: Replace # with App Store URL when live -->
+            <a href="#" style="font-size:15px; font-weight:700; color:var(--navy); text-decoration:none;">Download the app &rarr;</a>
+          </div>
+        </div>
+
+        <!-- RIGHT — Contact form -->
+        <div class="fade-in">
+          <div class="contact-form-card">
+            <h3>Send us a message</h3>
+
+            <!-- TODO: Replace mailto with proper form backend -->
+            <form action="mailto:support@getlotterytrack.com" method="POST" enctype="text/plain">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Your Name</label>
+                  <input type="text" id="name" name="name" placeholder="Mohammed A." required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="store">Store Name</label>
+                <input type="text" id="store" name="store" placeholder="My Bodega — Bronx, NY">
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <select id="subject" name="subject" required>
+                  <option value="" disabled selected>Select a topic...</option>
+                  <option value="General Question">General Question</option>
+                  <option value="Technical Issue">Technical Issue</option>
+                  <option value="Billing">Billing</option>
+                  <option value="Feature Request">Feature Request</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Describe your question or issue in detail. The more context you give us, the faster we can help." required></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary" style="width:100%; border:none; font-family:var(--font-sans); cursor:pointer; font-size:16px; padding:16px;">Send Message</button>
+            </form>
+
+            <p style="font-size:12px; color:#888; margin-top:14px; text-align:center; line-height:1.6;">
+              We typically respond within 4 hours during 9am–6pm EST.<br>
+              For urgent issues, include "URGENT" in your subject.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a href="index.html" class="footer-logo">Lottery <span>Track</span></a>
+        <p class="footer-tagline">Lottery inventory management for NYC bodegas and small retailers.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <nav class="footer-nav-links">
+          <a href="index.html">Home</a>
+          <a href="why-switch.html">Why Switch</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <div class="footer-contact-info">
+          <a href="mailto:support@getlotterytrack.com">support@getlotterytrack.com</a>
+          <span>New York City</span>
+          <span>Response within 4 hours</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2025 Lottery Track. All rights reserved.</span>
+      <nav class="footer-legal-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    const nav = document.getElementById('site-nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile-menu');
+    hamburger.addEventListener('click', function() {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    const fadeEls = document.querySelectorAll('.fade-in');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      fadeEls.forEach(function(el) { observer.observe(el); });
+    } else {
+      fadeEls.forEach(function(el) { el.classList.add('visible'); });
+    }
+  </script>
+
+</body>
+</html>

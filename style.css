@@ -636,6 +636,15 @@ section {
   font-size: 14px;
   color: var(--light);
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roi-bar-desc {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
 }
 
 .roi-bar-track {
@@ -1999,6 +2008,9 @@ section {
 
   .roi-bar-label {
     text-align: left;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
   }
 
   .roi-bar-value {

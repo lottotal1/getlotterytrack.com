@@ -313,6 +313,27 @@ section {
   border-radius: var(--radius-md);
 }
 
+/* Demo button */
+.btn-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-demo:hover {
+  background: rgba(255,255,255,0.18);
+  color: white;
+}
+
 /* ============================================================
    HERO SECTIONS
    ============================================================ */
@@ -397,6 +418,27 @@ section {
 
 .hero-sm h1 {
   font-size: clamp(28px, 4.5vw, 44px);
+}
+
+/* Free trial note in hero */
+.trial-note {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* Spanish badge */
+.badge-es {
+  display: inline-block;
+  background: #F59E0B;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 /* ============================================================
@@ -493,6 +535,427 @@ section {
 }
 
 /* ============================================================
+   PILLAR CARDS
+   ============================================================ */
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.pillar-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 36px 28px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--green);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pillar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.pillar-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.pillar-num {
+  font-size: 42px;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.pillar-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  margin-top: 4px;
+}
+
+.pillar-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.pillar-body {
+  font-size: 15px;
+  color: #556070;
+  line-height: 1.7;
+}
+
+/* ============================================================
+   ROI BAR SECTION
+   ============================================================ */
+
+.roi-section {
+  background: var(--navy);
+  padding: 80px 0;
+}
+
+.roi-section h2 {
+  color: white;
+  font-family: var(--font-serif);
+}
+
+.roi-intro {
+  color: var(--light);
+  font-size: 15px;
+  max-width: 600px;
+  margin-bottom: 48px;
+  line-height: 1.7;
+}
+
+.roi-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.roi-bar-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 90px;
+  align-items: center;
+  gap: 16px;
+}
+
+.roi-bar-label {
+  font-size: 14px;
+  color: var(--light);
+  text-align: right;
+}
+
+.roi-bar-track {
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  height: 36px;
+  overflow: hidden;
+  position: relative;
+}
+
+.roi-bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  transition: width 1.2s ease;
+  width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.roi-bar-fill.breakeven {
+  background: #F59E0B;
+}
+
+.roi-bar-fill.good {
+  background: var(--green);
+}
+
+.roi-bar-fill.great {
+  background: #3FA26D;
+}
+
+.roi-bar-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: #7FFFD4;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.roi-cost-note {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+
+.roi-assumption {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+}
+
+/* ============================================================
+   CAROUSEL (HOW IT WORKS)
+   ============================================================ */
+
+.carousel-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  will-change: transform;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  padding: 0 8px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--navy);
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.carousel-btn.prev {
+  left: 0;
+}
+
+.carousel-btn.next {
+  right: 0;
+}
+
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.carousel-dot.active {
+  background: var(--green);
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   PHONE MOCKUP SECTION
+   ============================================================ */
+
+.phone-mockup-section {
+  background: linear-gradient(135deg, #1C2A39 0%, #243447 100%);
+  padding: 80px 0;
+}
+
+.phone-mockup-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.phone-mockup-text h2 {
+  color: white;
+  font-family: var(--font-serif);
+}
+
+.phone-mockup-text p {
+  color: var(--light);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.phone-frame {
+  background: #1a1a2e;
+  border-radius: 44px;
+  padding: 12px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  border: 2px solid rgba(255,255,255,0.1);
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.phone-screen {
+  background: #F7F9FB;
+  border-radius: 34px;
+  overflow: hidden;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+.phone-screen-placeholder {
+  text-align: center;
+  color: #aaa;
+}
+
+.phone-screen-placeholder .ph-emoji {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+.phone-screen-placeholder p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   STORY SECTION
+   ============================================================ */
+
+.story-section {
+  background: var(--white);
+  padding: 80px 0;
+}
+
+.story-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+
+.story-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3.5vw, 32px);
+  color: var(--navy);
+  line-height: 1.4;
+  font-style: italic;
+  margin-bottom: 32px;
+  padding-left: 24px;
+  border-left: 4px solid var(--green);
+}
+
+.story-body p {
+  font-size: 16px;
+  color: #445060;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.story-body strong {
+  color: var(--navy);
+}
+
+.story-tag {
+  display: inline-block;
+  background: var(--light-gray);
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+
+/* ============================================================
+   COMPARISON TABLE (vs-table)
+   ============================================================ */
+
+.vs-table-section {
+  background: var(--light-gray);
+  padding: 80px 0;
+}
+
+.vs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 40px;
+  font-size: 15px;
+}
+
+.vs-table thead tr {
+  background: var(--navy);
+}
+
+.vs-table thead th {
+  color: white;
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.vs-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.vs-table tbody tr:nth-child(even) {
+  background: white;
+}
+
+.vs-table tbody tr:nth-child(odd) {
+  background: var(--bg);
+}
+
+.vs-table tbody td {
+  padding: 14px 20px;
+  vertical-align: middle;
+}
+
+.vs-table .col-feature {
+  font-weight: 600;
+  color: var(--navy);
+  width: 35%;
+}
+
+.vs-table .col-manual {
+  color: #C00000;
+  text-align: center;
+}
+
+.vs-table .col-lt {
+  color: var(--green);
+  text-align: center;
+  font-weight: 700;
+}
+
+.vs-table-note {
+  font-size: 13px;
+  color: #778899;
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* ============================================================
    STEP CARDS
    ============================================================ */
 
@@ -549,7 +1012,7 @@ section {
 }
 
 /* ============================================================
-   COMPARISON TABLE
+   COMPARISON TABLE (before/after)
    ============================================================ */
 
 .compare-grid {
@@ -833,6 +1296,62 @@ section {
   color: var(--green);
 }
 
+/* Simple 2-col comparison table for pricing page */
+.simple-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 32px;
+  font-size: 14px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.simple-compare-table thead tr {
+  background: var(--navy);
+}
+
+.simple-compare-table thead th {
+  color: white;
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.simple-compare-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.simple-compare-table tbody tr:nth-child(even) {
+  background: var(--white);
+}
+
+.simple-compare-table tbody tr:nth-child(odd) {
+  background: var(--bg);
+}
+
+.simple-compare-table tbody td {
+  padding: 12px 16px;
+  vertical-align: middle;
+}
+
+.simple-compare-table .col-f {
+  font-weight: 600;
+  color: var(--navy);
+  width: 50%;
+}
+
+.simple-compare-table .col-manual {
+  color: #C00000;
+  text-align: center;
+}
+
+.simple-compare-table .col-lt {
+  color: var(--green);
+  text-align: center;
+  font-weight: 700;
+}
+
 /* ============================================================
    FAQ ACCORDION
    ============================================================ */
@@ -910,6 +1429,59 @@ section {
   font-size: 15px;
   color: #556070;
   line-height: 1.75;
+}
+
+/* FAQ Tabs */
+.faq-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.faq-tab {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: white;
+  font-size: 14px;
+  font-weight: 600;
+  color: #556070;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.faq-tab.active {
+  background: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+
+.faq-group {
+  display: none;
+}
+
+.faq-group.active {
+  display: block;
+}
+
+/* ============================================================
+   SECTION DIVIDER ACCENT
+   ============================================================ */
+
+.section-divider {
+  height: 4px;
+  background: linear-gradient(90deg, var(--green) 0%, var(--navy) 100%);
+  border: none;
+  margin: 0;
+}
+
+/* ============================================================
+   ANIMATED COUNTER
+   ============================================================ */
+
+.counter-num {
+  display: inline-block;
 }
 
 /* ============================================================
@@ -1322,6 +1894,24 @@ section {
   .steps-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .pillars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .phone-mockup-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .story-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .roi-bar-row {
+    grid-template-columns: 120px 1fr 80px;
+  }
 }
 
 /* ============================================================
@@ -1385,6 +1975,41 @@ section {
     grid-template-columns: 1fr;
   }
 
+  .pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-mockup-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .story-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /* ROI bar responsive */
+  .roi-bar-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .roi-bar-label {
+    text-align: left;
+  }
+
+  .roi-bar-value {
+    text-align: left;
+  }
+
+  /* Carousel desktop columns collapse */
+  .carousel-slide {
+    min-width: 100% !important;
+  }
+
   /* Footer */
   .footer-inner {
     grid-template-columns: 1fr;
@@ -1413,6 +2038,15 @@ section {
 
   .pricing-card {
     padding: 28px 24px;
+  }
+
+  /* vs table scroll */
+  .vs-table-section .container {
+    overflow-x: auto;
+  }
+
+  .vs-table {
+    min-width: 560px;
   }
 }
 

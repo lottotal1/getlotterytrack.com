@@ -957,6 +957,11 @@ section {
   font-weight: 700;
 }
 
+.vs-table .col-neutral {
+  color: #556070;
+  text-align: center;
+}
+
 .vs-table-note {
   font-size: 13px;
   color: #778899;
@@ -2069,4 +2074,32 @@ section {
 /* Smooth scroll anchor offsets */
 [id] {
   scroll-margin-top: 80px;
+}
+
+/* Two-col layout utility (used on why-switch peace-of-mind section) */
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* Trust icons grid (used on pricing page) */
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+@media (max-width: 680px) {
+  .two-col-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .trust-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }

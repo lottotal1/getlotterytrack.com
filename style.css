@@ -2095,13 +2095,14 @@ section {
     padding: 28px 24px;
   }
 
-  /* vs table scroll */
-  .vs-table-section .container {
-    overflow-x: auto;
+  /* simple-compare-table on pricing: hide Pen & Paper column on mobile */
+  .simple-compare-table th:nth-child(2),
+  .simple-compare-table td:nth-child(2) {
+    display: none;
   }
 
-  .vs-table {
-    min-width: 560px;
+  .simple-compare-table {
+    font-size: 14px;
   }
 }
 

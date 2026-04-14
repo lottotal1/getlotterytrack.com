@@ -21,6 +21,10 @@
         <a href="pricing.html">Pricing</a>
         <a href="faq.html">FAQ</a>
         <a href="contact.html">Contact</a>
+        <div class="nav-lang-toggle">
+          <button id="lang-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="lang-es" onclick="setLang('es')">ES</button>
+        </div>
         <!-- TODO: Replace # with App Store URL when live -->
         <a href="#" class="btn-nav-download">Download</a>
       </div>
@@ -40,22 +44,41 @@
   </div>
 
   <!-- ============================================================
+       EMOTIONAL HOOK — TOP OF PAGE
+       ============================================================ -->
+  <section style="background:var(--navy); color:white; padding:80px 0; text-align:center;">
+    <div class="container">
+      <div class="fade-in-up" style="max-width:760px; margin:0 auto;">
+        <h2 style="font-family:var(--font-serif); font-size:clamp(28px,4.5vw,44px); font-weight:700; line-height:1.2; color:white; margin-bottom:28px; letter-spacing:-0.02em;">
+          Every night, thousands of NYC store owners shut down their lottery counter early just to count tickets by hand.
+        </h2>
+        <p style="font-size:clamp(16px,2.5vw,20px); color:var(--light); line-height:1.7; margin-bottom:24px;">
+          That's not a closing process. That's lost revenue.
+        </p>
+        <p style="font-size:clamp(18px,3vw,24px); font-weight:700; color:#7FFFD4; line-height:1.5;">
+          Lottery Track is the fix.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
        HERO
        ============================================================ -->
   <section class="hero hero-sm">
     <div class="container">
       <div class="hero-badge">The Case for Switching</div>
       <h1>Why lottery retailers are switching to Lottery Track</h1>
-      <p class="hero-sub">25 minutes saved every night. $150+ recovered every month. Zero math errors. Here's the full picture.</p>
+      <p class="hero-sub">25 minutes saved every night. Revenue you were leaving on the table — kept. Zero math errors. Here's the full picture.</p>
     </div>
   </section>
 
   <!-- ============================================================
-       SECTION 1 — THREE PILLARS (replaces old Hidden Cost section)
+       SECTION 1 — THREE PILLARS
        ============================================================ -->
   <section class="bg-white">
     <div class="container">
-      <div class="fade-in">
+      <div class="fade-in-up">
         <p class="section-label">The Real Numbers</p>
         <h2 class="section-title">Three reasons your store needs this tonight.</h2>
         <p class="section-sub">Most store owners think lottery closing is just part of the job. It is — but it doesn't have to cost what it currently costs you.</p>
@@ -63,35 +86,29 @@
 
       <div class="pillars-grid">
 
-        <div class="pillar-card fade-in">
-          <div class="pillar-icon">⏱</div>
+        <div class="pillar-card fade-in-up">
           <div class="pillar-num">25 min</div>
-          <div class="pillar-label">Labor Savings</div>
-          <h3 class="pillar-title">Stop paying employees to count by hand</h3>
-          <p class="pillar-body">The average lottery close takes 20–30 minutes of manual counting. At $15/hour, that's $188/month just in closing labor. Lottery Track cuts that to under 5 minutes — every single night.</p>
+          <div class="pillar-label">Back in your pocket. Every night.</div>
+          <p class="pillar-body">The average manual lottery close. At $15/hour, that's real labor cost every single night. Lottery Track cuts it to under 5 minutes — so your employee keeps selling while the app does the counting.</p>
         </div>
 
-        <div class="pillar-card fade-in">
-          <div class="pillar-icon">📈</div>
-          <div class="pillar-num">$33</div>
-          <div class="pillar-label">Recovered Sales</div>
-          <h3 class="pillar-title">Turn closing time into selling time</h3>
-          <p class="pillar-body">If your store sells $1,000 in lottery per day over 10 hours, that's $100/hour. Saving 20 minutes frees up $33 in potential sales — and at 6% commission, that's $2 back in your pocket before your first customer. The app pays for itself.</p>
+        <div class="pillar-card fade-in-up">
+          <div class="pillar-num">5%</div>
+          <div class="pillar-label">Of daily sales lost closing lotto early.</div>
+          <p class="pillar-body">Most stores cut lotto 30 min early to count. In a 10-hour day, that's 5% of your sales window gone. On a $2,000 lotto day, that's $100 in missed sales — every night.</p>
         </div>
 
-        <div class="pillar-card fade-in">
-          <div class="pillar-icon">🔍</div>
-          <div class="pillar-num">100%</div>
-          <div class="pillar-label">Accountability</div>
-          <h3 class="pillar-title">Know what's happening every night</h3>
-          <p class="pillar-body">Every closing session is logged to the employee who completed it, with a timestamp and full ticket count. If your numbers are consistently off, you'll see exactly when it started — and who was working.</p>
+        <div class="pillar-card fade-in-up">
+          <div class="pillar-num">7 days</div>
+          <div class="pillar-label">Free trial. No card. No excuses.</div>
+          <p class="pillar-body">Try the full app free. If it doesn't save you time on night one, cancel. No credit card, no commitment.</p>
         </div>
 
       </div>
 
-      <div class="fade-in" style="margin-top:40px; max-width:680px;">
-        <p style="font-size:16px; color:#556070; line-height:1.8; margin-bottom:16px;">And that's just the labor math. It doesn't count the cost of errors — a miscount that requires a recount adds another 10–15 minutes. It doesn't count the time you spend reviewing paper sheets, or the aggravation of a missing statement when you need one.</p>
-        <p style="font-size:16px; color:#556070; line-height:1.8; margin-bottom:16px;">Now consider the recovery side. New York Lottery commission is 6%. If your employee uses those 25 recovered minutes to sell just $8 in lottery tickets, Lottery Track has paid for itself that day. Everything else is margin you're keeping instead of losing.</p>
+      <div class="fade-in-up" style="margin-top:40px; max-width:680px;">
+        <p style="font-size:16px; color:#556070; line-height:1.8; margin-bottom:16px;">And that's just the direct math. It doesn't count the cost of errors — a miscount that requires a recount adds another 10–15 minutes. It doesn't count the time you spend reviewing paper sheets, or the aggravation of a missing statement when you need one.</p>
+        <p style="font-size:16px; color:#556070; line-height:1.8; margin-bottom:16px;">Now consider the recovery side. New York Lottery commission is 6%. If your employee uses those recovered minutes to sell just $8 in lottery tickets, Lottery Track has paid for itself that day. Everything else is margin you're keeping instead of losing.</p>
         <p style="font-size:16px; color:#556070; line-height:1.8;"><strong style="color:var(--navy);">At $14.99/month, that's about $0.50 per day.</strong> The question isn't whether you can afford Lottery Track. It's how much longer you can afford not to have it.</p>
       </div>
     </div>
@@ -102,39 +119,39 @@
        ============================================================ -->
   <section class="bg-light">
     <div class="container">
-      <div class="fade-in" style="text-align:center;">
+      <div class="fade-in-up" style="text-align:center;">
         <p class="section-label">Built for Your Store</p>
         <h2 class="section-title">What makes Lottery Track different</h2>
         <p class="section-sub" style="margin:0 auto;">This isn't generic inventory software. It was built from the ground up for the NY Lottery closing process.</p>
       </div>
 
       <div class="features-grid">
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">🗽</div>
           <h3>Built for NY Lottery</h3>
           <p>Not generic inventory. Lottery Track understands the New York scratch-off barcode format exactly — game numbers, ticket values, and book structures.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">🎰</div>
           <h3>108 Games Pre-Loaded</h3>
           <p>Every active NY lottery scratch-off game is ready to scan on day one. No manual setup, no importing spreadsheets, no configuration.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">📶</div>
           <h3>Works Offline</h3>
           <p>Scan and calculate without internet. Lottery Track works fully offline and syncs your data automatically when you reconnect.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">☁️</div>
           <h3>Cloud Sync</h3>
           <p>Any employee, any device — your store data is always up to date. Switch phones, add employees, and your history travels with you.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">📄</div>
           <h3>PDF Statements</h3>
           <p>A professional daily statement is generated instantly at the end of every close. Share it with your accountant, save it for your records, or print it.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">🔍</div>
           <h3>Audit Trail</h3>
           <p>Every close is logged to the employee who did it, with a timestamp. Know exactly who closed, when, and what the numbers were — every single night.</p>
@@ -146,11 +163,12 @@
   <!-- Comparison table -->
   <section class="vs-table-section">
     <div class="container">
-      <div class="fade-in" style="text-align:center;">
+      <div class="fade-in-up" style="text-align:center;">
         <p class="section-label">Lottery Track vs. the Alternatives</p>
         <h2 class="section-title">Why manual tracking is holding you back</h2>
+        <p class="vs-table-mobile-header">Why Lottery Track beats every alternative:</p>
       </div>
-      <div class="fade-in">
+      <div class="fade-in-up">
         <table class="vs-table">
           <thead>
             <tr>
@@ -223,7 +241,7 @@
   <section class="bg-white">
     <div class="container">
       <div class="two-col-grid">
-        <div class="fade-in">
+        <div class="fade-in-up">
           <p class="section-label">For Store Owners</p>
           <h2 class="section-title">Peace of mind, wherever you are</h2>
           <p style="font-size:16px; color:#556070; line-height:1.8; margin-bottom:8px;">You don't have to be in the store to know what's happening with your lottery closing. Lottery Track gives you a complete view of every session — from your phone, any time.</p>
@@ -251,7 +269,7 @@
             </li>
           </ul>
         </div>
-        <div class="fade-in">
+        <div class="fade-in-up">
           <div class="card" style="padding:32px; background:var(--light-gray); box-shadow:none; border-radius:var(--radius-md);">
             <p style="font-size:15px; color:#556070; font-style:italic; line-height:1.8; margin-bottom:16px;">"I can see every closing from my phone. I don't even have to be there."</p>
             <div style="font-size:14px; font-weight:700; color:var(--navy);">Carlos M.</div>
@@ -267,7 +285,7 @@
        ============================================================ -->
   <section class="bg-light">
     <div class="container">
-      <div class="fade-in" style="max-width:680px;">
+      <div class="fade-in-up" style="max-width:680px;">
         <p class="section-label">For Your Team</p>
         <h2 class="section-title">Easy for every employee</h2>
         <p style="font-size:16px; color:#556070; line-height:1.8; margin-bottom:16px;">One of the biggest problems with paper closing is training. Every time you hire someone new, you spend nights teaching them the manual process — and still end up fixing mistakes.</p>
@@ -275,17 +293,17 @@
       </div>
 
       <div class="steps-grid" style="margin-top:40px;">
-        <div class="step-card fade-in">
+        <div class="step-card fade-in-up">
           <div class="step-icon">🕐</div>
           <h3>Learns in one shift</h3>
           <p>The entire app workflow takes about 5 minutes to explain. Most employees pick it up faster than that.</p>
         </div>
-        <div class="step-card fade-in">
+        <div class="step-card fade-in-up">
           <div class="step-icon">🧮</div>
           <h3>No more math errors</h3>
           <p>The app does every calculation automatically. No more staying late to find a discrepancy in someone's arithmetic.</p>
         </div>
-        <div class="step-card fade-in">
+        <div class="step-card fade-in-up">
           <div class="step-icon">🌐</div>
           <h3>Simple, intuitive interface</h3>
           <p>Lottery Track is designed for a clear, simple interface that any employee can learn in one shift — no training required.</p>
@@ -300,10 +318,10 @@
   <section class="story-section">
     <div class="container">
       <div class="story-inner">
-        <div class="fade-in">
-          <p class="story-quote">"We built this app because we were tired of the same problem every single night."</p>
+        <div class="fade-in-up">
+          <p class="story-quote">"We built this because we were tired of watching employees spend 20 minutes every night doing math a phone can do in 5 seconds."</p>
         </div>
-        <div class="fade-in">
+        <div class="fade-in-up">
           <span class="story-tag">OUR STORY</span>
           <div class="story-body">
             <p>Lottery Track didn't start in a boardroom. It started behind a counter, watching employees spend 20 minutes every night doing the same repetitive count — book by book, ticket by ticket, adding it all up on a calculator, sometimes having to start over because of a mistake.</p>
@@ -321,28 +339,28 @@
        ============================================================ -->
   <section class="bg-white">
     <div class="container">
-      <div class="fade-in" style="max-width:680px;">
+      <div class="fade-in-up" style="max-width:680px;">
         <p class="section-label">Security &amp; Privacy</p>
         <h2 class="section-title">Enterprise-grade security for your store data</h2>
         <p style="font-size:16px; color:#556070; line-height:1.8; margin-bottom:24px;">Your closing data is sensitive business information. We treat it that way.</p>
       </div>
       <div class="features-grid" style="margin-top:32px;">
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">🔐</div>
           <h3>Encrypted in transit and at rest</h3>
           <p>All data is encrypted using industry-standard TLS in transit and AES-256 at rest. Your numbers stay private.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">🏗️</div>
           <h3>Supabase cloud infrastructure</h3>
           <p>Built on Supabase — the same infrastructure trusted by thousands of businesses worldwide, with SOC 2 compliance.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">🚫</div>
           <h3>Data never shared or sold</h3>
           <p>We do not sell, rent, or share your business data with any third party for any reason, ever.</p>
         </div>
-        <div class="feature-card fade-in">
+        <div class="feature-card fade-in-up">
           <div class="feature-icon">🏪</div>
           <h3>Each store completely isolated</h3>
           <p>Row-level security ensures your store's data is invisible to any other account. Complete data isolation by design.</p>
@@ -355,13 +373,13 @@
        BOTTOM CTA
        ============================================================ -->
   <section class="cta-section bg-green">
-    <div class="container fade-in">
+    <div class="container fade-in-up">
       <h2>Ready to make the switch?</h2>
       <p>Start your free 7-day trial today. No credit card required.</p>
       <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
-        <a href="pricing.html" class="btn-outline-white btn-large">See Pricing &rarr;</a>
+        <a href="pricing.html" class="btn-outline-white btn-large">See Pricing →</a>
         <!-- TODO: Replace # with App Store URL when live -->
-        <a href="#" class="btn-primary btn-large" style="background:white; color:var(--green); border-color:white;">Download the App</a>
+        <a href="#" class="btn-primary btn-large" style="background:white; color:var(--green); border-color:white;">Download the App →</a>
       </div>
     </div>
   </section>
@@ -404,6 +422,12 @@
   </footer>
 
   <!-- ============================================================
+       STICKY MOBILE BOTTOM BAR
+       ============================================================ -->
+  <!-- TODO: Replace # with App Store URL when live -->
+  <a href="#" class="sticky-mobile-bar" id="sticky-bar">📱 Download Free — 7-Day Trial</a>
+
+  <!-- ============================================================
        JAVASCRIPT
        ============================================================ -->
   <script>
@@ -423,7 +447,7 @@
     });
 
     // Scroll fade-in
-    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeEls = document.querySelectorAll('.fade-in, .fade-in-up');
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
@@ -438,19 +462,31 @@
       fadeEls.forEach(function(el) { el.classList.add('visible'); });
     }
 
-    // Two-col responsive
-    const twoCol = document.querySelector('.two-col-section');
-    if (twoCol && window.innerWidth < 680) {
-      twoCol.style.gridTemplateColumns = '1fr';
-    }
-  </script>
+    // Sticky mobile bar
+    (function() {
+      var bar = document.getElementById('sticky-bar');
+      if (!bar) return;
+      var shown = false;
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 400 && !shown) {
+          shown = true;
+          bar.classList.add('visible');
+          document.body.classList.add('has-sticky-bar');
+        }
+      }, { passive: true });
+    })();
 
-  <style>
-    @media (max-width: 680px) {
-      .two-col-section { grid-template-columns: 1fr !important; gap: 32px !important; }
-      .features-grid[style*="grid-template-columns:repeat(2"] { grid-template-columns: 1fr !important; }
+    // Language toggle (nav only)
+    function setLang(lang) {
+      localStorage.setItem('lt_lang', lang);
+      document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+      document.getElementById('lang-es').classList.toggle('active', lang === 'es');
     }
-  </style>
+    (function() {
+      var saved = localStorage.getItem('lt_lang') || 'en';
+      setLang(saved);
+    })();
+  </script>
 
 </body>
 </html>

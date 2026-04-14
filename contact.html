@@ -21,6 +21,10 @@
         <a href="pricing.html">Pricing</a>
         <a href="faq.html">FAQ</a>
         <a href="contact.html" class="active">Contact</a>
+        <div class="nav-lang-toggle">
+          <button id="lang-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="lang-es" onclick="setLang('es')">ES</button>
+        </div>
         <!-- TODO: Replace # with App Store URL when live -->
         <a href="#" class="btn-nav-download">Download</a>
       </div>
@@ -44,8 +48,8 @@
        ============================================================ -->
   <section class="hero hero-sm">
     <div class="container">
-      <h1>We're here to help</h1>
-      <p class="hero-sub">Real support from real people. Usually respond within a few hours.</p>
+      <h1>We're real people. We respond fast.</h1>
+      <p class="hero-sub">Most questions answered within 4 hours during business hours. For urgent issues — put URGENT in the subject line and we'll get to you faster.</p>
     </div>
   </section>
 
@@ -54,11 +58,43 @@
        ============================================================ -->
   <section class="bg-light">
     <div class="container">
+
+      <!-- Contact method cards -->
+      <div class="contact-method-cards fade-in-up">
+
+        <!-- Email card -->
+        <div class="contact-method-card">
+          <div class="contact-method-icon">📧</div>
+          <div class="contact-method-title">Email Us</div>
+          <div class="contact-method-value">admin@getlotterytrack.com</div>
+          <p class="contact-method-desc">Best for: billing, account help, feature requests</p>
+          <a href="mailto:admin@getlotterytrack.com" class="btn-primary" style="display:block; text-align:center;">Send Email →</a>
+        </div>
+
+        <!-- Response time card -->
+        <div class="contact-method-card">
+          <div class="contact-method-icon">⏰</div>
+          <div class="contact-method-title">Response Time</div>
+          <div class="contact-method-value">Under 4 hours</div>
+          <p class="contact-method-desc">Monday–Friday, 9am–7pm EST<br>Same day on weekends for urgent issues</p>
+        </div>
+
+        <!-- FAQ card -->
+        <div class="contact-method-card">
+          <div class="contact-method-icon">❓</div>
+          <div class="contact-method-title">Quick Answer?</div>
+          <div class="contact-method-value" style="color:var(--navy);">90% answered in FAQ</div>
+          <p class="contact-method-desc">90% of questions are already answered in our FAQ</p>
+          <a href="faq.html" class="btn-secondary" style="display:block; text-align:center;">View FAQ →</a>
+        </div>
+
+      </div>
+
       <div class="contact-grid">
 
         <!-- LEFT — Contact info -->
-        <div class="fade-in">
-          <h2 style="font-family:var(--font-serif); font-size:22px; font-weight:700; color:var(--navy); margin-bottom:24px;">Contact Information</h2>
+        <div class="fade-in-up">
+          <h2 style="font-size:22px; font-weight:700; color:var(--navy); margin-bottom:24px;">Contact Information</h2>
 
           <div class="contact-info-card">
             <div class="contact-info-icon">📧</div>
@@ -72,7 +108,7 @@
             <div class="contact-info-icon">⏰</div>
             <div>
               <div class="contact-info-label">Response Time</div>
-              <div class="contact-info-value">Within 4 hours, 9am–6pm EST</div>
+              <div class="contact-info-value">Within 4 hours, 9am–7pm EST</div>
             </div>
           </div>
 
@@ -94,18 +130,18 @@
 
           <div style="margin-top:32px; padding:20px 24px; background:var(--white); border-radius:var(--radius-md); border-left:4px solid var(--green);">
             <p style="font-size:14px; color:#556070; line-height:1.7; margin-bottom:10px;">Looking for quick answers?</p>
-            <a href="faq.html" style="font-size:15px; font-weight:700; color:var(--green); text-decoration:none;">Check our FAQ &rarr;</a>
+            <a href="faq.html" style="font-size:15px; font-weight:700; color:var(--green); text-decoration:none;">Check our FAQ →</a>
           </div>
 
           <div style="margin-top:16px; padding:20px 24px; background:var(--white); border-radius:var(--radius-md); border-left:4px solid var(--navy);">
             <p style="font-size:14px; color:#556070; line-height:1.7; margin-bottom:10px;">Ready to get started?</p>
             <!-- TODO: Replace # with App Store URL when live -->
-            <a href="#" style="font-size:15px; font-weight:700; color:var(--navy); text-decoration:none;">Download the app &rarr;</a>
+            <a href="#" style="font-size:15px; font-weight:700; color:var(--navy); text-decoration:none;">Download the app →</a>
           </div>
         </div>
 
         <!-- RIGHT — Contact form -->
-        <div class="fade-in">
+        <div class="fade-in-up">
           <div class="contact-form-card">
             <h3>Send us a message</h3>
 
@@ -144,11 +180,11 @@
                 <textarea id="message" name="message" placeholder="Describe your question or issue in detail. The more context you give us, the faster we can help." required></textarea>
               </div>
 
-              <button type="submit" class="btn-primary" style="width:100%; border:none; font-family:var(--font-sans); cursor:pointer; font-size:16px; padding:16px;">Send Message</button>
+              <button type="submit" class="btn-primary" style="width:100%; border:none; font-family:var(--font-sans); cursor:pointer; font-size:16px; padding:16px;">Send Message →</button>
             </form>
 
             <p style="font-size:12px; color:#888; margin-top:14px; text-align:center; line-height:1.6;">
-              We typically respond within 4 hours during 9am–6pm EST.<br>
+              We typically respond within 4 hours during 9am–7pm EST.<br>
               For urgent issues, include "URGENT" in your subject.
             </p>
           </div>
@@ -196,6 +232,12 @@
   </footer>
 
   <!-- ============================================================
+       STICKY MOBILE BOTTOM BAR
+       ============================================================ -->
+  <!-- TODO: Replace # with App Store URL when live -->
+  <a href="#" class="sticky-mobile-bar" id="sticky-bar">📱 Download Free — 7-Day Trial</a>
+
+  <!-- ============================================================
        JAVASCRIPT
        ============================================================ -->
   <script>
@@ -212,7 +254,7 @@
       hamburger.setAttribute('aria-expanded', isOpen);
     });
 
-    const fadeEls = document.querySelectorAll('.fade-in');
+    const fadeEls = document.querySelectorAll('.fade-in, .fade-in-up');
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
@@ -226,6 +268,31 @@
     } else {
       fadeEls.forEach(function(el) { el.classList.add('visible'); });
     }
+
+    // Sticky mobile bar
+    (function() {
+      var bar = document.getElementById('sticky-bar');
+      if (!bar) return;
+      var shown = false;
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 400 && !shown) {
+          shown = true;
+          bar.classList.add('visible');
+          document.body.classList.add('has-sticky-bar');
+        }
+      }, { passive: true });
+    })();
+
+    // Language toggle (nav only)
+    function setLang(lang) {
+      localStorage.setItem('lt_lang', lang);
+      document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+      document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+    }
+    (function() {
+      var saved = localStorage.getItem('lt_lang') || 'en';
+      setLang(saved);
+    })();
   </script>
 
 </body>

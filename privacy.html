@@ -55,28 +55,32 @@
   <section class="bg-white" style="padding-top:64px; padding-bottom:80px;">
     <div class="legal-content">
 
-      <span class="last-updated">Last updated: January 1, 2025</span>
+      <span class="last-updated">Last updated: April 16, 2026</span>
 
-      <p>Lottery Track ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use the Lottery Track mobile application and related services ("the Service"). By using Lottery Track, you agree to the collection and use of information as described in this policy.</p>
+      <p>This privacy policy applies to the Lottery Track app (referred to as "Application") for mobile devices, created by Lottery Track (referred to as "Service Provider"). Lottery Track ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use the Lottery Track mobile application and related services ("the Service"). By using Lottery Track, you agree to the collection and use of information as described in this policy.</p>
 
       <div class="legal-divider"></div>
 
       <h2>1. Information We Collect</h2>
-      <p>We collect the following types of information to provide and improve our service:</p>
+      <p>We collect the following types of information to provide and improve the Service:</p>
       <ul>
-        <li><strong>Account information:</strong> Your email address, username, and full name, provided when you create an account.</li>
+        <li><strong>Account information:</strong> Your email address, username, and password when you create an account. Employee accounts use a username only — no email is required.</li>
         <li><strong>Store information:</strong> Store name, address, and state, entered during setup.</li>
-        <li><strong>Business data:</strong> Lottery ticket inventory counts, daily closing totals, New Books Activated amounts, Online Summary Balance figures, and Instant Validation Payout amounts that you enter into the app.</li>
+        <li><strong>Business data:</strong> Lottery ticket inventory counts, daily closing totals, New Books Activated amounts, Online Summary Balance figures, Instant Validation Payout amounts, ticket scan data (game name, ticket price, remaining count, book serial number), opening check records, and inventory check records that you enter into the app.</li>
         <li><strong>Session data:</strong> Timestamps and employee attribution for each closing session you complete.</li>
-        <li><strong>Usage data:</strong> App activity logs used to diagnose errors and improve performance. These do not include the content of your business data.</li>
-        <li><strong>Device information:</strong> Device type and operating system version, used for crash diagnostics only.</li>
+        <li><strong>Activity logs:</strong> In-app actions such as closing a day, adding an employee, or scanning tickets, along with a timestamp and the user who performed the action. These logs are used for accountability within your store.</li>
+        <li><strong>Device and usage data:</strong> Your device's IP address, device type, operating system version, time and date of activity, and time spent in the Application. This data is used for crash diagnostics and service improvement only.</li>
+        <li><strong>Camera:</strong> The Application uses your device camera to scan lottery ticket barcodes. No images or video are captured, stored, or transmitted.</li>
       </ul>
+      <p>The Application does not gather precise location data from your mobile device. The Application does not use Artificial Intelligence (AI) technologies to process your data or provide features.</p>
+      <p>The Service Provider may use the information you provide to contact you from time to time with important notices, required communications, and marketing promotions.</p>
 
       <h2>2. How We Use Your Information</h2>
       <p>We use the information we collect solely to provide, maintain, and improve the Lottery Track service. Specifically, we use your information to:</p>
       <ul>
         <li>Provide, operate, and maintain the Lottery Track service</li>
         <li>Generate closing statements, inventory reports, and daily PDF summaries within the app</li>
+        <li>Process subscription payments and manage billing through RevenueCat</li>
         <li>Send alert notifications you have opted into (such as session completion confirmations)</li>
         <li>Respond to support requests and bug reports</li>
         <li>Improve the app based on aggregate usage patterns</li>
@@ -88,24 +92,36 @@
       <p>Your data is stored securely using Supabase, a cloud database platform with industry-standard encryption at rest (AES-256) and in transit (TLS). We use row-level security (RLS) policies to ensure each user can only access their own store's data. This means your closing data is completely isolated from every other account on the platform.</p>
       <p>We implement reasonable technical and organizational measures to protect your information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure.</p>
 
-      <h2>4. Data Sharing</h2>
-      <p>We do not sell your data. We share data only in the following limited circumstances:</p>
+      <h2>4. Third Party Access</h2>
+      <p>Only aggregated, anonymized data is periodically transmitted to external services to aid the Service Provider in improving the Application. We do not sell your data. We share data only in the following limited circumstances:</p>
       <ul>
-        <li><strong>Service providers:</strong> We use Supabase for database hosting and Resend for transactional email delivery. These providers process data only as necessary to provide their contracted services, and are bound by data processing agreements.</li>
+        <li><strong>Service providers:</strong> We use the third-party services listed below to operate the Application. These providers process data only as necessary to deliver their contracted services and are bound by data processing agreements.</li>
         <li><strong>Legal requirements:</strong> We may disclose information if required by applicable law, regulation, legal process, or governmental request, or to protect the rights, property, or safety of Lottery Track, our users, or the public.</li>
         <li><strong>Business transfers:</strong> In the event of a merger, acquisition, or sale of assets, your data may be transferred. We will notify you of any such change.</li>
+      </ul>
+
+      <p>The Application utilizes the following third-party services, each with their own privacy policy:</p>
+      <ul>
+        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Play Services</a></li>
+        <li><a href="https://expo.dev/privacy" target="_blank" rel="noopener">Expo</a> — used as the app build and delivery platform. May collect certain device and usage information as part of its core services.</li>
+        <li><a href="https://sentry.io/privacy/" target="_blank" rel="noopener">Sentry</a> — used for crash reporting and error diagnostics. May collect device type, OS version, app version, and stack traces. No personally identifiable information is intentionally included in these reports.</li>
+        <li><a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">RevenueCat</a> — used to manage in-app purchases and subscriptions.</li>
+        <li><a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase</a> — used as the backend database and authentication provider. Supabase securely stores your account information, store details, and daily session data. All data is encrypted in transit and at rest.</li>
       </ul>
 
       <h2>5. Employee Accounts</h2>
       <p>Store owners can create employee accounts within their store. Employees can access inventory scanning and closing features scoped to their assigned store. Store owners can view all activity performed by their employees within the app, including closing session details, timestamps, and attributed data.</p>
       <p>If you are an employee using Lottery Track, you should be aware that your store owner has visibility into your activity within the app. This is a core feature of the audit trail functionality.</p>
 
-      <h2>6. Data Retention</h2>
-      <p>We retain your business data — including closing statements, inventory records, and session history — for as long as your account is active. We maintain 30 days of rolling session history as part of the standard service.</p>
-      <p>After account cancellation, your data is retained for 30 days, during which time you can export your records. After 30 days, your account data is permanently deleted from our systems.</p>
-      <p>You may request deletion of your account and associated data at any time by contacting us at <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a>.</p>
+      <h2>6. Opt-Out Rights</h2>
+      <p>You can stop all collection of information by the Application by uninstalling it. You may use the standard uninstall processes available on your mobile device or through the app marketplace. Note that uninstalling the Application does not automatically delete your account data from our servers. To request data deletion, contact us at <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a>.</p>
 
-      <h2>7. Your Rights</h2>
+      <h2>7. Data Retention</h2>
+      <p>We retain your business data — including closing statements, inventory records, and session history — for as long as your account is active. We maintain rolling session history as part of the standard service.</p>
+      <p>After account cancellation, your data is retained for 30 days, during which time you can export your records. After 30 days, your account data is permanently deleted from our systems.</p>
+      <p>You may request deletion of your account and associated data at any time by contacting us at <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a>. We will respond within a reasonable timeframe.</p>
+
+      <h2>8. Your Rights</h2>
       <p>You have the right to:</p>
       <ul>
         <li>Access the personal information we hold about you</li>
@@ -116,14 +132,19 @@
       </ul>
       <p>To exercise any of these rights, contact us at <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a>. We will respond to your request within 30 days.</p>
 
-      <h2>8. Children's Privacy</h2>
-      <p>Lottery Track is intended for use by adults (18 years of age or older) operating authorized retail lottery businesses. We do not knowingly collect personal information from anyone under the age of 18. If we become aware that we have collected personal information from a minor without parental consent, we will take steps to delete that information promptly.</p>
+      <h2>9. Children's Privacy</h2>
+      <p>Lottery Track is intended for use by adults (18 years of age or older) operating authorized retail lottery businesses. The Service Provider does not use the Application to knowingly solicit data from or market to children under the age of 13. If we become aware that a child under 13 has provided personal information, we will immediately delete it from our servers. If you are a parent or guardian and believe your child has provided us with personal information, please contact us at <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a> so we can take the necessary actions.</p>
 
-      <h2>9. Changes to This Policy</h2>
-      <p>We may update this Privacy Policy from time to time to reflect changes in our practices or applicable law. When we make material changes, we will notify you by updating the "Last updated" date at the top of this page. For significant changes, we may also send a notification to the email address associated with your account.</p>
-      <p>Your continued use of Lottery Track after any changes constitutes your acceptance of the updated Privacy Policy. We encourage you to review this policy periodically.</p>
+      <h2>10. Security</h2>
+      <p>The Service Provider is committed to safeguarding the confidentiality of your information. Physical, electronic, and procedural safeguards are in place to protect the information we process and maintain.</p>
 
-      <h2>10. Contact Us</h2>
+      <h2>11. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time to reflect changes in our practices or applicable law. When we make material changes, we will notify you by updating the "Last updated" date at the top of this page. For significant changes, we may also send a notification to the email address associated with your account. Your continued use of Lottery Track after any changes constitutes your acceptance of the updated Privacy Policy.</p>
+
+      <h2>12. Your Consent</h2>
+      <p>By using the Application, you are consenting to the processing of your information as set forth in this Privacy Policy, now and as amended by us.</p>
+
+      <h2>13. Contact Us</h2>
       <p>If you have any questions, concerns, or requests regarding this Privacy Policy or how we handle your data, please contact us:</p>
       <ul>
         <li>Email: <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a></li>
@@ -163,7 +184,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">&copy; 2025 Lottery Track. All rights reserved.</span>
+      <span class="footer-copy">&copy; 2026 Lottery Track. All rights reserved.</span>
       <nav class="footer-legal-links">
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms of Service</a>

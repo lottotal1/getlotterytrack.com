@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LotteryTrack — Close Faster. Sell More.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1C2A39;
+      --navy-light: #243447;
+      --green: #2E7D5B;
+      --green-light: #3a9970;
+      --red: #C00000;
+      --amber: #F59E0B;
+      --bg: #F7F9FB;
+      --white: #ffffff;
+      --gray: #6B7280;
+      --gray-light: #E5E7EB;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(28, 42, 57, 0.97);
+      backdrop-filter: blur(8px);
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { color: white; font-weight: 800; font-size: 18px; letter-spacing: -0.3px; }
+    .nav-logo span { color: var(--amber); }
+    .nav-cta {
+      background: var(--green); color: white;
+      padding: 9px 20px; border-radius: 8px;
+      font-weight: 600; font-size: 14px;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--green-light); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 24px 80px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 760px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(245,158,11,0.15);
+      color: var(--amber);
+      border: 1px solid rgba(245,158,11,0.3);
+      padding: 6px 16px; border-radius: 100px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 68px);
+      font-weight: 900; color: white;
+      line-height: 1.08; letter-spacing: -2px;
+      margin-bottom: 22px;
+    }
+    .hero h1 em { color: var(--amber); font-style: normal; }
+    .hero p {
+      font-size: clamp(16px, 2.2vw, 20px);
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6; max-width: 580px;
+      margin: 0 auto 40px;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--green); color: white;
+      padding: 15px 32px; border-radius: 10px;
+      font-weight: 700; font-size: 16px;
+      text-decoration: none; transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(46,125,91,0.4);
+    }
+    .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.08); color: white;
+      padding: 15px 32px; border-radius: 10px;
+      font-weight: 600; font-size: 16px;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+    .hero-stats {
+      display: flex; gap: 40px; justify-content: center;
+      margin-top: 56px; flex-wrap: wrap;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-size: 32px; font-weight: 900; color: white; }
+    .hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 3px; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 24px; }
+    .section-label {
+      text-align: center; font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 14px;
+    }
+    .section-title {
+      text-align: center; font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900; letter-spacing: -1px;
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .section-sub {
+      text-align: center; font-size: 17px; color: var(--gray);
+      max-width: 560px; margin: 0 auto 56px; line-height: 1.6;
+    }
+
+    /* ── BEFORE / AFTER ── */
+    .before-after { background: white; }
+    .ba-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 32px; max-width: 1000px; margin: 0 auto;
+    }
+    @media (max-width: 700px) { .ba-grid { grid-template-columns: 1fr; } }
+
+    .messy-sheet {
+      background: #fffde7;
+      border-radius: 12px;
+      padding: 28px 24px;
+      position: relative;
+      box-shadow: 2px 4px 20px rgba(0,0,0,0.12);
+      overflow: hidden;
+      transform: rotate(-0.5deg);
+      background-image: repeating-linear-gradient(
+        transparent, transparent 27px,
+        #b0bec5 27px, #b0bec5 28px
+      );
+      background-color: #fffde7;
+    }
+    .messy-sheet::before {
+      content: '';
+      position: absolute; top: 12px; right: 18px;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 4px solid rgba(139,90,43,0.18);
+      box-shadow: inset 0 0 8px rgba(139,90,43,0.08);
+    }
+    .messy-sheet::after {
+      content: '';
+      position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 20px;
+      background: rgba(255,235,59,0.5);
+      border-radius: 2px;
+    }
+    .sheet-title {
+      font-family: 'Caveat', cursive;
+      font-size: 20px; font-weight: 700; color: #1a237e;
+      margin-bottom: 18px; text-decoration: underline;
+    }
+    .sheet-row {
+      font-family: 'Caveat', cursive;
+      font-size: 17px; color: #212121;
+      margin-bottom: 10px; line-height: 28px;
+      position: relative;
+    }
+    .struck {
+      text-decoration: line-through;
+      text-decoration-color: var(--red);
+      text-decoration-thickness: 2px;
+      color: #999;
+    }
+    .correction { color: var(--red); font-size: 15px; margin-left: 6px; }
+    .scribble { color: #555; font-size: 14px; font-style: italic; }
+    .question { color: var(--red); font-weight: 700; }
+    .sheet-divider { border: none; border-top: 1.5px dashed #aaa; margin: 14px 0; }
+    .ba-label {
+      text-align: center; margin-top: 16px;
+      font-size: 13px; font-weight: 700; color: var(--red);
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .ba-label.good { color: var(--green); }
+
+    .clean-card {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 40px rgba(28,42,57,0.25);
+      color: white;
+    }
+    .clean-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .clean-header-title { font-size: 16px; font-weight: 700; }
+    .clean-badge {
+      background: rgba(46,125,91,0.2); color: #4ade80;
+      padding: 4px 10px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+    }
+    .clean-row {
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 15px;
+    }
+    .clean-row:last-of-type { border-bottom: none; }
+    .clean-row-label { color: rgba(255,255,255,0.55); }
+    .clean-row-val { font-weight: 700; }
+    .clean-row-val.green { color: #4ade80; }
+    .clean-row-val.amber { color: var(--amber); }
+    .clean-total {
+      background: rgba(46,125,91,0.15);
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; justify-content: space-between;
+      align-items: center; margin-top: 14px;
+    }
+    .clean-total-label { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.7); }
+    .clean-total-val { font-size: 22px; font-weight: 900; color: #4ade80; }
+    .time-chip {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 14px; font-size: 13px;
+      color: rgba(255,255,255,0.45);
+    }
+    .time-chip span { color: var(--amber); font-weight: 700; }
+
+    /* ── INTERACTIVE DEMO ── */
+    .demo-section { background: var(--navy); }
+    .demo-section .section-title { color: white; }
+    .demo-section .section-sub { color: rgba(255,255,255,0.5); }
+    .demo-section .section-label { color: var(--amber); }
+
+    .phone-wrap { display: flex; justify-content: center; margin-top: 8px; }
+    .phone {
+      width: 300px;
+      background: #111;
+      border-radius: 44px;
+      padding: 14px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 1.5px rgba(255,255,255,0.1);
+    }
+    .phone-notch {
+      width: 100px; height: 26px;
+      background: #111; border-radius: 0 0 16px 16px;
+      margin: 0 auto 6px; position: relative; z-index: 2;
+    }
+    .phone-screen {
+      background: var(--bg);
+      border-radius: 32px;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex; flex-direction: column;
+    }
+    .app-bar {
+      background: var(--navy);
+      padding: 14px 16px 12px;
+      color: white;
+      font-size: 16px; font-weight: 700;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .app-bar-sub { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.5); }
+    .screen { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+
+    .ticket-list { flex: 1; margin-bottom: 12px; }
+    .ticket-item {
+      background: white; border-radius: 10px;
+      padding: 11px 13px; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+      animation: slideInTicket 0.3s ease;
+    }
+    @keyframes slideInTicket {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .ticket-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+    .ticket-info { flex: 1; min-width: 0; }
+    .ticket-name { font-size: 12px; font-weight: 700; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ticket-detail { font-size: 10px; color: var(--gray); margin-top: 1px; }
+    .ticket-val { font-size: 13px; font-weight: 800; color: var(--navy); }
+
+    .empty-hint {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--gray); text-align: center; padding: 20px 0;
+    }
+    .empty-hint-icon { font-size: 36px; margin-bottom: 10px; }
+    .empty-hint p { font-size: 13px; line-height: 1.5; }
+
+    .scan-btn {
+      background: var(--navy); color: white;
+      border: none; border-radius: 12px;
+      padding: 14px; width: 100%;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .scan-btn:hover { background: var(--navy-light); transform: scale(0.99); }
+    .scan-btn:active { transform: scale(0.97); }
+    .scan-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .close-btn {
+      background: var(--green); color: white;
+      border: none; border-radius: 12px;
+      padding: 14px; width: 100%;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      margin-top: 8px;
+      animation: slideInTicket 0.3s ease;
+    }
+    .close-btn:hover { background: var(--green-light); }
+
+    .summary-screen { display: none; flex-direction: column; }
+    .summary-screen.active { display: flex; animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .summary-title { font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 16px; text-align: center; }
+    .summary-check {
+      width: 48px; height: 48px; background: var(--green);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 10px; font-size: 22px;
+    }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--gray-light);
+      font-size: 13px;
+    }
+    .summary-row:last-of-type { border-bottom: none; }
+    .summary-row-label { color: var(--gray); }
+    .summary-row-val { font-weight: 700; color: var(--navy); }
+    .summary-profit {
+      background: linear-gradient(135deg, var(--green), #3aaf72);
+      border-radius: 12px; padding: 14px;
+      text-align: center; margin-top: 12px; color: white;
+    }
+    .summary-profit-label { font-size: 11px; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; }
+    .summary-profit-val { font-size: 28px; font-weight: 900; margin-top: 2px; }
+    .summary-time { text-align: center; font-size: 11px; color: var(--gray); margin-top: 10px; }
+    .summary-time strong { color: var(--green); }
+    .reset-btn {
+      background: none; border: 1px solid var(--gray-light);
+      border-radius: 10px; padding: 10px; width: 100%;
+      font-size: 13px; color: var(--gray); cursor: pointer;
+      margin-top: 10px; font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .reset-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+    .demo-hint { text-align: center; margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.4); }
+    .demo-hint strong { color: var(--amber); }
+
+    /* ── HOW IT WORKS ── */
+    .hiw { background: white; }
+    .steps {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 32px; max-width: 860px; margin: 0 auto;
+    }
+    @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+    .step { text-align: center; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--navy); color: white;
+      font-size: 22px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .step h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .step p { font-size: 15px; color: var(--gray); line-height: 1.6; }
+
+    /* ── FEATURES ── */
+    .features { background: var(--bg); }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 20px; max-width: 860px; margin: 0 auto;
+    }
+    @media (max-width: 600px) { .features-grid { grid-template-columns: 1fr; } }
+    .feature-card {
+      background: white; border-radius: 16px;
+      padding: 28px; border: 1px solid var(--gray-light);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-2px); }
+    .feature-icon { font-size: 28px; margin-bottom: 14px; }
+    .feature-card h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+    /* ── ROI ── */
+    .roi { background: var(--navy); }
+    .roi .section-title { color: white; }
+    .roi .section-sub { color: rgba(255,255,255,0.5); }
+    .roi .section-label { color: var(--amber); }
+    .roi-math {
+      max-width: 700px; margin: 0 auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 40px;
+    }
+    .roi-row { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 28px; }
+    .roi-row:last-of-type { margin-bottom: 0; }
+    .roi-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(245,158,11,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .roi-text h4 { color: white; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .roi-text p { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.6; }
+    .roi-text p strong { color: var(--amber); }
+    .roi-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 28px 0; }
+    .roi-result { text-align: center; }
+    .roi-result p { color: rgba(255,255,255,0.6); font-size: 15px; margin-bottom: 8px; }
+    .roi-result-num { font-size: 48px; font-weight: 900; color: #4ade80; line-height: 1; }
+    .roi-result-sub { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 6px; }
+
+    /* ── PRICING ── */
+    .pricing { background: var(--bg); }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 24px; max-width: 700px; margin: 0 auto;
+    }
+    @media (max-width: 560px) { .pricing-grid { grid-template-columns: 1fr; } }
+    .pricing-card {
+      background: white; border-radius: 20px;
+      padding: 32px 28px;
+      border: 2px solid var(--gray-light);
+      text-align: center; transition: all 0.2s;
+      position: relative;
+    }
+    .pricing-card.featured { border-color: var(--green); box-shadow: 0 8px 40px rgba(46,125,91,0.15); }
+    .pricing-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--green); color: white;
+      padding: 4px 16px; border-radius: 20px;
+      font-size: 12px; font-weight: 700;
+    }
+    .pricing-period { font-size: 13px; color: var(--gray); font-weight: 600; margin-bottom: 8px; }
+    .pricing-price { font-size: 42px; font-weight: 900; color: var(--navy); line-height: 1; }
+    .pricing-price sup { font-size: 20px; vertical-align: top; margin-top: 8px; }
+    .pricing-price sub { font-size: 16px; font-weight: 400; color: var(--gray); }
+    .pricing-save { font-size: 13px; color: var(--green); font-weight: 700; margin-top: 6px; min-height: 20px; }
+    .pricing-features { list-style: none; margin: 24px 0; text-align: left; }
+    .pricing-features li { font-size: 14px; color: var(--gray); padding: 6px 0; display: flex; gap: 8px; }
+    .pricing-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .pricing-btn {
+      display: block; width: 100%;
+      background: var(--navy); color: white;
+      padding: 13px; border-radius: 10px;
+      font-weight: 700; font-size: 15px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .pricing-card.featured .pricing-btn { background: var(--green); }
+    .pricing-btn:hover { opacity: 0.88; }
+    .pricing-note { text-align: center; margin-top: 20px; font-size: 13px; color: var(--gray); }
+
+    /* ── FOOTER CTA ── */
+    .footer-cta { background: var(--navy); padding: 80px 24px; text-align: center; }
+    .footer-cta h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 900; color: white; letter-spacing: -1px; margin-bottom: 14px; }
+    .footer-cta p { color: rgba(255,255,255,0.5); font-size: 17px; margin-bottom: 36px; }
+    .footer-note { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.3); }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Lottery<span>Track</span></div>
+  <a href="#pricing" class="nav-cta">Start Free Trial</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📱 Now Available on the App Store</div>
+    <h1>Stop losing sales to<br><em>lottery counting.</em></h1>
+    <p>LotteryTrack cuts your end-of-day lottery count in half — so you close faster, stay open longer, and stop leaving money on the table.</p>
+    <div class="hero-btns">
+      <a href="#demo" class="btn-primary">See It In Action</a>
+      <a href="#pricing" class="btn-secondary">View Pricing</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">50%</div>
+        <div class="hero-stat-label">Faster close time</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">$3K+</div>
+        <div class="hero-stat-label">Monthly revenue recovered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">7 days</div>
+        <div class="hero-stat-label">Free trial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="before-after">
+  <div class="section-label reveal">The Problem</div>
+  <h2 class="section-title reveal">Sound familiar?</h2>
+  <p class="section-sub reveal">Every night, store owners spend 30–60 minutes manually counting lottery books, writing down numbers, making mistakes, and crossing them out. And while they're counting in the back — they're losing customers out front.</p>
+  <div class="ba-grid">
+    <div class="reveal">
+      <div class="messy-sheet">
+        <div class="sheet-title">🗒 Lottery Count — Mon</div>
+        <div class="sheet-row">
+          $5 Fast Cash — Book A:<br>
+          &nbsp;&nbsp;<span class="struck">47 tickets = $235</span>
+          <span class="correction">↑ 46 tix = $230</span>
+        </div>
+        <div class="sheet-row">
+          $10 Gold Rush — <span class="struck">Book B-22</span>
+          <span class="correction">B-27</span><br>
+          &nbsp;&nbsp;73 tickets = $730
+          <span class="scribble"> (checked twice??)</span>
+        </div>
+        <div class="sheet-row">
+          $2 Lucky Lines — Book C<br>
+          &nbsp;&nbsp;<span class="struck">19 tix = $36</span>
+          <span class="correction">$38</span>
+          <span class="question"> ← recount!</span>
+        </div>
+        <div class="sheet-row scribble">
+          → ask Maria about<br>&nbsp;&nbsp;the 2 missing $20 books??
+        </div>
+        <hr class="sheet-divider">
+        <div class="sheet-row">New books today: <span class="struck">$400?</span> <span class="correction">$500</span></div>
+        <div class="sheet-row">Payouts: $127 <span class="scribble">(i think)</span></div>
+        <div class="sheet-row">Online terminal: <span class="question">???</span> <span class="scribble">(forgot to check)</span></div>
+        <hr class="sheet-divider">
+        <div class="sheet-row">TOTAL: <span class="struck">$1,003</span> <span class="correction">$1,008?</span> <span class="question">REDO TOMORROW</span></div>
+        <div class="sheet-row scribble" style="margin-top:8px;">⏱ started 9:15pm... finished 10:20pm</div>
+      </div>
+      <div class="ba-label">❌ The Old Way — 65 minutes, still wrong</div>
+    </div>
+    <div class="reveal">
+      <div class="clean-card">
+        <div class="clean-header">
+          <div>
+            <div class="clean-header-title">Monday Close</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px;">June 10 · Completed 9:34 PM</div>
+          </div>
+          <div class="clean-badge">✓ Done</div>
+        </div>
+        <div class="clean-row"><span class="clean-row-label">Opening Inventory</span><span class="clean-row-val">$3,850</span></div>
+        <div class="clean-row"><span class="clean-row-label">New Books Activated</span><span class="clean-row-val amber">+ $500</span></div>
+        <div class="clean-row"><span class="clean-row-label">Tickets Sold (estimated)</span><span class="clean-row-val">$968</span></div>
+        <div class="clean-row"><span class="clean-row-label">Payouts</span><span class="clean-row-val">$127</span></div>
+        <div class="clean-row"><span class="clean-row-label">Online Terminal Sales</span><span class="clean-row-val green">$843</span></div>
+        <div class="clean-total">
+          <span class="clean-total-label">Today's Lottery Profit</span>
+          <span class="clean-total-val">$716</span>
+        </div>
+        <div class="time-chip">⏱ Completed in <span>4 minutes 12 seconds</span></div>
+      </div>
+      <div class="ba-label good">✅ LotteryTrack — 4 minutes, perfectly accurate</div>
+    </div>
+  </div>
+</section>
+
+<section class="demo-section" id="demo">
+  <div class="section-label reveal">Interactive Demo</div>
+  <h2 class="section-title reveal">Try it yourself</h2>
+  <p class="section-sub reveal">Tap "Scan Ticket" to add books, then close the day and see your instant summary.</p>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div id="scanScreen" style="display:flex;flex-direction:column;flex:1;">
+          <div class="app-bar">
+            <div>
+              <div>Today's Scan</div>
+              <div class="app-bar-sub" id="ticketCount">0 books scanned</div>
+            </div>
+            <div style="font-size:20px;">📷</div>
+          </div>
+          <div class="screen">
+            <div class="ticket-list" id="ticketList">
+              <div class="empty-hint" id="emptyHint">
+                <div class="empty-hint-icon">🎟️</div>
+                <p>Tap "Scan Ticket" to<br>start adding books</p>
+              </div>
+            </div>
+            <button class="scan-btn" id="scanBtn" onclick="scanTicket()">📸 &nbsp;Scan Ticket</button>
+            <button class="close-btn" id="closeBtn" onclick="closeDay()" style="display:none;">✓ &nbsp;Close Day</button>
+          </div>
+        </div>
+        <div class="summary-screen" id="summaryScreen">
+          <div class="app-bar">
+            <div><div>Day Complete</div><div class="app-bar-sub">Monday · June 10</div></div>
+            <div style="font-size:20px;">✅</div>
+          </div>
+          <div class="screen" style="overflow-y:auto;">
+            <div class="summary-check">✓</div>
+            <div class="summary-title">Lottery Closed Successfully</div>
+            <div class="summary-row"><span class="summary-row-label">Books scanned</span><span class="summary-row-val" id="summaryBooks">3</span></div>
+            <div class="summary-row"><span class="summary-row-label">Opening inventory</span><span class="summary-row-val">$3,850</span></div>
+            <div class="summary-row"><span class="summary-row-label">New books activated</span><span class="summary-row-val">$500</span></div>
+            <div class="summary-row"><span class="summary-row-label">Payouts</span><span class="summary-row-val">$127</span></div>
+            <div class="summary-row"><span class="summary-row-label">Online terminal</span><span class="summary-row-val">$843</span></div>
+            <div class="summary-profit">
+              <div class="summary-profit-label">Today's Lottery Profit</div>
+              <div class="summary-profit-val">$716</div>
+            </div>
+            <div class="summary-time">Completed in <strong>4 min 12 sec</strong> — your fastest close yet 🎉</div>
+            <button class="reset-btn" onclick="resetDemo()">↩ Try Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="demo-hint reveal" style="margin-top:28px;">Tap <strong>Scan Ticket</strong> to start →</div>
+</section>
+
+<section class="hiw">
+  <div class="section-label reveal">Simple by Design</div>
+  <h2 class="section-title reveal">Three steps. That's it.</h2>
+  <p class="section-sub reveal">No training required. Any employee can be up and running in minutes.</p>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <h3>Scan your books</h3>
+      <p>Point your phone at the barcode on each lottery book. The app recognises the game and counts remaining tickets automatically.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <h3>Close the day</h3>
+      <p>Enter your new books, payouts, and terminal sales. Takes two minutes. Works right at closing time — no more stopping sales early to count.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <h3>See your numbers</h3>
+      <p>Instant daily report showing your closing inventory, profit, and trends over time. Know exactly where your lottery business stands.</p>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="section-label reveal">Everything You Need</div>
+  <h2 class="section-title reveal">Built for store owners,<br>not accountants</h2>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">📸</div>
+      <h3>Instant Barcode Scanning</h3>
+      <p>Scan any NY lottery barcode. The game, price, and remaining count are detected automatically — no manual entry needed.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">📊</div>
+      <h3>Daily Profit Reports</h3>
+      <p>Know your exact lottery profit every single day. Track trends week over week and spot your best-selling games.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">👥</div>
+      <h3>Employee Access</h3>
+      <p>Give employees their own login to scan tickets. They see only what they need — you keep full visibility and control.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🔒</div>
+      <h3>Role-Based Permissions</h3>
+      <p>Owner, Admin, Viewer, and Employee roles. Invite your accountant as a Viewer. Your manager as an Admin. You're always in control.</p>
+    </div>
+  </div>
+</section>
+
+<section class="roi" id="roi">
+  <div class="section-label reveal">Return on Investment</div>
+  <h2 class="section-title reveal">$14.99 a month.<br>$3,000+ back.</h2>
+  <p class="section-sub reveal">Here's the math most store owners haven't done yet.</p>
+  <div class="roi-math reveal">
+    <div class="roi-row">
+      <div class="roi-icon">⏰</div>
+      <div class="roi-text">
+        <h4>You stop selling lottery 30–60 minutes early</h4>
+        <p>Most owners close lottery ticket sales before the store closes so they have time to count. That's your busiest time of day — and you're turning customers away.</p>
+      </div>
+    </div>
+    <div class="roi-row">
+      <div class="roi-icon">🎟️</div>
+      <div class="roi-text">
+        <h4>Evening rush = your highest lottery volume</h4>
+        <p>A typical store sells <strong>10–20 scratch-off tickets in 30 minutes</strong> during evening rush. At an average of $7 per ticket, that's <strong>$70–$140 every single night</strong> you could be capturing.</p>
+      </div>
+    </div>
+    <div class="roi-row">
+      <div class="roi-icon">📅</div>
+      <div class="roi-text">
+        <h4>It compounds every month</h4>
+        <p>Even at the conservative end — <strong>$70/night × 30 days = $2,100/month</strong> in ticket sales you're currently missing. At your margin, that's real profit left on the table.</p>
+      </div>
+    </div>
+    <hr class="roi-divider">
+    <div class="roi-result">
+      <p>LotteryTrack costs</p>
+      <div class="roi-result-num">$14.99<span style="font-size:22px;color:rgba(255,255,255,0.4)">/mo</span></div>
+      <div class="roi-result-sub">You recover that in the first 4 hours of extra selling time.</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-label reveal">Pricing</div>
+  <h2 class="section-title reveal">Start free. Pay when<br>you're convinced.</h2>
+  <p class="section-sub reveal">7-day free trial included. No credit card required to start.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-period">Monthly</div>
+      <div class="pricing-price"><sup>$</sup>14<sub>.99/mo</sub></div>
+      <div class="pricing-save">&nbsp;</div>
+      <ul class="pricing-features">
+        <li>Unlimited barcode scanning</li>
+        <li>Daily close &amp; reports</li>
+        <li>Employee access</li>
+        <li>7-day free trial</li>
+      </ul>
+      <a href="https://apps.apple.com/app/id6783105590" class="pricing-btn">Start Free Trial</a>
+    </div>
+    <div class="pricing-card featured reveal">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-period">Annual</div>
+      <div class="pricing-price"><sup>$</sup>149<sub>.99/yr</sub></div>
+      <div class="pricing-save">Save $30 vs monthly</div>
+      <ul class="pricing-features">
+        <li>Everything in Monthly</li>
+        <li>2 months free</li>
+        <li>Priority support</li>
+        <li>7-day free trial</li>
+      </ul>
+      <a href="https://apps.apple.com/app/id6783105590" class="pricing-btn">Start Free Trial</a>
+    </div>
+  </div>
+  <p class="pricing-note reveal">Available on iOS · New York lottery barcodes supported · More states coming soon</p>
+</section>
+
+<div class="footer-cta">
+  <h2>Ready to close faster<br>and sell more?</h2>
+  <p>Join store owners who've taken back their evenings<br>and their lottery profits.</p>
+  <a href="https://apps.apple.com/app/id6783105590" class="btn-primary" style="display:inline-block;">Download on the App Store</a>
+  <div class="footer-note">Free 7-day trial · No credit card required · Cancel anytime</div>
+</div>
+
+<script>
+  const tickets = [
+    { name: '$5 — Fast Cash', detail: 'Book #A4521 · 46 tickets remaining', val: '$230' },
+    { name: '$10 — Gold Rush 777', detail: 'Book #B2819 · 73 tickets remaining', val: '$730' },
+    { name: '$2 — Lucky Lines', detail: 'Book #C1053 · 19 tickets remaining', val: '$38' },
+    { name: '$20 — Diamond Bucks', detail: 'Book #D0982 · 12 tickets remaining', val: '$240' },
+  ];
+  let scanned = 0;
+
+  function scanTicket() {
+    if (scanned >= tickets.length) return;
+    const hint = document.getElementById('emptyHint');
+    if (hint) hint.remove();
+    const t = tickets[scanned];
+    const item = document.createElement('div');
+    item.className = 'ticket-item';
+    item.innerHTML = `<div class="ticket-dot"></div><div class="ticket-info"><div class="ticket-name">${t.name}</div><div class="ticket-detail">${t.detail}</div></div><div class="ticket-val">${t.val}</div>`;
+    document.getElementById('ticketList').appendChild(item);
+    scanned++;
+    document.getElementById('ticketCount').textContent = `${scanned} book${scanned !== 1 ? 's' : ''} scanned`;
+    if (scanned >= 3) document.getElementById('closeBtn').style.display = 'block';
+    if (scanned >= tickets.length) document.getElementById('scanBtn').disabled = true;
+  }
+
+  function closeDay() {
+    document.getElementById('scanScreen').style.display = 'none';
+    const sum = document.getElementById('summaryScreen');
+    sum.style.display = 'flex';
+    sum.classList.add('active');
+    document.getElementById('summaryBooks').textContent = scanned;
+  }
+
+  function resetDemo() {
+    scanned = 0;
+    document.getElementById('ticketList').innerHTML = `<div class="empty-hint" id="emptyHint"><div class="empty-hint-icon">🎟️</div><p>Tap "Scan Ticket" to<br>start adding books</p></div>`;
+    document.getElementById('ticketCount').textContent = '0 books scanned';
+    document.getElementById('closeBtn').style.display = 'none';
+    document.getElementById('scanBtn').disabled = false;
+    document.getElementById('summaryScreen').style.display = 'none';
+    document.getElementById('summaryScreen').classList.remove('active');
+    document.getElementById('scanScreen').style.display = 'flex';
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

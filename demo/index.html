@@ -492,7 +492,7 @@
     .scanner-laser {
       position: absolute; left: 0; right: 0;
       height: 2px; background: #ff3333;
-      animation: laserSweep 0.9s ease-in-out infinite;
+      animation: laserSweep 0.4s ease-in-out infinite;
     }
     .scanner-label {
       color: white; font-size: 11px;
@@ -634,6 +634,7 @@
               </div>
             </div>
             <button class="scan-btn" id="scanBtn" onclick="scanTicket()">📸 &nbsp;Scan Ticket</button>
+            <div style="text-align:center;font-size:11px;color:var(--gray);margin-top:7px;">💡 Works with any Bluetooth barcode scanner</div>
             <button class="close-btn" id="closeBtn" onclick="closeDay()" style="display:none;">✓ &nbsp;Close Day</button>
           </div>
         </div>
@@ -646,17 +647,14 @@
             <div style="font-size:20px;">💰</div>
           </div>
           <div class="screen">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
               <button onclick="backToScan()" style="background:none;border:1px solid var(--gray-light);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--navy);cursor:pointer;font-family:'Inter',sans-serif;">← Back</button>
-              <div style="font-weight:700;color:var(--navy);font-size:15px;">Today's Terminal Sales</div>
+              <div style="font-weight:700;color:var(--navy);font-size:15px;">Enter Today's Values</div>
             </div>
-            <div class="sales-row"><span>Terminal 1</span><span>$535</span></div>
-            <div class="sales-row"><span>Terminal 2</span><span>$239</span></div>
-            <div class="sales-row"><span>Terminal 3</span><span>$270</span></div>
-            <div class="sales-row"><span>Online Sales</span><span>$843</span></div>
-            <div class="sales-row" style="border-top:1px solid #e0e0e0;margin-top:8px;padding-top:8px;font-weight:700;border-bottom:none;">
-              <span>Total Sales</span><span>$1,887</span>
-            </div>
+            <div style="font-size:12px;color:var(--gray);margin-bottom:14px;">Same fields as the app — takes about 30 seconds.</div>
+            <div class="sales-row"><span style="color:#1C2A39;font-size:13px;font-weight:600;">New Books Activated</span><span style="color:#2E7D5B;font-size:13px;font-weight:600;">$3,800</span></div>
+            <div class="sales-row"><span style="color:#1C2A39;font-size:13px;font-weight:600;">Online Summary Balance</span><span style="color:#2E7D5B;font-size:13px;font-weight:600;">$843</span></div>
+            <div class="sales-row" style="border-bottom:none;"><span style="color:#1C2A39;font-size:13px;font-weight:600;">Instant Validation Payouts</span><span style="color:#2E7D5B;font-size:13px;font-weight:600;">$127</span></div>
             <button onclick="showSummary()" style="background:var(--green);color:white;border:none;border-radius:12px;padding:14px;width:100%;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px;font-family:'Inter',sans-serif;">
               See My Numbers →
             </button>
@@ -671,16 +669,17 @@
             <div class="summary-check">✓</div>
             <div class="summary-title">Lottery Closed Successfully</div>
             <div class="summary-row"><span class="summary-row-label">Books scanned</span><span class="summary-row-val" id="summaryBooks">6</span></div>
-            <div class="summary-row"><span class="summary-row-label">Opening inventory (yesterday)</span><span class="summary-row-val">$18,298</span></div>
-            <div class="summary-row"><span class="summary-row-label">Today books activated</span><span class="summary-row-val">$3,800</span></div>
-            <div class="summary-row"><span class="summary-row-label">Today closing inventory</span><span class="summary-row-val">$21,324</span></div>
-            <div class="summary-row"><span class="summary-row-label">Scratch-off sales</span><span class="summary-row-val">$741</span></div>
-            <div class="summary-row"><span class="summary-row-label">Terminal net</span><span class="summary-row-val">$509</span></div>
-            <div class="summary-profit">
-              <div class="summary-profit-label">Today's Lottery Profit</div>
-              <div class="summary-profit-val" style="color:#4ade80;">$1,250</div>
+            <div class="summary-row"><span class="summary-row-label">Last Closing's Inventory</span><span class="summary-row-val">$18,298</span></div>
+            <div class="summary-row"><span class="summary-row-label">+ New Books Activated</span><span class="summary-row-val">$3,800</span></div>
+            <div class="summary-row"><span class="summary-row-label">= Adjusted Inventory</span><span class="summary-row-val" style="font-weight:800;color:#1C2A39;">$22,098</span></div>
+            <div class="summary-row"><span class="summary-row-label">− Today's Inventory</span><span class="summary-row-val" style="color:#C00000;">$21,324</span></div>
+            <div class="summary-row"><span class="summary-row-label">+ Online Summary Balance</span><span class="summary-row-val">$843</span></div>
+            <div class="summary-row" style="border-bottom:none;"><span class="summary-row-label">− Instant Validation Payouts</span><span class="summary-row-val" style="color:#C00000;">$127</span></div>
+            <div style="border-top:2px solid var(--gray-light);margin-top:4px;padding-top:12px;display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:13px;font-weight:700;color:var(--navy);">CASH BALANCE</span>
+              <span style="font-size:18px;font-weight:900;color:#2E7D5B;">$1,490</span>
             </div>
-            <div class="summary-time">Completed in <strong>4 min 12 sec</strong> — your fastest close yet 🎉</div>
+            <div class="summary-time" style="margin-top:8px;">Completed in <strong>4 min 12 sec</strong> — your fastest close yet 🎉</div>
             <button class="reset-btn" onclick="resetDemo()">↩ Try Again</button>
           </div>
         </div>
@@ -720,7 +719,7 @@
     <div class="feature-card reveal">
       <div class="feature-icon">📸</div>
       <h3>Instant Barcode Scanning</h3>
-      <p>Scan any NY lottery barcode. The game, price, and remaining count are detected automatically — no manual entry needed.</p>
+      <p>Scan any NY lottery barcode. The game, price, and remaining count are detected automatically — no manual entry needed. Or connect any Bluetooth barcode scanner for hands-free scanning.</p>
     </div>
     <div class="feature-card reveal">
       <div class="feature-icon">📊</div>
@@ -742,35 +741,49 @@
 
 <section class="roi" id="roi">
   <div class="section-label reveal">Return on Investment</div>
-  <h2 class="section-title reveal">$14.99 a month.<br>$3,000+ back.</h2>
-  <p class="section-sub reveal">Here's the math most store owners haven't done yet.</p>
+  <h2 class="section-title reveal">The math is simple</h2>
+  <p class="section-sub reveal">Here's what closing late is actually costing you — in commission dollars.</p>
   <div class="roi-math reveal">
-    <div class="roi-row">
-      <div class="roi-icon">⏰</div>
-      <div class="roi-text">
-        <h4>You lose a sale every time someone has to recount</h4>
-        <p>Most owners close lottery ticket sales early or stop mid-shift to recount after morning errors surface. That's your busiest time of day — and every interruption costs you a customer.</p>
-      </div>
-    </div>
     <div class="roi-row">
       <div class="roi-icon">🎟️</div>
       <div class="roi-text">
-        <h4>Evening rush = your highest lottery volume</h4>
-        <p>A typical store sells <strong>10–20 scratch-off tickets in 30 minutes</strong> during evening rush. At an average of $7 per ticket, that's <strong>$70–$140 every single night</strong> you could be capturing.</p>
+        <h4>Stores earn ~6% commission on lottery sales</h4>
+        <p>Every scratch-off ticket you sell puts 6% commission in your pocket. That means your lottery volume directly determines your take-home profit.</p>
       </div>
     </div>
     <div class="roi-row">
-      <div class="roi-icon">📅</div>
+      <div class="roi-icon">⏰</div>
       <div class="roi-text">
-        <h4>It compounds every month</h4>
-        <p>Even at the conservative end — <strong>$70/night × 30 days = $2,100/month</strong> in ticket sales you're currently missing. At your margin, that's real profit left on the table.</p>
+        <h4>Closing 30 minutes early = $2,100/month in lost sales</h4>
+        <p>When counting takes too long, sales stop early. A typical store loses ~$2,100/month in lottery sales from closing the till too soon.</p>
+      </div>
+    </div>
+    <div class="roi-row">
+      <div class="roi-icon">💸</div>
+      <div class="roi-text">
+        <h4>6% of $2,100 = $126/month in lost commission</h4>
+        <p>That's commission walking out the door every single month — not ticket sales, not revenue. <strong>Your actual take-home commission</strong>, gone because counting took too long.</p>
       </div>
     </div>
     <hr class="roi-divider">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;text-align:center;margin-bottom:28px;">
+      <div>
+        <div style="font-size:32px;font-weight:900;color:#4ade80;">$126</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:4px;">Lost commission/mo</div>
+      </div>
+      <div>
+        <div style="font-size:32px;font-weight:900;color:rgba(255,255,255,0.3);">−</div>
+        <div style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.4);margin-top:10px;">$14.99/mo</div>
+      </div>
+      <div>
+        <div style="font-size:32px;font-weight:900;color:#4ade80;">8x</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:4px;">Return on investment</div>
+      </div>
+    </div>
     <div class="roi-result">
-      <p>LotteryTrack costs</p>
-      <div class="roi-result-num">$14.99<span style="font-size:22px;color:rgba(255,255,255,0.4)">/mo</span></div>
-      <div class="roi-result-sub">You recover that in the first 4 hours of extra selling time.</div>
+      <p>Net gain after LotteryTrack</p>
+      <div class="roi-result-num">$111<span style="font-size:22px;color:rgba(255,255,255,0.4)">/mo</span></div>
+      <div class="roi-result-sub">$126 recovered − $14.99 cost = $111 net. Every month.</div>
     </div>
   </div>
 </section>
@@ -870,7 +883,7 @@
     overlay.appendChild(label);
     phoneScreen.appendChild(overlay);
 
-    // After 1500ms: hide overlay, green flash, then add ticket
+    // After 500ms: hide overlay, green flash, then add ticket
     setTimeout(function() {
       overlay.remove();
 
@@ -900,8 +913,8 @@
           btn.disabled = false;
           btn.innerHTML = '📸  Scan Ticket';
         }
-      }, 200);
-    }, 1500);
+      }, 100);
+    }, 500);
   }
 
   function closeDay() {

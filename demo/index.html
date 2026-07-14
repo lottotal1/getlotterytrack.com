@@ -254,6 +254,7 @@
       overflow: hidden;
       min-height: 520px;
       display: flex; flex-direction: column;
+      position: relative;
     }
     .app-bar {
       background: var(--navy);
@@ -462,6 +463,52 @@
     .footer-cta p { color: rgba(255,255,255,0.5); font-size: 17px; margin-bottom: 36px; }
     .footer-note { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.3); }
 
+    /* ── SALES SCREEN ── */
+    .sales-row {
+      display: flex; justify-content: space-between;
+      padding: 8px 0; font-size: 14px; color: var(--navy);
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* ── SCANNER OVERLAY ── */
+    .scanner-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 10; border-radius: inherit;
+      background: rgba(0,0,0,0.85);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px;
+    }
+    .scanner-viewfinder {
+      width: 200px; height: 80px;
+      background: white;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .scanner-barcode {
+      position: absolute; top: 6px; left: 0; right: 0; bottom: 14px;
+    }
+    .scanner-laser {
+      position: absolute; left: 0; right: 0;
+      height: 2px; background: #ff3333;
+      animation: laserSweep 0.9s ease-in-out infinite;
+    }
+    .scanner-label {
+      color: white; font-size: 11px;
+      text-align: center; opacity: 0.85;
+    }
+    @keyframes laserSweep {
+      0% { top: 4px; }
+      100% { top: calc(100% - 6px); }
+    }
+    .scanner-flash {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 11; border-radius: inherit;
+      background: rgba(46,125,91,0.3);
+      pointer-events: none;
+    }
+
     /* ── SCROLL ANIMATIONS ── */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -503,7 +550,7 @@
 <section class="before-after">
   <div class="section-label reveal">The Problem</div>
   <h2 class="section-title reveal">Sound familiar?</h2>
-  <p class="section-sub reveal">Every night, store owners spend 30–60 minutes manually counting lottery books, writing down numbers, making mistakes, and crossing them out. And while they're counting in the back — they're losing customers out front.</p>
+  <p class="section-sub reveal">Every night, store owners spend 8–10 minutes counting lottery books — but someone has to check the math the next morning and fix errors. And while they're counting in the back, they're losing customers out front.</p>
   <div class="ba-grid">
     <div class="reveal">
       <div class="messy-sheet">
@@ -530,13 +577,13 @@
         </div>
         <hr class="sheet-divider">
         <div class="sheet-row">New books today: <span class="struck">$400?</span> <span class="correction">$500</span></div>
-        <div class="sheet-row">Payouts: $127 <span class="scribble">(i think)</span></div>
+        <div class="sheet-row">Payouts: $741 <span class="scribble">(i think)</span></div>
         <div class="sheet-row">Online terminal: <span class="question">???</span> <span class="scribble">(forgot to check)</span></div>
         <hr class="sheet-divider">
-        <div class="sheet-row">TOTAL: <span class="struck">$1,003</span> <span class="correction">$1,008?</span> <span class="question">REDO TOMORROW</span></div>
-        <div class="sheet-row scribble" style="margin-top:8px;">⏱ started 9:15pm... finished 10:20pm</div>
+        <div class="sheet-row">TOTAL: <span class="struck">$18,112</span> <span class="correction">$18,298?</span> <span class="question">REDO TOMORROW</span></div>
+        <div class="sheet-row scribble" style="margin-top:8px;">⏱ done in ~10 min... Maria found the error at 9am</div>
       </div>
-      <div class="ba-label">❌ The Old Way — 65 minutes, still wrong</div>
+      <div class="ba-label">❌ The Old Way — done in 10 min, wrong by morning</div>
     </div>
     <div class="reveal">
       <div class="clean-card">
@@ -547,14 +594,14 @@
           </div>
           <div class="clean-badge">✓ Done</div>
         </div>
-        <div class="clean-row"><span class="clean-row-label">Opening Inventory</span><span class="clean-row-val">$3,850</span></div>
-        <div class="clean-row"><span class="clean-row-label">New Books Activated</span><span class="clean-row-val amber">+ $500</span></div>
-        <div class="clean-row"><span class="clean-row-label">Tickets Sold (estimated)</span><span class="clean-row-val">$968</span></div>
-        <div class="clean-row"><span class="clean-row-label">Payouts</span><span class="clean-row-val">$127</span></div>
-        <div class="clean-row"><span class="clean-row-label">Online Terminal Sales</span><span class="clean-row-val green">$843</span></div>
+        <div class="clean-row"><span class="clean-row-label">Opening Inventory</span><span class="clean-row-val">$18,298</span></div>
+        <div class="clean-row"><span class="clean-row-label">New Books Activated</span><span class="clean-row-val amber">+ $3,800</span></div>
+        <div class="clean-row"><span class="clean-row-label">Closing Inventory</span><span class="clean-row-val">$21,324</span></div>
+        <div class="clean-row"><span class="clean-row-label">Scratch-off Sales</span><span class="clean-row-val">$741</span></div>
+        <div class="clean-row"><span class="clean-row-label">Terminal Net</span><span class="clean-row-val green">$509</span></div>
         <div class="clean-total">
           <span class="clean-total-label">Today's Lottery Profit</span>
-          <span class="clean-total-val">$716</span>
+          <span class="clean-total-val">$1,250</span>
         </div>
         <div class="time-chip">⏱ Completed in <span>4 minutes 12 seconds</span></div>
       </div>
@@ -590,6 +637,31 @@
             <button class="close-btn" id="closeBtn" onclick="closeDay()" style="display:none;">✓ &nbsp;Close Day</button>
           </div>
         </div>
+        <div id="salesScreen" style="display:none;flex-direction:column;flex:1;">
+          <div class="app-bar">
+            <div>
+              <div>Enter Daily Sales</div>
+              <div class="app-bar-sub">Step 2 of 2</div>
+            </div>
+            <div style="font-size:20px;">💰</div>
+          </div>
+          <div class="screen">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+              <button onclick="backToScan()" style="background:none;border:1px solid var(--gray-light);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--navy);cursor:pointer;font-family:'Inter',sans-serif;">← Back</button>
+              <div style="font-weight:700;color:var(--navy);font-size:15px;">Today's Terminal Sales</div>
+            </div>
+            <div class="sales-row"><span>Terminal 1</span><span>$535</span></div>
+            <div class="sales-row"><span>Terminal 2</span><span>$239</span></div>
+            <div class="sales-row"><span>Terminal 3</span><span>$270</span></div>
+            <div class="sales-row"><span>Online Sales</span><span>$843</span></div>
+            <div class="sales-row" style="border-top:1px solid #e0e0e0;margin-top:8px;padding-top:8px;font-weight:700;border-bottom:none;">
+              <span>Total Sales</span><span>$1,887</span>
+            </div>
+            <button onclick="showSummary()" style="background:var(--green);color:white;border:none;border-radius:12px;padding:14px;width:100%;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px;font-family:'Inter',sans-serif;">
+              See My Numbers →
+            </button>
+          </div>
+        </div>
         <div class="summary-screen" id="summaryScreen">
           <div class="app-bar">
             <div><div>Day Complete</div><div class="app-bar-sub">Monday · June 10</div></div>
@@ -598,14 +670,15 @@
           <div class="screen" style="overflow-y:auto;">
             <div class="summary-check">✓</div>
             <div class="summary-title">Lottery Closed Successfully</div>
-            <div class="summary-row"><span class="summary-row-label">Books scanned</span><span class="summary-row-val" id="summaryBooks">3</span></div>
-            <div class="summary-row"><span class="summary-row-label">Opening inventory</span><span class="summary-row-val">$3,850</span></div>
-            <div class="summary-row"><span class="summary-row-label">New books activated</span><span class="summary-row-val">$500</span></div>
-            <div class="summary-row"><span class="summary-row-label">Payouts</span><span class="summary-row-val">$127</span></div>
-            <div class="summary-row"><span class="summary-row-label">Online terminal</span><span class="summary-row-val">$843</span></div>
+            <div class="summary-row"><span class="summary-row-label">Books scanned</span><span class="summary-row-val" id="summaryBooks">6</span></div>
+            <div class="summary-row"><span class="summary-row-label">Opening inventory (yesterday)</span><span class="summary-row-val">$18,298</span></div>
+            <div class="summary-row"><span class="summary-row-label">Today books activated</span><span class="summary-row-val">$3,800</span></div>
+            <div class="summary-row"><span class="summary-row-label">Today closing inventory</span><span class="summary-row-val">$21,324</span></div>
+            <div class="summary-row"><span class="summary-row-label">Scratch-off sales</span><span class="summary-row-val">$741</span></div>
+            <div class="summary-row"><span class="summary-row-label">Terminal net</span><span class="summary-row-val">$509</span></div>
             <div class="summary-profit">
               <div class="summary-profit-label">Today's Lottery Profit</div>
-              <div class="summary-profit-val">$716</div>
+              <div class="summary-profit-val" style="color:#4ade80;">$1,250</div>
             </div>
             <div class="summary-time">Completed in <strong>4 min 12 sec</strong> — your fastest close yet 🎉</div>
             <button class="reset-btn" onclick="resetDemo()">↩ Try Again</button>
@@ -675,8 +748,8 @@
     <div class="roi-row">
       <div class="roi-icon">⏰</div>
       <div class="roi-text">
-        <h4>You stop selling lottery 30–60 minutes early</h4>
-        <p>Most owners close lottery ticket sales before the store closes so they have time to count. That's your busiest time of day — and you're turning customers away.</p>
+        <h4>You lose a sale every time someone has to recount</h4>
+        <p>Most owners close lottery ticket sales early or stop mid-shift to recount after morning errors surface. That's your busiest time of day — and every interruption costs you a customer.</p>
       </div>
     </div>
     <div class="roi-row">
@@ -745,45 +818,126 @@
 
 <script>
   const tickets = [
-    { name: '$5 — Fast Cash', detail: 'Book #A4521 · 46 tickets remaining', val: '$230' },
-    { name: '$10 — Gold Rush 777', detail: 'Book #B2819 · 73 tickets remaining', val: '$730' },
-    { name: '$2 — Lucky Lines', detail: 'Book #C1053 · 19 tickets remaining', val: '$38' },
-    { name: '$20 — Diamond Bucks', detail: 'Book #D0982 · 12 tickets remaining', val: '$240' },
+    { price: '$5', name: 'Cashword', book: 'B8821', open: 42, close: 54, sold: 12, detail: 'Book #B8821 · Open: 42 · Close: 54 · Sold: 12 ($60)',
+      barcode: 'repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px, #000 4px, #000 7px, #fff 7px, #fff 9px, #000 9px, #000 11px, #fff 11px, #fff 14px)' },
+    { price: '$10', name: 'Super Cash', book: 'C3304', open: 38, close: 44, sold: 6, detail: 'Book #C3304 · Open: 38 · Close: 44 · Sold: 6 ($60)',
+      barcode: 'repeating-linear-gradient(90deg, #000 0px, #000 3px, #fff 3px, #fff 5px, #000 5px, #000 6px, #fff 6px, #fff 9px, #000 9px, #000 12px, #fff 12px, #fff 15px)' },
+    { price: '$20', name: 'Gold Rush', book: 'D1197', open: 14, close: 17, sold: 3, detail: 'Book #D1197 · Open: 14 · Close: 17 · Sold: 3 ($60)',
+      barcode: 'repeating-linear-gradient(90deg, #000 0px, #000 1px, #fff 1px, #fff 4px, #000 4px, #000 8px, #fff 8px, #fff 10px, #000 10px, #000 12px, #fff 12px, #fff 14px)' },
+    { price: '$2', name: 'Tic Tac Toe', book: 'A0554', open: 124, close: 124, sold: 0, detail: 'Book #A0554 · Open: 124 · Close: 124 · Sold: 0 ($0)',
+      barcode: 'repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px, #000 4px, #000 7px, #fff 7px, #fff 9px, #000 9px, #000 11px, #fff 11px, #fff 14px)' },
+    { price: '$30', name: 'Mega Millions', book: 'E6672', open: 16, close: 18, sold: 2, detail: 'Book #E6672 · Open: 16 · Close: 18 · Sold: 2 ($60)',
+      barcode: 'repeating-linear-gradient(90deg, #000 0px, #000 3px, #fff 3px, #fff 5px, #000 5px, #000 6px, #fff 6px, #fff 9px, #000 9px, #000 12px, #fff 12px, #fff 15px)' },
+    { price: '$50', name: 'Diamond Dazzler', book: 'F2281', open: 6, close: 7, sold: 1, detail: 'Book #F2281 · Open: 6 · Close: 7 · Sold: 1 ($50)',
+      barcode: 'repeating-linear-gradient(90deg, #000 0px, #000 1px, #fff 1px, #fff 4px, #000 4px, #000 8px, #fff 8px, #fff 10px, #000 10px, #000 12px, #fff 12px, #fff 14px)' },
   ];
   let scanned = 0;
+  let scanning = false;
 
   function scanTicket() {
-    if (scanned >= tickets.length) return;
-    const hint = document.getElementById('emptyHint');
-    if (hint) hint.remove();
+    if (scanned >= tickets.length || scanning) return;
+    scanning = true;
+
+    const btn = document.getElementById('scanBtn');
+    btn.disabled = true;
+    btn.textContent = 'Scanning...';
+
+    const phoneScreen = document.querySelector('.phone-screen');
     const t = tickets[scanned];
-    const item = document.createElement('div');
-    item.className = 'ticket-item';
-    item.innerHTML = `<div class="ticket-dot"></div><div class="ticket-info"><div class="ticket-name">${t.name}</div><div class="ticket-detail">${t.detail}</div></div><div class="ticket-val">${t.val}</div>`;
-    document.getElementById('ticketList').appendChild(item);
-    scanned++;
-    document.getElementById('ticketCount').textContent = `${scanned} book${scanned !== 1 ? 's' : ''} scanned`;
-    if (scanned >= 3) document.getElementById('closeBtn').style.display = 'block';
-    if (scanned >= tickets.length) document.getElementById('scanBtn').disabled = true;
+
+    // Build scanner overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'scanner-overlay';
+
+    const viewfinder = document.createElement('div');
+    viewfinder.className = 'scanner-viewfinder';
+
+    const barcode = document.createElement('div');
+    barcode.className = 'scanner-barcode';
+    barcode.style.background = t.barcode;
+
+    const laser = document.createElement('div');
+    laser.className = 'scanner-laser';
+
+    viewfinder.appendChild(barcode);
+    viewfinder.appendChild(laser);
+
+    const label = document.createElement('div');
+    label.className = 'scanner-label';
+    label.textContent = 'Align barcode and hold still';
+
+    overlay.appendChild(viewfinder);
+    overlay.appendChild(label);
+    phoneScreen.appendChild(overlay);
+
+    // After 1500ms: hide overlay, green flash, then add ticket
+    setTimeout(function() {
+      overlay.remove();
+
+      // Green flash
+      const flash = document.createElement('div');
+      flash.className = 'scanner-flash';
+      phoneScreen.appendChild(flash);
+      setTimeout(function() {
+        flash.remove();
+
+        // Add ticket
+        const hint = document.getElementById('emptyHint');
+        if (hint) hint.remove();
+        const item = document.createElement('div');
+        item.className = 'ticket-item';
+        item.innerHTML = '<div class="ticket-dot"></div><div class="ticket-info"><div class="ticket-name">' + t.price + ' — ' + t.name + '</div><div class="ticket-detail">' + t.detail + '</div></div><div class="ticket-val">' + t.price + '</div>';
+        document.getElementById('ticketList').appendChild(item);
+        scanned++;
+        document.getElementById('ticketCount').textContent = scanned + ' book' + (scanned !== 1 ? 's' : '') + ' scanned';
+        if (scanned >= 3) document.getElementById('closeBtn').style.display = 'block';
+
+        scanning = false;
+        if (scanned >= tickets.length) {
+          btn.disabled = true;
+          btn.textContent = '📸  Scan Ticket';
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = '📸  Scan Ticket';
+        }
+      }, 200);
+    }, 1500);
   }
 
   function closeDay() {
     document.getElementById('scanScreen').style.display = 'none';
+    const sales = document.getElementById('salesScreen');
+    sales.style.display = 'flex';
+  }
+
+  function showSummary() {
+    document.getElementById('salesScreen').style.display = 'none';
     const sum = document.getElementById('summaryScreen');
     sum.style.display = 'flex';
     sum.classList.add('active');
     document.getElementById('summaryBooks').textContent = scanned;
   }
 
+  function backToScan() {
+    document.getElementById('salesScreen').style.display = 'none';
+    document.getElementById('scanScreen').style.display = 'flex';
+  }
+
   function resetDemo() {
     scanned = 0;
-    document.getElementById('ticketList').innerHTML = `<div class="empty-hint" id="emptyHint"><div class="empty-hint-icon">🎟️</div><p>Tap "Scan Ticket" to<br>start adding books</p></div>`;
+    scanning = false;
+    document.getElementById('ticketList').innerHTML = '<div class="empty-hint" id="emptyHint"><div class="empty-hint-icon">🎟️</div><p>Tap “Scan Ticket” to<br>start adding books</p></div>';
     document.getElementById('ticketCount').textContent = '0 books scanned';
     document.getElementById('closeBtn').style.display = 'none';
-    document.getElementById('scanBtn').disabled = false;
+    const btn = document.getElementById('scanBtn');
+    btn.disabled = false;
+    btn.innerHTML = '📸  Scan Ticket';
     document.getElementById('summaryScreen').style.display = 'none';
     document.getElementById('summaryScreen').classList.remove('active');
+    document.getElementById('salesScreen').style.display = 'none';
     document.getElementById('scanScreen').style.display = 'flex';
+    // Remove any leftover overlays
+    document.querySelectorAll('.scanner-overlay, .scanner-flash').forEach(function(el) { el.remove(); });
   }
 
   const observer = new IntersectionObserver((entries) => {

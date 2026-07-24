@@ -601,7 +601,12 @@
 
       // stripe_status = raw Stripe value; sub.status maps past_due → active for
       // app-gate purposes, so use stripe_status for accurate portal display.
-      const displayStatus = sub.stripe_status || sub.status;
+      // App-started trials are stored as 'trial' (this app's own convention) —
+      // normalize to 'trialing' so the display logic below, written for Stripe's
+      // vocabulary, treats both the same. This also gates the Upgrade to Paid
+      // button, which otherwise never appears for an app-started trial.
+      const rawDisplayStatus = sub.stripe_status || sub.status;
+      const displayStatus = rawDisplayStatus === 'trial' ? 'trialing' : rawDisplayStatus;
       const renewLabel = displayStatus === 'trialing' ? 'Trial ends'
                        : displayStatus === 'past_due' ? 'Overdue since'
                        : 'Renews';

@@ -276,7 +276,11 @@
       const sub = Array.isArray(subRaw) ? (subRaw[0] || {}) : (subRaw || {});
       // stripe_status mirrors the raw Stripe value; sub.status maps past_due → active
       // for app-gate purposes, so use stripe_status for accurate portal display.
-      const status = sub.stripe_status || sub.status || 'inactive';
+      // App-started trials are stored as 'trial' (this app's own convention, set by
+      // the DB trigger/RPC) — normalize to 'trialing' so the display logic below,
+      // written for Stripe's vocabulary, treats both the same.
+      const rawStatus = sub.stripe_status || sub.status || 'inactive';
+      const status = rawStatus === 'trial' ? 'trialing' : rawStatus;
       const isTrialing = status === 'trialing';
 
       // Normalize status for CSS classes — only these four are styled

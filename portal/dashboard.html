@@ -49,10 +49,13 @@
       display: flex;
       flex-direction: column;
       transition: box-shadow 0.2s, border-color 0.2s;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
     }
     .store-card:hover {
       box-shadow: var(--shadow-hover);
-      border-color: #C8D8E4;
+      border-color: var(--green);
     }
     .store-card-top {
       display: flex;
@@ -264,7 +267,7 @@
       const roleTag = role !== 'owner' ? `<span class="role-tag">${esc(role)}</span>` : '';
 
       return `
-        <div class="store-card">
+        <a class="store-card" href="store.html?id=${esc(store.id)}">
           <div class="store-card-top">
             <div>
               <div class="store-name">${esc(store.name)}${roleTag}</div>
@@ -286,8 +289,11 @@
               <span class="meta-label">Billing</span>
               <span class="meta-value">${providerLabel}</span>
             </div>
+            <div class="meta-row" style="margin-top:6px;padding-top:10px;border-top:1px solid var(--border)">
+              <span style="font-size:13px;color:var(--green);font-weight:600">View reports →</span>
+            </div>
           </div>
-        </div>
+        </a>
       `;
     }
 

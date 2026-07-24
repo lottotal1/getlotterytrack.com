@@ -347,7 +347,7 @@
       const [{ data: stores, error }, { data: accessRows }] = await Promise.all([
         db
           .from('stores')
-          .select('id, name, address, state, store_subscriptions(status, payment_provider, current_period_end)')
+          .select('id, name, address, state, admin_id, store_subscriptions(status, payment_provider, current_period_end)')
           .order('created_at'),
         db
           .from('store_access')
@@ -374,9 +374,11 @@
       document.getElementById('store-count').textContent = `${n} store${n !== 1 ? 's' : ''} you have access to`;
       document.getElementById('add-btn').style.display = '';
 
-      // Split into owned stores and invited stores for separate sections
-      const owned   = stores.filter(s => !roleByStore.has(s.id));
-      const invited = stores.filter(s =>  roleByStore.has(s.id));
+      // Split into owned stores and invited stores for separate sections.
+      // Use admin_id as the definitive ownership check — a stale store_access row
+      // (e.g. from a test invite) must never override the fact that this user owns the store.
+      const owned   = stores.filter(s => s.admin_id === user.id);
+      const invited = stores.filter(s => s.admin_id !== user.id);
 
       let html = '';
       if (owned.length) {

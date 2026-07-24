@@ -250,7 +250,9 @@
     }
 
     function renderCard(store, role) {
-      const sub = (store.store_subscriptions || [])[0] || {};
+      // store_subscriptions has a UNIQUE(store_id) constraint, so PostgREST
+      // embeds it as a single object (or null), never an array.
+      const sub = store.store_subscriptions || {};
       const provider = sub.payment_provider;
       const renewLabel = sub.status === 'trialing' ? 'Trial ends' : 'Renews';
       const providerLabel = provider === 'apple'

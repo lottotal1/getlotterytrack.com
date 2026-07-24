@@ -123,12 +123,34 @@
       border-bottom: 1px solid var(--border);
     }
     thead th.num { text-align: right; }
+    thead th.actions { text-align: center; }
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #F7F9FB; }
     tbody td { padding: 14px 16px; color: var(--navy); white-space: nowrap; }
     tbody td.num { text-align: right; font-weight: 600; }
     tbody td.date { font-weight: 600; }
+    tbody td.actions { text-align: center; padding: 10px 16px; }
+
+    .action-btns { display: inline-flex; gap: 6px; }
+    .btn-action {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.12s, opacity 0.12s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn-action:disabled { opacity: 0.45; cursor: default; }
+    .btn-action-pdf { background: #EFF6FF; color: #1D4ED8; }
+    .btn-action-pdf:not(:disabled):hover { background: #DBEAFE; }
+    .btn-action-csv { background: #E8F5EE; color: #1A5C3A; }
+    .btn-action-csv:not(:disabled):hover { background: #D0EAD9; }
 
     .empty-state { padding: 56px 24px; text-align: center; }
     .empty-state h3 { font-size: 18px; color: var(--navy); margin-bottom: 8px; }
@@ -242,6 +264,12 @@
       return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
+    function fmtSessionDateFull(str) {
+      if (!str) return '';
+      const [y, m, d] = str.split('-').map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
     function fmtMoney(n) {
       return Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     }
@@ -249,6 +277,287 @@
     const params  = new URLSearchParams(window.location.search);
     const storeId = params.get('id');
     if (!storeId) window.location.replace('dashboard.html');
+
+    // Set by init() so PDF/CSV handlers can reference them
+    let allSessions = [];
+    let storeData   = {};
+
+    // ── PDF/CSV generation (ported from src/lib/generatePDF.js + generateCSV.js) ──
+
+    const STORE_TIMEZONES = { NY: 'America/New_York', TX: 'America/Chicago' };
+
+    function formatCloseTime(closedAt, storeState) {
+      if (!closedAt) return null;
+      try {
+        const tz = STORE_TIMEZONES[storeState] || 'America/New_York';
+        return new Intl.DateTimeFormat('en-US', {
+          hour: 'numeric', minute: '2-digit', timeZone: tz, timeZoneName: 'short',
+        }).format(new Date(closedAt));
+      } catch { return null; }
+    }
+
+    function escHtml(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function computeSoldByGame(yesterdayTickets, todayTickets) {
+      if (!yesterdayTickets || yesterdayTickets.length === 0) return [];
+      const todayBySerial = {};
+      for (const t of (todayTickets || [])) {
+        if (t.book_serial) todayBySerial[t.book_serial] = t;
+      }
+      const result = [];
+      for (const yt of yesterdayTickets) {
+        if (!yt.book_serial) continue;
+        const todayBook = todayBySerial[yt.book_serial];
+        const sold = todayBook
+          ? (yt.tickets_remaining || 0) - (todayBook.tickets_remaining || 0)
+          : (yt.tickets_remaining || 0);
+        if (sold > 0) {
+          result.push({ book_serial: yt.book_serial, game_name: yt.game_name, ticket_price: yt.ticket_price, sold_count: sold });
+        }
+      }
+      return result.sort((a, b) => b.sold_count - a.sold_count);
+    }
+
+    function generateStatementHTML(data) {
+      const {
+        storeName, date, tickets = [], todayInventory, yesterdayInventory,
+        yesterdayDate, newBooks, onlineSales, payouts, returnedBooks = 0,
+        adjustedInventory, totalCashBalance, boxCount = 60,
+        closedByName = null, isManual = false, soldByGame = [],
+        closedAt = null, storeState = null,
+      } = data;
+
+      const instantTicketsSold = adjustedInventory - todayInventory - (returnedBooks || 0);
+      const effectiveBoxCount  = Math.max(boxCount, tickets.length);
+      const perColumn  = Math.ceil(effectiveBoxCount / 2);
+      const leftSlots  = Array.from({ length: perColumn }, (_, i) => tickets[i] || null);
+      const rightSlots = Array.from({ length: perColumn }, (_, i) => tickets[perColumn + i] || null);
+
+      const cs = 'border:1px solid #d0d0d0;padding:4px 6px;font-size:10px;';
+      const soldMap = {};
+      for (const g of (soldByGame || [])) soldMap[g.book_serial] = g.sold_count;
+      const todaySerials  = new Set(tickets.map(t => t.book_serial));
+      const soldOutBooks  = (soldByGame || []).filter(g => !todaySerials.has(g.book_serial));
+
+      const renderRows = (slots) => slots.map((t, i) => {
+        const bg = i % 2 === 0 ? '#fff' : '#f7f9fb';
+        if (!t) return `<tr style="background:${bg}"><td style="${cs}">&nbsp;</td><td style="${cs}text-align:center">&nbsp;</td><td style="${cs}text-align:center">&nbsp;</td><td style="${cs}text-align:center">&nbsp;</td><td style="${cs}text-align:center">&nbsp;</td><td style="${cs}text-align:right">&nbsp;</td></tr>`;
+        const sold = soldMap[t.book_serial];
+        return `<tr style="background:${bg}">
+          <td style="${cs}max-width:90px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">${escHtml(t.game_name)}</td>
+          <td style="${cs}text-align:center">$${Number(t.ticket_price).toFixed(2)}</td>
+          <td style="${cs}text-align:center">#${t.box_number}</td>
+          <td style="${cs}text-align:center">${t.tickets_remaining}</td>
+          <td style="${cs}text-align:center;font-weight:600;color:${sold ? '#1C2A39' : '#ccc'}">${sold != null ? sold : '—'}</td>
+          <td style="${cs}text-align:right;font-weight:600;color:#2E7D5B">$${Number(t.total_value).toFixed(2)}</td>
+        </tr>`;
+      }).join('');
+
+      const th = `<tr style="background:#1C2A39">
+        <th style="${cs}color:#fff;text-align:left;font-weight:bold;font-size:9px">GAME</th>
+        <th style="${cs}color:#fff;text-align:center;font-weight:bold;font-size:9px">COST</th>
+        <th style="${cs}color:#fff;text-align:center;font-weight:bold;font-size:9px">BOX</th>
+        <th style="${cs}color:#fff;text-align:center;font-weight:bold;font-size:9px">LEFT</th>
+        <th style="${cs}color:#fff;text-align:center;font-weight:bold;font-size:9px">SOLD</th>
+        <th style="${cs}color:#fff;text-align:right;font-weight:bold;font-size:9px">VALUE</th>
+      </tr>`;
+      const trs = 'border:1px solid #1C2A39;padding:5px 6px;font-size:10px;background:#f0f4f8;font-weight:bold;';
+      const balGood = totalCashBalance >= 0;
+
+      return `<!DOCTYPE html><html><head><meta charset="utf-8">
+      <title>Closing Statement — ${escHtml(storeName)} ${escHtml(date)}</title>
+      <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Arial,sans-serif;font-size:11px;color:#1F2933;padding:20px 24px;background:#fff}
+        .header{display:flex;justify-content:space-between;align-items:center;background:#1C2A39;color:white;padding:14px 18px;border-radius:6px;margin-bottom:14px}
+        .header-left h1{font-size:18px;font-weight:bold}.header-left p{font-size:10px;color:#C8D8E4;margin-top:2px}
+        .header-right{text-align:right}.header-right .label{font-size:9px;color:#C8D8E4;letter-spacing:1px}
+        .header-right .balance{font-size:22px;font-weight:bold;color:${balGood ? '#7FFFD4' : '#FF6B6B'}}
+        .section{border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;margin-bottom:14px}
+        .section-title{background:#f0f4f8;padding:6px 10px;font-size:10px;font-weight:bold;color:#1C2A39;border-bottom:1px solid #e0e0e0;text-transform:uppercase;letter-spacing:0.5px}
+        .two-col{display:flex;gap:0}.col{flex:1}table{width:100%;border-collapse:collapse}
+        .st{width:100%;border-collapse:collapse}.st td{padding:5px 10px;font-size:11px;border-bottom:1px solid #f0f0f0}
+        .st .lbl{color:#555}.st .val{text-align:right;font-weight:600}.st .red{color:#C00000}
+        .st .sub td{background:#EBF3FB;color:#1C2A39;font-weight:bold}
+        .st .tot td{background:#1C2A39;color:#fff;font-size:13px;font-weight:bold;border-top:2px solid #1C2A39}
+        .st .tot .val{color:${balGood ? '#7FFFD4' : '#FF6B6B'};font-size:15px}
+        .footer{text-align:center;color:#bbb;font-size:9px;margin-top:10px}
+        .wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-40deg);opacity:0.07;pointer-events:none;text-align:center;z-index:9999}
+      </style></head><body>
+      <div class="wm">
+        <img src="https://getlotterytrack.com/logo.png" style="width:420px;height:auto;display:block;margin:0 auto" onerror="this.style.display='none'"/>
+        <div style="font-family:Arial,sans-serif;font-size:15px;font-weight:600;color:#1C2A39;margin-top:10px;letter-spacing:1px">${escHtml(storeName)}</div>
+      </div>
+      <div class="header">
+        <div class="header-left">
+          <h1>${escHtml(storeName)}</h1>
+          <p>${escHtml(date)}</p>
+          ${closedAt && !isManual ? `<p style="margin-top:2px;font-size:9px;color:#C8D8E4">Closed at ${formatCloseTime(closedAt, storeState)}</p>` : ''}
+          <p style="margin-top:4px;font-size:9px;letter-spacing:1px;color:#C8D8E4">DAILY CLOSING STATEMENT</p>
+          ${isManual ? '<p style="margin-top:5px;font-size:9px;font-weight:bold;letter-spacing:1px;background:#F59E0B;color:#fff;padding:2px 7px;border-radius:3px;display:inline-block">MANUAL ENTRY</p>' : ''}
+        </div>
+        <div class="header-right">
+          <div class="label">TOTAL CASH BALANCE</div>
+          <div class="balance">$${totalCashBalance.toFixed(2)}</div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">Ticket Inventory — Closing Value: $${todayInventory.toFixed(2)}</div>
+        ${isManual
+          ? '<div style="padding:16px;text-align:center;color:#888;font-size:11px;">Manual entry — no scan data recorded for this day.</div>'
+          : `<div class="two-col">
+              <div class="col"><table><thead>${th}</thead><tbody>${renderRows(leftSlots)}
+                <tr><td colspan="5" style="${trs}color:#333">TOTAL</td><td style="${trs}text-align:right;color:#2E7D5B">$${todayInventory.toFixed(2)}</td></tr>
+              </tbody></table></div>
+              <div style="width:1px;background:#e0e0e0"></div>
+              <div class="col"><table><thead>${th}</thead><tbody>${renderRows(rightSlots)}
+                <tr><td colspan="5" style="${trs}">&nbsp;</td><td style="${trs}text-align:right">&nbsp;</td></tr>
+              </tbody></table></div>
+            </div>`
+        }
+        ${soldOutBooks.length > 0 ? `<div style="padding:6px 10px;font-size:10px;color:#777;border-top:1px solid #e8e8e8;background:#fafafa"><strong style="color:#1C2A39">Sold out today:</strong> ${soldOutBooks.map(g => `${escHtml(g.game_name)} (${g.sold_count} ticket${g.sold_count !== 1 ? 's' : ''})`).join(' · ')}</div>` : ''}
+      </div>
+      <div class="section">
+        <div class="section-title">Summary</div>
+        <table class="st"><tbody>
+          <tr><td class="lbl">Last Closing's Inventory${yesterdayDate ? ` (${yesterdayDate})` : ''}</td><td class="val">$${yesterdayInventory.toFixed(2)}</td></tr>
+          <tr><td class="lbl">+ New Books Activated</td><td class="val">$${newBooks.toFixed(2)}</td></tr>
+          <tr class="sub"><td>= Adjusted Inventory</td><td class="val">$${adjustedInventory.toFixed(2)}</td></tr>
+          <tr><td class="lbl">− Today's Inventory</td><td class="val red">-$${todayInventory.toFixed(2)}</td></tr>
+          ${returnedBooks > 0 ? `<tr><td class="lbl">− Active Books Returned</td><td class="val red">-$${returnedBooks.toFixed(2)}</td></tr>` : ''}
+          <tr class="sub"><td>Instant Tickets Total Sale</td><td class="val">$${instantTicketsSold.toFixed(2)}</td></tr>
+          <tr><td class="lbl">− Instant Validation Payouts</td><td class="val red">-$${payouts.toFixed(2)}</td></tr>
+          <tr><td class="lbl">+ Online Summary Balance</td><td class="val${onlineSales < 0 ? ' red' : ''}">${onlineSales < 0 ? '-' : ''}$${Math.abs(onlineSales).toFixed(2)}</td></tr>
+          ${closedByName ? `<tr><td class="lbl">Closed by</td><td class="val" style="font-weight:400;color:#555">${escHtml(closedByName)}</td></tr>` : ''}
+          <tr class="tot"><td>TOTAL CASH BALANCE</td><td class="val">$${totalCashBalance.toFixed(2)}</td></tr>
+        </tbody></table>
+      </div>
+      <div class="footer">Generated by LotteryTrack &bull; ${new Date().toLocaleString()}</div>
+      </body></html>`;
+    }
+
+    function generateClosingCSV(data) {
+      const {
+        storeName, date, tickets = [], todayInventory, yesterdayInventory,
+        yesterdayDate, newBooks, onlineSales, payouts, returnedBooks = 0,
+        adjustedInventory, totalCashBalance, closedByName = null, isManual = false,
+      } = data;
+
+      function cv(val) {
+        let str = val == null ? '' : String(val);
+        if (/^[=+@]/.test(str) || (str.startsWith('-') && !/^-\d/.test(str))) str = `'${str}`;
+        if (str.includes(',') || str.includes('"') || str.includes('\n')) return `"${str.replace(/"/g,'""')}"`;
+        return str;
+      }
+
+      const instantTicketsSold = adjustedInventory - todayInventory - (returnedBooks || 0);
+      const lines = [];
+      lines.push('DAILY CLOSING STATEMENT');
+      lines.push(`Store,${cv(storeName)}`);
+      lines.push(`Date,${cv(date)}`);
+      if (isManual) lines.push('Entry Type,Manual Entry');
+      if (closedByName) lines.push(`Closed By,${cv(closedByName)}`);
+      lines.push('');
+      lines.push('SUMMARY');
+      lines.push(`Last Closing's Inventory${yesterdayDate ? ` (${yesterdayDate})` : ''},${cv(yesterdayInventory.toFixed(2))}`);
+      lines.push(`+ New Books Activated,${cv(newBooks.toFixed(2))}`);
+      lines.push(`= Adjusted Inventory,${cv(adjustedInventory.toFixed(2))}`);
+      lines.push(`- Today's Inventory,-${cv(todayInventory.toFixed(2))}`);
+      if (returnedBooks > 0) lines.push(`- Active Books Returned,-${cv(returnedBooks.toFixed(2))}`);
+      lines.push(`Instant Tickets Total Sale,${cv(instantTicketsSold.toFixed(2))}`);
+      lines.push(`- Instant Validation Payouts,-${cv(payouts.toFixed(2))}`);
+      lines.push(`+ Online Summary Balance,${onlineSales < 0 ? '-' : ''}${cv(Math.abs(onlineSales).toFixed(2))}`);
+      lines.push(`TOTAL CASH BALANCE,${cv(totalCashBalance.toFixed(2))}`);
+      lines.push('');
+      lines.push('TICKET INVENTORY');
+      if (tickets.length > 0) {
+        lines.push('Game,Price,Box,Tickets Remaining,Total Value');
+        tickets.forEach(t => lines.push([cv(t.game_name), cv(Number(t.ticket_price).toFixed(2)), cv(t.box_number || ''), cv(t.tickets_remaining), cv(Number(t.total_value).toFixed(2))].join(',')));
+        lines.push(`TOTAL CLOSING VALUE,,,, ${cv(todayInventory.toFixed(2))}`);
+      } else {
+        lines.push('Manual entry — no scan data recorded for this day.');
+      }
+      lines.push('');
+      lines.push(`Generated by LotteryTrack,${new Date().toLocaleString()}`);
+      return lines.join('\n');
+    }
+
+    async function buildStatementData(session, sessionIndex) {
+      const { data: todayTickets } = await db
+        .from('scanned_tickets').select('*').eq('session_id', session.id);
+
+      const prevSession = sessionIndex + 1 < allSessions.length ? allSessions[sessionIndex + 1] : null;
+      let prevTickets = [];
+      if (prevSession) {
+        const { data: pt } = await db
+          .from('scanned_tickets').select('*').eq('session_id', prevSession.id);
+        prevTickets = pt || [];
+      }
+
+      return {
+        storeName:         session.store_name || storeData.name,
+        date:              fmtSessionDateFull(session.session_date),
+        tickets:           todayTickets || [],
+        todayInventory:    Number(session.today_inventory    || 0),
+        yesterdayInventory:Number(session.yesterday_inventory|| 0),
+        yesterdayDate:     prevSession ? fmtSessionDate(prevSession.session_date) : null,
+        newBooks:          Number(session.new_books_value    || 0),
+        onlineSales:       Number(session.online_sales       || 0),
+        payouts:           Number(session.total_payouts      || 0),
+        returnedBooks:     Number(session.returned_books_value|| 0),
+        adjustedInventory: Number(session.yesterday_inventory|| 0) + Number(session.new_books_value || 0),
+        totalCashBalance:  Number(session.final_cash_balance || 0),
+        boxCount:          session.box_count || storeData.box_count || 60,
+        closedByName:      session.closed_by_name || null,
+        isManual:          session.is_manual || false,
+        soldByGame:        computeSoldByGame(prevTickets, todayTickets || []),
+        closedAt:          session.created_at || null,
+        storeState:        storeData.state || null,
+      };
+    }
+
+    window.handleViewPDF = async (idx) => {
+      const btn = document.querySelector(`[data-pdf="${idx}"]`);
+      if (btn) { btn.disabled = true; btn.textContent = '…'; }
+      try {
+        const data = await buildStatementData(allSessions[idx], idx);
+        const html = generateStatementHTML(data);
+        const blob = new Blob([html], { type: 'text/html' });
+        const url  = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        setTimeout(() => URL.revokeObjectURL(url), 15000);
+      } catch (err) {
+        alert('Could not generate PDF: ' + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'PDF'; }
+      }
+    };
+
+    window.handleDownloadCSV = async (idx) => {
+      const btn = document.querySelector(`[data-csv="${idx}"]`);
+      if (btn) { btn.disabled = true; btn.textContent = '…'; }
+      try {
+        const data = await buildStatementData(allSessions[idx], idx);
+        const csv  = generateClosingCSV(data);
+        const safeName = (storeData.name || 'Store').replace(/[^a-zA-Z0-9]/g, '_');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url;
+        a.download = `${safeName}_${allSessions[idx].session_date}_Lotto.csv`;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      } catch (err) {
+        alert('Could not generate CSV: ' + err.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'CSV'; }
+      }
+    };
+
+    // ── Main init ──
 
     async function init() {
       const { data: { session } } = await db.auth.getSession();
@@ -265,7 +574,7 @@
       // object (or null), not an array.
       const { data: store, error: storeErr } = await db
         .from('stores')
-        .select('id, name, address, state, store_subscriptions(status, stripe_status, payment_provider, current_period_end, cancel_at_period_end, cancel_at)')
+        .select('id, name, address, state, box_count, store_subscriptions(status, stripe_status, payment_provider, current_period_end, cancel_at_period_end, cancel_at)')
         .eq('id', storeId)
         .single();
 
@@ -273,6 +582,8 @@
         window.location.replace('dashboard.html');
         return;
       }
+
+      storeData = store;
 
       const sub = store.store_subscriptions || {};
 
@@ -294,7 +605,7 @@
                        : displayStatus === 'past_due' ? 'Overdue since'
                        : 'Renews';
 
-      const isStripeActive = (sub.status === 'active') && sub.payment_provider === 'stripe';
+      const isStripeActive  = (sub.status === 'active') && sub.payment_provider === 'stripe';
       const isPendingCancel = isStripeActive && sub.cancel_at_period_end;
       const cancelEndDate   = isPendingCancel && sub.cancel_at
         ? fmtDate(sub.cancel_at)
@@ -348,10 +659,7 @@
           const { data: { session: s } } = await db.auth.getSession();
           const res = await fetch('https://fnnuakksfrurmjcjikib.supabase.co/functions/v1/cancel-subscription', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${s.access_token}`,
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${s.access_token}` },
             body: JSON.stringify({ store_id: storeId }),
           });
           const result = await res.json();
@@ -374,7 +682,7 @@
 
       const { data: sessions, error: sessErr } = await db
         .from('sessions')
-        .select('session_date, today_inventory, yesterday_inventory, new_books_value, online_sales, total_payouts, final_cash_balance')
+        .select('id, session_date, store_name, today_inventory, yesterday_inventory, new_books_value, online_sales, total_payouts, returned_books_value, final_cash_balance, box_count, closed_by_name, is_manual, created_at')
         .eq('store_id', storeId)
         .eq('status', 'closed')
         .order('session_date', { ascending: false })
@@ -392,6 +700,7 @@
         return;
       }
 
+      allSessions = sessions;
       document.getElementById('reports-note').textContent = `Showing ${sessions.length} most recent`;
 
       body.innerHTML = `
@@ -404,17 +713,24 @@
                 <th class="num">Online Sales</th>
                 <th class="num">Payouts</th>
                 <th class="num">Cash Balance</th>
+                <th class="actions">Export</th>
               </tr>
             </thead>
             <tbody>
-              ${sessions.map(s => {
+              ${sessions.map((s, i) => {
                 const netSales = (Number(s.yesterday_inventory || 0) + Number(s.new_books_value || 0)) - Number(s.today_inventory || 0);
                 return `<tr>
-                  <td class="date">${fmtSessionDate(s.session_date)}</td>
+                  <td class="date">${fmtSessionDate(s.session_date)}${s.is_manual ? ' <span style="font-size:10px;font-weight:700;color:#B45309;background:#FFFBEB;padding:1px 5px;border-radius:4px;letter-spacing:0.3px">MANUAL</span>' : ''}</td>
                   <td class="num">${fmtMoney(netSales)}</td>
                   <td class="num">${fmtMoney(s.online_sales)}</td>
                   <td class="num">${fmtMoney(s.total_payouts)}</td>
                   <td class="num">${fmtMoney(s.final_cash_balance)}</td>
+                  <td class="actions">
+                    <div class="action-btns">
+                      <button class="btn-action btn-action-pdf" data-pdf="${i}" onclick="handleViewPDF(${i})">PDF</button>
+                      <button class="btn-action btn-action-csv" data-csv="${i}" onclick="handleDownloadCSV(${i})">CSV</button>
+                    </div>
+                  </td>
                 </tr>`;
               }).join('')}
             </tbody>

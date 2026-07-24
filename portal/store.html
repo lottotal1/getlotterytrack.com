@@ -350,6 +350,10 @@
           <span class="sub-item-label">State</span>
           <span class="sub-item-value">${STATE_NAMES[store.state] || store.state}</span>
         </div>
+        ${sub.status === 'trialing' ? `
+        <div class="sub-item" style="margin-left:auto">
+          <a href="upgrade.html?id=${esc(store.id)}" style="display:inline-block;padding:8px 16px;background:#D97706;color:white;border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap">Upgrade to Paid →</a>
+        </div>` : ''}
       `;
 
       // Fetch sessions

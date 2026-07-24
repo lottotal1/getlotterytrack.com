@@ -273,7 +273,11 @@
       const sub = store.store_subscriptions || {};
       // stripe_status mirrors the raw Stripe value; sub.status maps past_due → active
       // for app-gate purposes, so use stripe_status for accurate portal display.
-      const status = sub.stripe_status || sub.status || 'inactive';
+      // App-started trials are stored as 'trial' (this app's own convention, set by
+      // the DB trigger/RPC) — normalize to 'trialing' so the display logic below,
+      // written for Stripe's vocabulary, treats both the same.
+      const rawStatus = sub.stripe_status || sub.status || 'inactive';
+      const status = rawStatus === 'trial' ? 'trialing' : rawStatus;
       const isTrialing = status === 'trialing';
 
       // Normalize status for CSS classes — only these four are styled
@@ -346,7 +350,7 @@
       const [{ data: stores, error }, { data: accessRows }] = await Promise.all([
         db
           .from('stores')
-          .select('id, name, address, state, admin_id, store_subscriptions(status, payment_provider, current_period_end)')
+          .select('id, name, address, state, admin_id, store_subscriptions(status, stripe_status, payment_provider, current_period_end)')
           .order('created_at'),
         db
           .from('store_access')

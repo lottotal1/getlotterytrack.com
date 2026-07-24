@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Reports — Lottery Track Portal</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Top bar */
+    .portal-topbar {
+      background: var(--navy);
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .topbar-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .back-link {
+      color: var(--light);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: white; }
+    .topbar-sep { color: rgba(255,255,255,0.25); }
+
+    /* Store hero */
+    .store-hero {
+      background: var(--navy);
+      padding: 32px 0 28px;
+    }
+    .store-hero-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .store-hero-name {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .store-hero-addr {
+      font-size: 14px;
+      color: var(--light);
+    }
+
+    /* Subscription info bar */
+    .sub-bar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+    .sub-bar-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .sub-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .sub-item-label { color: #778899; }
+    .sub-item-value { color: var(--navy); font-weight: 600; }
+    .status-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .s-active   { background: #E8F5EE; color: #1A5C3A; }
+    .s-trialing { background: #EFF6FF; color: #1D4ED8; }
+    .s-past_due { background: #FFF5F5; color: #B91C1C; }
+    .s-canceled { background: var(--light-gray); color: #556070; }
+    .s-inactive { background: var(--light-gray); color: #556070; }
+
+    /* Content */
+    .portal-content { padding: 36px 0 80px; }
+    .content-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .section-note {
+      font-size: 13px;
+      color: #778899;
+    }
+
+    /* Reports table */
+    .table-wrap {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+    thead th {
+      background: var(--light-gray);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #778899;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+    }
+    thead th.num { text-align: right; }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.12s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #F7F9FB; }
+    tbody td {
+      padding: 14px 16px;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+    tbody td.num {
+      text-align: right;
+      font-weight: 600;
+    }
+    tbody td.date {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* Empty / loading */
+    .empty-state {
+      padding: 56px 24px;
+      text-align: center;
+    }
+    .empty-state h3 { font-size: 18px; color: var(--navy); margin-bottom: 8px; }
+    .empty-state p  { font-size: 14px; color: #778899; line-height: 1.6; }
+
+    /* Nav */
+    .nav-user-area { display: flex; align-items: center; gap: 10px; }
+    .nav-user-email { font-size: 13px; color: var(--light); }
+    .btn-signout {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--light);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.2s;
+    }
+    .btn-signout:hover { background: rgba(255,255,255,0.1); color: white; }
+
+    @media (max-width: 680px) {
+      .sub-bar-inner { gap: 16px; }
+      .store-hero-name { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><img src="/logo.png" alt="Lottery Track logo">Lottery <span>Track</span></a>
+      <div class="nav-user-area">
+        <span class="nav-user-email" id="nav-email"></span>
+        <button class="btn-signout" id="signout-btn">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="portal-topbar">
+    <div class="topbar-inner">
+      <a href="dashboard.html" class="back-link">← My Stores</a>
+      <span class="topbar-sep">|</span>
+      <span id="topbar-name" style="font-size:14px;font-weight:600;color:white"></span>
+    </div>
+  </div>
+
+  <div class="store-hero">
+    <div class="store-hero-inner">
+      <div id="hero-loading" style="color:var(--light);font-size:15px">Loading…</div>
+      <div id="hero-content" style="display:none">
+        <div class="store-hero-name" id="hero-name"></div>
+        <div class="store-hero-addr" id="hero-addr"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-bar">
+    <div class="sub-bar-inner" id="sub-bar-inner">
+      <div style="font-size:13px;color:#778899">Loading subscription…</div>
+    </div>
+  </div>
+
+  <div class="portal-content">
+    <div class="content-inner">
+      <div class="section-header">
+        <span class="section-title">Closing Reports</span>
+        <span class="section-note" id="reports-note">Last 30 days</span>
+      </div>
+      <div class="table-wrap">
+        <div id="reports-body">
+          <div class="empty-state"><p>Loading reports…</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    const { createClient } = window.supabase;
+    const db = createClient(
+      'https://cduqnevftyibfqtwnffa.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkdXFuZXZmdHlpYmZxdHduZmZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTMzNjgsImV4cCI6MjA5Nzc2OTM2OH0.TFtvsTN-CzpaDjD8uWRda74WNvbKMAhDHVw5JJYUFfM'
+    );
+
+    const STATE_NAMES = { NY: 'New York', TX: 'Texas' };
+
+    function esc(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function statusBadge(status) {
+      const map = {
+        active:   ['Active',      's-active'],
+        trialing: ['Free Trial',  's-trialing'],
+        past_due: ['Payment Due', 's-past_due'],
+        canceled: ['Cancelled',   's-canceled'],
+      };
+      const [label, cls] = map[status] || ['Inactive', 's-inactive'];
+      return `<span class="status-badge ${cls}">${label}</span>`;
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return '—';
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function fmtSessionDate(str) {
+      if (!str) return '—';
+      const [y, m, d] = str.split('-').map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function fmtMoney(n) {
+      return Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    }
+
+    const params   = new URLSearchParams(window.location.search);
+    const storeId  = params.get('id');
+    if (!storeId) window.location.replace('dashboard.html');
+
+    async function init() {
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) { window.location.replace('index.html'); return; }
+
+      document.getElementById('nav-email').textContent = session.user.email;
+      document.getElementById('signout-btn').addEventListener('click', async () => {
+        await db.auth.signOut();
+        window.location.replace('index.html');
+      });
+
+      // Fetch store (RLS ensures this belongs to the signed-in user)
+      const { data: store, error: storeErr } = await db
+        .from('stores')
+        .select('id, name, address, state, store_subscriptions(status, payment_provider, current_period_end)')
+        .eq('id', storeId)
+        .eq('admin_id', session.user.id)
+        .single();
+
+      if (storeErr || !store) {
+        window.location.replace('dashboard.html');
+        return;
+      }
+
+      // Render store header
+      const sub = (store.store_subscriptions || [])[0] || {};
+      document.getElementById('topbar-name').textContent = store.name;
+      document.getElementById('hero-name').textContent   = store.name;
+      document.getElementById('hero-addr').textContent   = store.address || STATE_NAMES[store.state] || store.state;
+      document.getElementById('hero-loading').style.display  = 'none';
+      document.getElementById('hero-content').style.display  = '';
+
+      // Render subscription bar
+      const provider = sub.payment_provider;
+      const providerLabel = provider === 'apple'  ? '🍎 App Store'
+                          : provider === 'stripe' ? '💳 Stripe'
+                          : provider === 'manual' ? 'Manual'
+                          : '—';
+      const renewLabel = sub.status === 'trialing' ? 'Trial ends' : 'Renews';
+
+      document.getElementById('sub-bar-inner').innerHTML = `
+        <div class="sub-item">
+          <span class="sub-item-label">Status</span>
+          ${statusBadge(sub.status)}
+        </div>
+        <div class="sub-item">
+          <span class="sub-item-label">Billing</span>
+          <span class="sub-item-value">${esc(providerLabel)}</span>
+        </div>
+        ${sub.current_period_end ? `
+        <div class="sub-item">
+          <span class="sub-item-label">${renewLabel}</span>
+          <span class="sub-item-value">${fmtDate(sub.current_period_end)}</span>
+        </div>` : ''}
+        <div class="sub-item">
+          <span class="sub-item-label">State</span>
+          <span class="sub-item-value">${STATE_NAMES[store.state] || store.state}</span>
+        </div>
+      `;
+
+      // Fetch sessions
+      const { data: sessions, error: sessErr } = await db
+        .from('sessions')
+        .select('session_date, today_inventory, yesterday_inventory, new_books_value, online_sales, total_payouts, final_cash_balance')
+        .eq('store_id', storeId)
+        .eq('status', 'closed')
+        .order('session_date', { ascending: false })
+        .limit(30);
+
+      const body = document.getElementById('reports-body');
+
+      if (sessErr || !sessions || sessions.length === 0) {
+        body.innerHTML = `
+          <div class="empty-state">
+            <h3>No reports yet</h3>
+            <p>Reports appear here after you close the day in the Lottery Track iPhone app.</p>
+          </div>`;
+        document.getElementById('reports-note').textContent = '';
+        return;
+      }
+
+      document.getElementById('reports-note').textContent = `Showing ${sessions.length} most recent`;
+
+      body.innerHTML = `
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th class="num">Net Lotto Sales</th>
+                <th class="num">Online Sales</th>
+                <th class="num">Payouts</th>
+                <th class="num">Cash Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sessions.map(s => {
+                const netSales = (Number(s.yesterday_inventory || 0) + Number(s.new_books_value || 0)) - Number(s.today_inventory || 0);
+                return `<tr>
+                  <td class="date">${fmtSessionDate(s.session_date)}</td>
+                  <td class="num">${fmtMoney(netSales)}</td>
+                  <td class="num">${fmtMoney(s.online_sales)}</td>
+                  <td class="num">${fmtMoney(s.total_payouts)}</td>
+                  <td class="num">${fmtMoney(s.final_cash_balance)}</td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    init();
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 0);
+    });
+  </script>
+
+</body>
+</html>

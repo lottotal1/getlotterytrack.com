@@ -259,8 +259,13 @@
         return;
       }
 
-      const sub = (store.store_subscriptions || [])[0] || {};
-      if (sub.status !== 'trialing') {
+      // store_subscriptions has a UNIQUE(store_id) constraint, so PostgREST embeds
+      // it as a single object (or null), never an array.
+      const sub = store.store_subscriptions || {};
+      // App-started trials are stored as 'trial' (this app's own DB convention);
+      // 'trialing' would only ever appear for a Stripe-native trial, which this
+      // app doesn't use. Accept both so the gate actually matches real data.
+      if (sub.status !== 'trialing' && sub.status !== 'trial') {
         // Already paid — send them to the store page
         window.location.replace(`store.html?id=${esc(storeId)}`);
         return;

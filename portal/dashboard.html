@@ -349,7 +349,7 @@
       const [{ data: stores, error }, { data: accessRows }] = await Promise.all([
         db
           .from('stores')
-          .select('id, name, address, state, admin_id, store_subscriptions(status, stripe_status, payment_provider, current_period_end)')
+          .select('id, name, address, state, admin_id, store_subscriptions(status, payment_provider, current_period_end)')
           .order('created_at'),
         db
           .from('store_access')

@@ -574,7 +574,7 @@
       // object (or null), not an array.
       const { data: store, error: storeErr } = await db
         .from('stores')
-        .select('id, name, address, state, box_count, store_subscriptions(status, stripe_status, payment_provider, current_period_end, cancel_at_period_end, cancel_at)')
+        .select('id, name, address, state, box_count, store_subscriptions(status, payment_provider, current_period_end)')
         .eq('id', storeId)
         .eq('admin_id', session.user.id)
         .single();

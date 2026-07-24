@@ -354,7 +354,53 @@
         <div class="sub-item" style="margin-left:auto">
           <a href="upgrade.html?id=${esc(store.id)}" style="display:inline-block;padding:8px 16px;background:#D97706;color:white;border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap">Upgrade to Paid →</a>
         </div>` : ''}
+        ${(sub.status === 'active' || sub.status === 'past_due') && sub.payment_provider === 'stripe' ? `
+        <div class="sub-item" style="margin-left:auto">
+          <button id="cancel-btn" onclick="handleCancel()" style="background:none;border:1px solid #C00000;color:#C00000;padding:7px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">Cancel Subscription</button>
+        </div>` : ''}
       `;
+
+      // Cancel subscription handler (only rendered for active Stripe stores)
+      window.handleCancel = async () => {
+        const btn = document.getElementById('cancel-btn');
+        if (!btn) return;
+
+        const periodEnd = sub.current_period_end
+          ? new Date(sub.current_period_end).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+          : 'the end of your billing period';
+
+        if (!confirm(`Cancel your subscription?\n\nYour store will stay active until ${periodEnd}, then access will be removed.`)) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Cancelling…';
+
+        try {
+          const { data: { session: s } } = await db.auth.getSession();
+          const res = await fetch('https://cduqnevftyibfqtwnffa.supabase.co/functions/v1/cancel-subscription', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${s.access_token}`,
+            },
+            body: JSON.stringify({ store_id: storeId }),
+          });
+          const result = await res.json();
+          if (!res.ok || result.error) throw new Error(result.error || 'Failed to cancel subscription.');
+
+          const endDate = result.current_period_end
+            ? new Date(result.current_period_end).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+            : periodEnd;
+
+          btn.textContent = `Cancelled — access until ${endDate}`;
+          btn.style.color = '#778899';
+          btn.style.borderColor = '#C8D8E4';
+          btn.disabled = true;
+        } catch (err) {
+          alert('Could not cancel: ' + err.message);
+          btn.disabled = false;
+          btn.textContent = 'Cancel Subscription';
+        }
+      };
 
       // Fetch sessions
       const { data: sessions, error: sessErr } = await db

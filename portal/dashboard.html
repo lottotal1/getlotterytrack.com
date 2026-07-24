@@ -266,8 +266,13 @@
         : '<span style="color:#778899">—</span>';
       const roleTag = role !== 'owner' ? `<span class="role-tag">${esc(role)}</span>` : '';
 
+      const isTrialing = sub.status === 'trialing';
+      const cardTag    = isTrialing ? 'div' : 'a';
+      const cardHref   = isTrialing ? '' : `href="store.html?id=${esc(store.id)}"`;
+      const cardData   = isTrialing ? `data-href="store.html?id=${esc(store.id)}"` : '';
+
       return `
-        <a class="store-card" href="store.html?id=${esc(store.id)}">
+        <${cardTag} class="store-card" ${cardHref} ${cardData}>
           <div class="store-card-top">
             <div>
               <div class="store-name">${esc(store.name)}${roleTag}</div>
@@ -290,10 +295,14 @@
               <span class="meta-value">${providerLabel}</span>
             </div>
             <div class="meta-row" style="margin-top:6px;padding-top:10px;border-top:1px solid var(--border)">
-              <span style="font-size:13px;color:var(--green);font-weight:600">View reports →</span>
+              <a href="store.html?id=${esc(store.id)}" style="font-size:13px;color:var(--green);font-weight:600;text-decoration:none">View reports →</a>
             </div>
+            ${isTrialing ? `
+            <div class="meta-row" style="margin-top:4px">
+              <a href="upgrade.html?id=${esc(store.id)}" style="font-size:13px;color:#D97706;font-weight:600;text-decoration:none">Upgrade to Paid →</a>
+            </div>` : ''}
           </div>
-        </a>
+        </${cardTag}>
       `;
     }
 
@@ -346,6 +355,15 @@
           <div class="add-title">Add Another Store</div>
           <div class="add-sub">Subscribe a new location via Stripe</div>
         </a>`;
+
+      // Trialing cards are <div>s — route card-level clicks to store.html,
+      // but let nested <a> links (reports / upgrade) handle themselves
+      document.querySelectorAll('.store-card[data-href]').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('a')) return;
+          window.location.href = card.dataset.href;
+        });
+      });
     }
 
     init();

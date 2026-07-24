@@ -274,7 +274,9 @@
       // handle both defensively.
       const subRaw = store.store_subscriptions;
       const sub = Array.isArray(subRaw) ? (subRaw[0] || {}) : (subRaw || {});
-      const status = sub.status || 'inactive';
+      // stripe_status mirrors the raw Stripe value; sub.status maps past_due → active
+      // for app-gate purposes, so use stripe_status for accurate portal display.
+      const status = sub.stripe_status || sub.status || 'inactive';
       const isTrialing = status === 'trialing';
 
       // Normalize status for CSS classes — only these four are styled
@@ -297,7 +299,7 @@
         : '';
 
       const locationParts = [store.address, STATE_NAMES[store.state] || store.state].filter(Boolean);
-      const roleLabel = role === 'owner' ? 'Owner'
+      const roleLabel = !role || role === 'owner' ? 'Owner'
         : role.charAt(0).toUpperCase() + role.slice(1);
 
       const cardTag  = isTrialing ? 'div' : 'a';
@@ -347,7 +349,7 @@
       const [{ data: stores, error }, { data: accessRows }] = await Promise.all([
         db
           .from('stores')
-          .select('id, name, address, state, admin_id, store_subscriptions(status, payment_provider, current_period_end)')
+          .select('id, name, address, state, admin_id, store_subscriptions(status, stripe_status, payment_provider, current_period_end)')
           .order('created_at'),
         db
           .from('store_access')
@@ -387,7 +389,7 @@
       }
       if (invited.length) {
         html += `<div class="list-section-label">Stores you're invited to</div>`;
-        html += invited.map(s => renderCard(s, roleByStore.get(s.id))).join('');
+        html += invited.map(s => renderCard(s, roleByStore.get(s.id) || 'member')).join('');
       }
       html += `
         <a href="add-store.html" class="add-row">

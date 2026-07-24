@@ -306,7 +306,7 @@
       // Fetch store (RLS ensures this belongs to the signed-in user)
       const { data: store, error: storeErr } = await db
         .from('stores')
-        .select('id, name, address, state, store_subscriptions(status, payment_provider, current_period_end)')
+        .select('id, name, address, state, store_subscriptions(status, stripe_status, payment_provider, current_period_end, cancel_at_period_end, cancel_at)')
         .eq('id', storeId)
         .eq('admin_id', session.user.id)
         .single();
@@ -317,7 +317,10 @@
       }
 
       // Render store header
-      const sub = (store.store_subscriptions || [])[0] || {};
+      // store_subscriptions has UNIQUE(store_id) so PostgREST may return it as a
+      // single object or an array depending on the PostgREST version — handle both.
+      const subRaw = store.store_subscriptions;
+      const sub = Array.isArray(subRaw) ? (subRaw[0] || {}) : (subRaw || {});
       document.getElementById('topbar-name').textContent = store.name;
       document.getElementById('hero-name').textContent   = store.name;
       document.getElementById('hero-addr').textContent   = store.address || STATE_NAMES[store.state] || store.state;
@@ -330,12 +333,24 @@
                           : provider === 'stripe' ? '💳 Stripe'
                           : provider === 'manual' ? 'Manual'
                           : '—';
-      const renewLabel = sub.status === 'trialing' ? 'Trial ends' : 'Renews';
+
+      // stripe_status = raw Stripe value; sub.status maps past_due → active for
+      // app-gate purposes, so use stripe_status for accurate portal display.
+      const displayStatus = sub.stripe_status || sub.status;
+      const renewLabel = displayStatus === 'trialing' ? 'Trial ends'
+                       : displayStatus === 'past_due' ? 'Overdue since'
+                       : 'Renews';
+
+      const isStripeActive = (sub.status === 'active') && sub.payment_provider === 'stripe';
+      const isPendingCancel = isStripeActive && sub.cancel_at_period_end;
+      const cancelEndDate   = isPendingCancel && sub.cancel_at
+        ? fmtDate(sub.cancel_at)
+        : fmtDate(sub.current_period_end);
 
       document.getElementById('sub-bar-inner').innerHTML = `
         <div class="sub-item">
           <span class="sub-item-label">Status</span>
-          ${statusBadge(sub.status)}
+          ${statusBadge(displayStatus)}
         </div>
         <div class="sub-item">
           <span class="sub-item-label">Billing</span>
@@ -350,11 +365,14 @@
           <span class="sub-item-label">State</span>
           <span class="sub-item-value">${STATE_NAMES[store.state] || store.state}</span>
         </div>
-        ${sub.status === 'trialing' ? `
+        ${displayStatus === 'trialing' ? `
         <div class="sub-item" style="margin-left:auto">
           <a href="upgrade.html?id=${esc(store.id)}" style="display:inline-block;padding:8px 16px;background:#D97706;color:white;border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap">Upgrade to Paid →</a>
         </div>` : ''}
-        ${(sub.status === 'active' || sub.status === 'past_due') && sub.payment_provider === 'stripe' ? `
+        ${isPendingCancel ? `
+        <div class="sub-item" style="margin-left:auto">
+          <span style="font-size:13px;color:#778899;font-weight:600">Cancelling — access until ${cancelEndDate}</span>
+        </div>` : isStripeActive ? `
         <div class="sub-item" style="margin-left:auto">
           <button id="cancel-btn" onclick="handleCancel()" style="background:none;border:1px solid #C00000;color:#C00000;padding:7px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap">Cancel Subscription</button>
         </div>` : ''}

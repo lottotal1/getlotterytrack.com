@@ -1,0 +1,58 @@
+name: Deploy Pages (prod + dev portal)
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main (production site)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: site
+
+      - name: Checkout dev (test portal source)
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: dev-checkout
+
+      - name: Build portal-dev mirror
+        run: |
+          set -e
+          mkdir -p portal-dev-build
+          cp -r site/. portal-dev-build/
+          rm -rf portal-dev-build/portal
+          cp -r dev-checkout/portal portal-dev-build/portal
+          mkdir -p site/portal-dev
+          cp -r portal-dev-build/. site/portal-dev/
+          rm -rf portal-dev-build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

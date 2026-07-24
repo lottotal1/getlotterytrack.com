@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirming Your Account — Lottery Track Portal</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .portal-wrap {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+    .auth-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-hover);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    .auth-card h1 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .auth-card p {
+      font-size: 15px;
+      color: #556070;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #E8EDF1;
+      border-top-color: var(--green);
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-box {
+      background: #FFF5F5;
+      border: 1px solid #FFCCCC;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #B91C1C;
+      margin: 16px 0;
+      text-align: left;
+      display: none;
+    }
+    .error-box.visible { display: block; }
+    .auth-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .auth-submit:hover { background: #253648; }
+    .auth-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .name-form { display: none; text-align: left; margin-top: 20px; }
+    @media (max-width: 480px) {
+      .auth-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><img src="/logo.png" alt="Lottery Track logo">Lottery <span>Track</span></a>
+    </div>
+  </nav>
+
+  <div class="portal-wrap">
+    <div class="auth-card">
+      <div class="spinner" id="spinner"></div>
+      <h1 id="status-title">Confirming your account…</h1>
+      <p id="status-body">Just a moment.</p>
+
+      <div class="error-box" id="error-box"></div>
+
+      <form class="name-form" id="name-form">
+        <p style="margin-bottom:16px">We need your name to finish setting up your account.</p>
+        <div class="form-group">
+          <label for="full-name">Full name</label>
+          <input type="text" id="full-name" placeholder="Your name" required autocomplete="name">
+        </div>
+        <button type="submit" class="auth-submit" id="name-submit-btn">Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    const { createClient } = window.supabase;
+    const db = createClient(
+      'https://cduqnevftyibfqtwnffa.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkdXFuZXZmdHlpYmZxdHduZmZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTMzNjgsImV4cCI6MjA5Nzc2OTM2OH0.TFtvsTN-CzpaDjD8uWRda74WNvbKMAhDHVw5JJYUFfM'
+    );
+    const REGISTER_URL = 'https://cduqnevftyibfqtwnffa.supabase.co/functions/v1/register-admin';
+
+    const spinner    = document.getElementById('spinner');
+    const title      = document.getElementById('status-title');
+    const body       = document.getElementById('status-body');
+    const errorBox   = document.getElementById('error-box');
+    const nameForm   = document.getElementById('name-form');
+
+    function showError(msg) {
+      spinner.style.display = 'none';
+      title.textContent = 'Something went wrong';
+      body.textContent = '';
+      errorBox.textContent = msg;
+      errorBox.classList.add('visible');
+    }
+
+    async function createProfile(session, fullName) {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const res = await fetch(REGISTER_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({ fullName }),
+        });
+        const result = await res.json().catch(() => ({}));
+        if (res.ok && !result.error) return true;
+        if (attempt < 2) await new Promise(r => setTimeout(r, 1000));
+      }
+      return false;
+    }
+
+    async function proceed(session) {
+      // Already has a profile (e.g. link clicked twice, or account already set up
+      // some other way in the meantime) — just go to the dashboard.
+      const { data: existingProfile } = await db
+        .from('profiles')
+        .select('id')
+        .eq('id', session.user.id)
+        .maybeSingle();
+
+      if (existingProfile) {
+        window.location.replace('dashboard.html');
+        return;
+      }
+
+      const pendingRaw = localStorage.getItem('pending_profile');
+      const pending = pendingRaw ? JSON.parse(pendingRaw) : null;
+
+      if (pending?.fullName) {
+        const ok = await createProfile(session, pending.fullName);
+        if (ok) {
+          localStorage.removeItem('pending_profile');
+          sessionStorage.removeItem('pending_email');
+          window.location.replace('add-store.html');
+        } else {
+          showError('Could not finish setting up your account. Please refresh this page to try again.');
+        }
+        return;
+      }
+
+      // Confirmation link opened on a different device/browser than signup —
+      // localStorage from the signup page isn't available here. Ask for the name.
+      spinner.style.display = 'none';
+      title.textContent = 'One more step';
+      body.textContent = '';
+      nameForm.style.display = 'block';
+
+      nameForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fullName = document.getElementById('full-name').value.trim();
+        if (!fullName) return;
+
+        const submitBtn = document.getElementById('name-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Continuing…';
+
+        const ok = await createProfile(session, fullName);
+        if (ok) {
+          sessionStorage.removeItem('pending_email');
+          window.location.replace('add-store.html');
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Continue';
+          errorBox.textContent = 'Could not finish setting up your account. Please try again.';
+          errorBox.classList.add('visible');
+        }
+      });
+    }
+
+    // Supabase JS auto-detects the confirmation tokens in the URL and establishes
+    // a session on load, firing SIGNED_IN. Also check directly in case it already
+    // resolved before this listener was attached.
+    let handled = false;
+    db.auth.onAuthStateChange((event, session) => {
+      if (session && !handled) {
+        handled = true;
+        proceed(session);
+      }
+    });
+
+    setTimeout(async () => {
+      if (handled) return;
+      const { data: { session } } = await db.auth.getSession();
+      if (session) {
+        handled = true;
+        proceed(session);
+      } else {
+        showError('This confirmation link is invalid or has expired. Please try signing up again from the sign up page.');
+      }
+    }, 3000);
+  </script>
+
+</body>
+</html>

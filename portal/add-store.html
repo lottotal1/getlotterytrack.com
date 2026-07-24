@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add a Store — Lottery Track Portal</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .portal-topbar {
+      background: var(--navy);
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .topbar-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .back-link {
+      color: var(--light);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: white; }
+    .topbar-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .form-wrap {
+      padding: 48px 0 80px;
+    }
+    .form-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 40px;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* State picker */
+    .state-row { display: flex; gap: 12px; margin-bottom: 18px; }
+    .state-btn {
+      flex: 1;
+      padding: 14px 12px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .state-btn:hover { border-color: #BCC5CE; }
+    .state-btn.on { border-color: var(--navy); background: #E8EDF1; }
+    .state-btn-name { display: block; font-size: 15px; font-weight: 600; color: #778899; }
+    .state-btn.on .state-btn-name { color: var(--navy); }
+    .state-btn-code { display: block; font-size: 12px; color: #bbb; margin-top: 2px; }
+    .state-btn.on .state-btn-code { color: #556070; }
+
+    /* Plan picker */
+    .plan-row { display: flex; gap: 12px; margin-bottom: 18px; }
+    .plan-btn {
+      flex: 1;
+      padding: 20px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      background: white;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .plan-btn:hover { border-color: var(--green); }
+    .plan-btn.on { border-color: var(--green); background: #F0FBF5; }
+    .plan-name {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .plan-btn.on .plan-name { color: var(--green); }
+    .plan-price {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .plan-per { display: block; font-size: 12px; color: #888; margin-top: 5px; }
+    .plan-save {
+      position: absolute;
+      top: -10px;
+      right: 12px;
+      background: #F59E0B;
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .error-box {
+      background: #FFF5F5;
+      border: 1px solid #FFCCCC;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #B91C1C;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .error-box.visible { display: block; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .submit-btn:hover { background: #256b4e; }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .stripe-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #778899;
+      background: var(--light-gray);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      line-height: 1.6;
+    }
+
+    /* Nav */
+    .nav-user-area { display: flex; align-items: center; gap: 10px; }
+    .nav-user-email { font-size: 13px; color: var(--light); }
+    .btn-signout {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--light);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.2s;
+    }
+    .btn-signout:hover { background: rgba(255,255,255,0.1); color: white; }
+
+    @media (max-width: 680px) {
+      .form-card { padding: 28px 20px; }
+      .plan-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Lottery <span>Track</span></a>
+      <div class="nav-user-area">
+        <span class="nav-user-email" id="nav-email"></span>
+        <button class="btn-signout" id="signout-btn">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="portal-topbar">
+    <div class="topbar-inner">
+      <a href="dashboard.html" class="back-link">← My Stores</a>
+      <span style="color:rgba(255,255,255,0.3)">|</span>
+      <span class="topbar-title">Add a New Store</span>
+    </div>
+  </div>
+
+  <div class="form-wrap">
+    <div class="container">
+      <div class="form-card">
+        <div class="error-box" id="error-box"></div>
+
+        <form id="add-form">
+          <div class="form-group">
+            <label for="store-name">Store Name *</label>
+            <input type="text" id="store-name" placeholder="e.g. Main Street Deli" required autocapitalize="words">
+          </div>
+
+          <div class="form-group">
+            <label for="store-addr">Store Address <span style="font-weight:400;color:#888">(optional)</span></label>
+            <input type="text" id="store-addr" placeholder="e.g. 123 Main St, New York, NY" autocapitalize="words">
+          </div>
+
+          <div class="form-group">
+            <label>State *</label>
+            <div class="state-row">
+              <div class="state-btn on" data-state="NY" id="state-NY">
+                <span class="state-btn-name">New York</span>
+                <span class="state-btn-code">NY</span>
+              </div>
+              <div class="state-btn" data-state="TX" id="state-TX">
+                <span class="state-btn-name">Texas</span>
+                <span class="state-btn-code">TX</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Subscription Plan *</label>
+            <div class="plan-row">
+              <div class="plan-btn on" data-price="price_1TWP8nFzKa8sgcoPtUJfhhcZ" id="plan-monthly">
+                <span class="plan-name">Monthly</span>
+                <span class="plan-price">$14.99</span>
+                <span class="plan-per">per month</span>
+              </div>
+              <div class="plan-btn" data-price="price_1TWP9qFzKa8sgcoPaCK4RyTy" id="plan-annual">
+                <div class="plan-save">Save 17%</div>
+                <span class="plan-name">Annual</span>
+                <span class="plan-price">$149.99</span>
+                <span class="plan-per">per year (~$12.50/mo)</span>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">
+            Continue to Secure Payment →
+          </button>
+        </form>
+
+        <div class="stripe-note">
+          <span style="flex-shrink:0;font-size:16px">🔒</span>
+          <span>Payment is processed securely by Stripe. You'll be redirected to Stripe's checkout page. You can cancel your subscription at any time.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    const { createClient } = window.supabase;
+    const db = createClient(
+      'https://cduqnevftyibfqtwnffa.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkdXFuZXZmdHlpYmZxdHduZmZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTMzNjgsImV4cCI6MjA5Nzc2OTM2OH0.TFtvsTN-CzpaDjD8uWRda74WNvbKMAhDHVw5JJYUFfM'
+    );
+    const EDGE_URL = 'https://cduqnevftyibfqtwnffa.supabase.co/functions/v1/create-checkout-session';
+
+    let selectedState = 'NY';
+    let selectedPrice = 'price_1TWP8nFzKa8sgcoPtUJfhhcZ';
+    let userSession   = null;
+
+    // State picker
+    document.querySelectorAll('.state-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.state-btn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        selectedState = btn.dataset.state;
+      });
+    });
+
+    // Plan picker
+    document.querySelectorAll('.plan-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.plan-btn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        selectedPrice = btn.dataset.price;
+      });
+    });
+
+    async function init() {
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) { window.location.replace('index.html'); return; }
+      userSession = session;
+
+      document.getElementById('nav-email').textContent = session.user.email;
+      document.getElementById('signout-btn').addEventListener('click', async () => {
+        await db.auth.signOut();
+        window.location.replace('index.html');
+      });
+
+      const form     = document.getElementById('add-form');
+      const errorBox = document.getElementById('error-box');
+      const btn      = document.getElementById('submit-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBox.classList.remove('visible');
+
+        const storeName = document.getElementById('store-name').value.trim();
+        const storeAddr = document.getElementById('store-addr').value.trim();
+
+        if (!storeName) {
+          errorBox.textContent = 'Store name is required.';
+          errorBox.classList.add('visible');
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Redirecting to checkout…';
+
+        try {
+          const res = await fetch(EDGE_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${userSession.access_token}`,
+            },
+            body: JSON.stringify({
+              priceId:       selectedPrice,
+              channel:       'web',
+              store_name:    storeName,
+              store_address: storeAddr || null,
+              store_state:   selectedState,
+            }),
+          });
+
+          const result = await res.json();
+          if (!res.ok || result.error) throw new Error(result.error || 'Checkout session failed.');
+
+          window.location.href = result.url;
+        } catch (err) {
+          errorBox.textContent = err.message;
+          errorBox.classList.add('visible');
+          btn.disabled = false;
+          btn.textContent = 'Continue to Secure Payment →';
+        }
+      });
+    }
+
+    init();
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 0);
+    });
+  </script>
+
+</body>
+</html>

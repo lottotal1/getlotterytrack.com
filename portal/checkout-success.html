@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Added — Lottery Track Portal</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .page-wrap {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+    .result-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-hover);
+      padding: 56px 40px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    .result-icon {
+      width: 72px;
+      height: 72px;
+      background: #E8F5EE;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 24px;
+      color: var(--green);
+      font-weight: 700;
+    }
+    .result-card h1 {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .result-card p {
+      font-size: 16px;
+      color: #556070;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .next-steps {
+      background: var(--light-gray);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .next-steps-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .next-steps p {
+      font-size: 13px;
+      color: #556070;
+      margin-bottom: 0;
+      line-height: 1.65;
+    }
+    @media (max-width: 480px) {
+      .result-card { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Lottery <span>Track</span></a>
+      <div class="nav-links">
+        <a href="dashboard.html" style="color:var(--light);text-decoration:none;font-size:14px;font-weight:500;padding:8px 12px;border-radius:6px;transition:background 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">My Stores</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="result-card">
+      <div class="result-icon">✓</div>
+      <h1>Store Added!</h1>
+      <p>Your new store has been created and your subscription is now active.</p>
+
+      <div class="next-steps">
+        <div class="next-steps-title">What's next</div>
+        <p>Open the Lottery Track app on your iPhone, tap the store name at the top of the screen, and select your new store. Make sure you're signed in with the same email address you used here.</p>
+      </div>
+
+      <a href="dashboard.html" class="btn-primary" style="display:block">View My Stores →</a>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 0);
+    });
+  </script>
+
+</body>
+</html>

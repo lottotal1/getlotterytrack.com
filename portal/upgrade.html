@@ -256,7 +256,10 @@
       }
 
       const sub = store.store_subscriptions || {};
-      if (sub.status !== 'trialing') {
+      // App-started trials are stored as 'trial' (this app's own DB convention);
+      // 'trialing' would only ever appear for a Stripe-native trial, which this
+      // app doesn't use. Accept both so the gate actually matches real data.
+      if (sub.status !== 'trialing' && sub.status !== 'trial') {
         window.location.replace(`store.html?id=${esc(storeId)}`);
         return;
       }

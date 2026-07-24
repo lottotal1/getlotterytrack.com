@@ -66,6 +66,19 @@
       color: var(--navy);
       line-height: 1.3;
     }
+    .role-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #778899;
+      background: var(--light-gray);
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
     .store-addr {
       font-size: 13px;
       color: #778899;
@@ -236,7 +249,7 @@
       return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
-    function renderCard(store) {
+    function renderCard(store, role) {
       const sub = (store.store_subscriptions || [])[0] || {};
       const provider = sub.payment_provider;
       const renewLabel = sub.status === 'trialing' ? 'Trial ends' : 'Renews';
@@ -246,12 +259,13 @@
         ? '<span class="provider-stripe">💳 Stripe</span>'
         : provider === 'manual' ? '<span style="color:#778899">Manual</span>'
         : '<span style="color:#778899">—</span>';
+      const roleTag = role !== 'owner' ? `<span class="role-tag">${esc(role)}</span>` : '';
 
       return `
         <div class="store-card">
           <div class="store-card-top">
             <div>
-              <div class="store-name">${esc(store.name)}</div>
+              <div class="store-name">${esc(store.name)}${roleTag}</div>
               <div class="store-addr">${esc(store.address || STATE_NAMES[store.state] || store.state)}</div>
             </div>
             ${statusBadge(sub.status)}
@@ -286,11 +300,20 @@
         window.location.replace('index.html');
       });
 
-      const { data: stores, error } = await db
-        .from('stores')
-        .select('id, name, address, state, store_subscriptions(status, payment_provider, current_period_end)')
-        .eq('admin_id', user.id)
-        .order('created_at');
+      // No .eq('admin_id', ...) here on purpose — RLS returns every store this
+      // user can see (owned outright, or granted via store_access as admin/viewer).
+      const [{ data: stores, error }, { data: accessRows }] = await Promise.all([
+        db
+          .from('stores')
+          .select('id, name, address, state, store_subscriptions(status, payment_provider, current_period_end)')
+          .order('created_at'),
+        db
+          .from('store_access')
+          .select('store_id, role')
+          .eq('user_id', user.id),
+      ]);
+
+      const roleByStore = new Map((accessRows || []).map(r => [r.store_id, r.role]));
 
       const grid = document.getElementById('stores-grid');
 
@@ -298,7 +321,7 @@
         document.getElementById('store-count').textContent = 'No stores yet';
         grid.innerHTML = `
           <div class="state-msg">
-            <h3>No stores on your account</h3>
+            <h3>No stores yet</h3>
             <p style="margin-bottom:24px">Add your first store to get started.</p>
             <a href="add-store.html" class="btn-primary">Add Your First Store</a>
           </div>`;
@@ -306,10 +329,10 @@
       }
 
       const n = stores.length;
-      document.getElementById('store-count').textContent = `${n} store${n !== 1 ? 's' : ''} on your account`;
+      document.getElementById('store-count').textContent = `${n} store${n !== 1 ? 's' : ''} you have access to`;
       document.getElementById('add-btn').style.display = '';
 
-      grid.innerHTML = stores.map(renderCard).join('') + `
+      grid.innerHTML = stores.map(s => renderCard(s, roleByStore.get(s.id) || 'owner')).join('') + `
         <a href="add-store.html" class="add-card">
           <div class="add-icon">+</div>
           <div class="add-title">Add Another Store</div>

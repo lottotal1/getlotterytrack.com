@@ -6,6 +6,37 @@
   <meta name="description" content="Lottery Track closes your entire lottery inventory in under 5 minutes. Stop closing lotto early. Barcode scan, 3 numbers, done. Available in NY and TX. iPhone app.">
   <title>Lottery Track — Stop Losing 5% of Your Lotto Sales Every Night</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .purchase-cta-bar { background: #2E7D5B; padding: 14px 0; }
+    .purchase-cta-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .purchase-cta-copy { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .purchase-cta-copy strong { font-size: 15px; font-weight: 700; color: #fff; }
+    .purchase-cta-copy span { font-size: 14px; color: rgba(255,255,255,0.82); }
+    .purchase-cta-btn {
+      background: #fff;
+      color: #1A5C3A;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 9px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .purchase-cta-btn:hover { background: #EBF5EE; }
+    @media (max-width: 640px) {
+      .purchase-cta-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
@@ -97,6 +128,19 @@
       </div>
     </div>
   </section>
+
+  <!-- ============================================================
+       READY TO PURCHASE BANNER
+       ============================================================ -->
+  <div class="purchase-cta-bar">
+    <div class="purchase-cta-inner">
+      <div class="purchase-cta-copy">
+        <strong>Ready to Purchase?</strong>
+        <span>Start your 7-day free trial — set up your store in minutes.</span>
+      </div>
+      <a href="portal/index.html" class="purchase-cta-btn">Get Started →</a>
+    </div>
+  </div>
 
   <!-- ============================================================
        TRUST BAR

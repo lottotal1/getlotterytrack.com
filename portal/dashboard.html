@@ -288,6 +288,7 @@
         trialing: 'Free Trial',
         past_due: 'Payment Due',
         canceled: 'Cancelled',
+        expired:  'Expired',
       }[status] || 'Inactive';
 
       const renewLabel = status === 'trialing' ? 'Trial ends'
@@ -303,10 +304,14 @@
       const roleLabel = !role || role === 'owner' ? 'Owner'
         : role.charAt(0).toUpperCase() + role.slice(1);
 
-      const cardTag  = isTrialing ? 'div' : 'a';
-      const cardHref = isTrialing ? '' : `href="store.html?id=${esc(store.id)}"`;
-      const cardData = isTrialing ? `data-href="store.html?id=${esc(store.id)}"` : '';
-      const cardCls  = isTrialing ? 'store-row no-link' : 'store-row';
+      // Expired/inactive owned stores show a Subscribe CTA inside the card,
+      // so the card must be a div (can't nest <a> inside <a>).
+      const isExpiredOwned = statusCls === 'inactive' && role === 'owner';
+      const useDiv   = isTrialing || isExpiredOwned;
+      const cardTag  = useDiv ? 'div' : 'a';
+      const cardHref = useDiv ? '' : `href="store.html?id=${esc(store.id)}"`;
+      const cardData = useDiv ? `data-href="store.html?id=${esc(store.id)}"` : '';
+      const cardCls  = useDiv ? 'store-row no-link' : 'store-row';
 
       return `
         <${cardTag} class="${cardCls}" ${cardHref} ${cardData}>
@@ -327,6 +332,8 @@
           <div class="store-cta">
             ${isTrialing
               ? `<a href="upgrade.html?id=${esc(store.id)}" class="btn-upgrade">Upgrade →</a>`
+              : isExpiredOwned
+              ? `<a href="upgrade.html?id=${esc(store.id)}" class="btn-upgrade">Subscribe →</a>`
               : `<span class="btn-reports">View Reports →</span>`
             }
           </div>

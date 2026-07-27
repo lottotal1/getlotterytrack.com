@@ -280,6 +280,7 @@
       const rawStatus = sub.stripe_status || sub.status || 'inactive';
       const status = rawStatus === 'trial' ? 'trialing' : rawStatus;
       const isTrialing = status === 'trialing';
+      const isStripe   = sub.payment_provider === 'stripe';
 
       // Normalize status for CSS classes — only these four are styled
       const statusCls = ['active', 'trialing', 'past_due'].includes(status) ? status : 'inactive';
@@ -307,8 +308,10 @@
 
       // Expired/inactive owned stores show a Subscribe CTA inside the card,
       // so the card must be a div (can't nest <a> inside <a>).
+      // Only use a div when there's a Stripe CTA that needs its own link;
+      // Apple-billed / app-created stores navigate via the card itself.
       const isExpiredOwned = statusCls === 'inactive' && role === 'owner';
-      const useDiv   = isTrialing || isExpiredOwned;
+      const useDiv   = (isTrialing && isStripe) || (isExpiredOwned && isStripe);
       const cardTag  = useDiv ? 'div' : 'a';
       const cardHref = useDiv ? '' : `href="store.html?id=${esc(store.id)}"`;
       const cardData = useDiv ? `data-href="store.html?id=${esc(store.id)}"` : '';
@@ -331,9 +334,9 @@
             ${providerStr ? `<div class="renews-billing">${providerStr}</div>` : ''}
           </div>
           <div class="store-cta">
-            ${isTrialing
+            ${(isTrialing && isStripe)
               ? `<a href="upgrade.html?id=${esc(store.id)}" class="btn-upgrade">Upgrade →</a>`
-              : isExpiredOwned
+              : (isExpiredOwned && isStripe)
               ? `<a href="upgrade.html?id=${esc(store.id)}" class="btn-upgrade">Subscribe →</a>`
               : `<span class="btn-reports">View Reports →</span>`
             }

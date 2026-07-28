@@ -172,9 +172,189 @@
     }
     .btn-signout:hover { background: rgba(255,255,255,0.1); color: white; }
 
+    /* ── Team Members section ── */
+    .members-wrap {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+    .members-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--light-gray);
+    }
+    .members-header-left { display: flex; align-items: baseline; gap: 10px; }
+    .members-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #778899;
+    }
+    .btn-invite {
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+    .btn-invite:hover { opacity: 0.85; }
+    .member-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .member-row:last-child { border-bottom: none; }
+    .member-row.pending { opacity: 0.75; }
+    .member-info { flex: 1; min-width: 0; }
+    .member-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .member-meta { display: flex; align-items: center; gap: 8px; }
+    .role-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 5px;
+      border: 1px solid transparent;
+    }
+    .role-owner   { background: #FFF7ED; border-color: #F59E0B40; color: #B45309; }
+    .role-admin   { background: #EBF5EF; border-color: #2E7D5B40; color: #2E7D5B; }
+    .role-employee{ background: #EEF2FF; border-color: #818CF840; color: #4F46E5; }
+    .pending-label { font-size: 11px; color: #999; font-style: italic; }
+    .btn-remove {
+      background: none;
+      border: none;
+      color: #C00000;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 10px;
+      font-family: var(--font-sans);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-remove:hover { text-decoration: underline; }
+    .btn-remove:disabled { opacity: 0.4; cursor: default; text-decoration: none; }
+    .members-empty {
+      padding: 36px 24px;
+      text-align: center;
+      color: #778899;
+      font-size: 14px;
+    }
+    /* Invite form (inline, toggleable) */
+    .invite-form-wrap {
+      border-top: 1px solid var(--border);
+      background: #F7F9FB;
+      padding: 18px 20px;
+      display: none;
+    }
+    .invite-form-wrap.open { display: block; }
+    .invite-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .invite-field { display: flex; flex-direction: column; gap: 5px; }
+    .invite-label { font-size: 12px; font-weight: 600; color: #556070; }
+    .invite-input {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      color: var(--navy);
+      background: white;
+      outline: none;
+      width: 240px;
+      max-width: 100%;
+    }
+    .invite-input:focus { border-color: var(--navy); }
+    .invite-select {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      color: var(--navy);
+      background: white;
+      outline: none;
+      cursor: pointer;
+    }
+    .invite-select:focus { border-color: var(--navy); }
+    .btn-send-invite {
+      background: #2E7D5B;
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 9px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+    .btn-send-invite:hover { opacity: 0.85; }
+    .btn-send-invite:disabled { opacity: 0.45; cursor: default; }
+    .btn-cancel-invite {
+      background: none;
+      border: none;
+      color: #778899;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      padding: 9px 4px;
+    }
+    .btn-cancel-invite:hover { color: var(--navy); }
+    .invite-feedback {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+    }
+    .invite-feedback.ok  { color: #2E7D5B; display: block; }
+    .invite-feedback.err { color: #C00000; display: block; }
+    /* Role guide card */
+    .role-guide {
+      background: #EEF2F7;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #556070;
+      line-height: 1.6;
+    }
+    .role-guide strong { color: var(--navy); }
+
     @media (max-width: 680px) {
       .sub-bar-inner { gap: 16px; }
       .store-hero-name { font-size: 22px; }
+      .invite-input { width: 100%; }
+      .invite-form { flex-direction: column; }
     }
   </style>
 </head>
@@ -216,7 +396,47 @@
 
   <div class="portal-content">
     <div class="content-inner">
+
+      <!-- Team Members -->
       <div class="section-header">
+        <span class="section-title">Team Members</span>
+      </div>
+      <div class="members-wrap">
+        <div class="members-header">
+          <div class="members-header-left">
+            <span class="members-section-label" id="members-count-label">Members</span>
+          </div>
+          <button class="btn-invite" id="btn-invite-member">+ Invite Member</button>
+        </div>
+        <div id="members-list">
+          <div class="members-empty">Loading…</div>
+        </div>
+        <div class="invite-form-wrap" id="invite-form-wrap">
+          <div class="invite-form">
+            <div class="invite-field">
+              <label class="invite-label" for="invite-email">Email address</label>
+              <input class="invite-input" type="email" id="invite-email" placeholder="employee@example.com" autocomplete="off">
+            </div>
+            <div class="invite-field">
+              <label class="invite-label" for="invite-role">Role</label>
+              <select class="invite-select" id="invite-role">
+                <option value="admin">Admin</option>
+                <option value="employee" selected>Employee</option>
+              </select>
+            </div>
+            <button class="btn-send-invite" id="btn-send-invite">Send Invite</button>
+            <button class="btn-cancel-invite" id="btn-cancel-invite" type="button">Cancel</button>
+          </div>
+          <div class="invite-feedback" id="invite-feedback"></div>
+        </div>
+      </div>
+      <div class="role-guide">
+        <strong>Admin</strong> — Full access: scan, close, view all reports, manage store settings and team. Cannot manage billing.<br>
+        <strong>Employee</strong> — Can scan and close the day. Reports limited to last 7 days. Cannot manage store settings or team.
+      </div>
+
+      <!-- Closing Reports -->
+      <div class="section-header" style="margin-top: 40px;">
         <span class="section-title">Closing Reports</span>
         <span class="section-note" id="reports-note">Last 30 days</span>
       </div>
@@ -557,6 +777,113 @@
       }
     };
 
+    // ── Team Members ──
+
+    let currentSession = null;
+
+    function renderMemberRow(member, canRemove, isYou) {
+      const roleClass = `role-${member.role}`;
+      const roleLabel = member.role === 'owner' ? 'Owner' : member.role === 'admin' ? 'Admin' : 'Employee';
+      const displayName = esc(member.name || 'Unknown') + (isYou ? ' (You)' : '');
+      const removeBtn = canRemove
+        ? `<button class="btn-remove" data-access-id="${esc(member.id)}" data-name="${esc(member.name || '')}" onclick="handleRemoveMember(this)">Remove</button>`
+        : '';
+      return `<div class="member-row">
+        <div class="member-info">
+          <div class="member-name">${displayName}</div>
+          <div class="member-meta"><span class="role-badge ${roleClass}">${roleLabel}</span></div>
+        </div>
+        ${removeBtn}
+      </div>`;
+    }
+
+    function renderInviteRow(invite, canRevoke) {
+      const roleClass = `role-${invite.role}`;
+      const roleLabel = invite.role === 'admin' ? 'Admin' : 'Employee';
+      const revokeBtn = canRevoke
+        ? `<button class="btn-remove" data-invite-id="${esc(invite.id)}" data-email="${esc(invite.email)}" onclick="handleRevokeInvite(this)">Revoke</button>`
+        : '';
+      return `<div class="member-row pending">
+        <div class="member-info">
+          <div class="member-name">${esc(invite.email)}</div>
+          <div class="member-meta"><span class="role-badge ${roleClass}">${roleLabel}</span><span class="pending-label">Pending</span></div>
+        </div>
+        ${revokeBtn}
+      </div>`;
+    }
+
+    async function fetchAndRenderMembers() {
+      const [accessRes, invitesRes] = await Promise.all([
+        db.from('store_access').select('id, role, user_id').eq('store_id', storeId),
+        db.from('store_invites').select('id, email, role').eq('store_id', storeId).is('claimed_at', null),
+      ]);
+
+      const accessRows = accessRes.data || [];
+      const invites    = invitesRes.data || [];
+      const ownerId    = storeData.admin_id;
+      const userId     = currentSession?.user?.id;
+
+      // Fetch profile names for all user IDs
+      const userIds = [...new Set([...accessRows.map(r => r.user_id).filter(Boolean), ownerId].filter(Boolean))];
+      let profileMap = {};
+      if (userIds.length > 0) {
+        const { data: profileData } = await db.from('profiles').select('id, full_name').in('id', userIds);
+        profileMap = Object.fromEntries((profileData || []).map(p => [p.id, p]));
+      }
+
+      const isCurrentUserOwner = userId === ownerId;
+      const isCurrentUserAdmin = isCurrentUserOwner || accessRows.some(r => r.user_id === userId && r.role === 'admin');
+
+      // Synthesise owner row
+      const ownerRow = ownerId
+        ? { _isOwner: true, user_id: ownerId, role: 'owner', name: profileMap[ownerId]?.full_name || (isCurrentUserOwner ? currentSession.user.email : 'Store Owner') }
+        : null;
+      const memberRows = accessRows.map(r => ({ ...r, name: profileMap[r.user_id]?.full_name || '' }));
+
+      // Update count label
+      const totalActive = (ownerRow ? 1 : 0) + memberRows.length;
+      document.getElementById('members-count-label').textContent =
+        `${totalActive} member${totalActive !== 1 ? 's' : ''}${invites.length > 0 ? ` · ${invites.length} pending` : ''}`;
+
+      // Show invite button only to admins/owners
+      document.getElementById('btn-invite-member').style.display = isCurrentUserAdmin ? '' : 'none';
+
+      // Render rows
+      let html = '';
+      if (ownerRow) html += renderMemberRow(ownerRow, false, isCurrentUserOwner);
+      for (const m of memberRows) {
+        html += renderMemberRow(m, isCurrentUserAdmin && !m._isOwner, m.user_id === userId);
+      }
+      for (const inv of invites) {
+        html += renderInviteRow(inv, isCurrentUserAdmin);
+      }
+      if (!html) html = '<div class="members-empty">No team members yet. Use "+ Invite Member" to add someone.</div>';
+
+      document.getElementById('members-list').innerHTML = html;
+    }
+
+    window.handleRemoveMember = async (btn) => {
+      const accessId = btn.dataset.accessId;
+      const name = btn.dataset.name || 'this member';
+      if (!confirm(`Remove ${name} from this store?`)) return;
+      btn.disabled = true;
+      btn.textContent = '…';
+      const { error } = await db.from('store_access').delete().eq('id', accessId);
+      if (error) { alert('Could not remove member: ' + error.message); btn.disabled = false; btn.textContent = 'Remove'; return; }
+      await fetchAndRenderMembers();
+    };
+
+    window.handleRevokeInvite = async (btn) => {
+      const inviteId = btn.dataset.inviteId;
+      const email = btn.dataset.email || 'this invite';
+      if (!confirm(`Revoke invite for ${email}?`)) return;
+      btn.disabled = true;
+      btn.textContent = '…';
+      const { error } = await db.from('store_invites').delete().eq('id', inviteId);
+      if (error) { alert('Could not revoke invite: ' + error.message); btn.disabled = false; btn.textContent = 'Revoke'; return; }
+      await fetchAndRenderMembers();
+    };
+
     // ── Main init ──
 
     async function init() {
@@ -574,7 +901,7 @@
       // object (or null), not an array.
       const { data: store, error: storeErr } = await db
         .from('stores')
-        .select('id, name, address, state, box_count, store_subscriptions(status, stripe_status, payment_provider, current_period_end, cancel_at_period_end, cancel_at)')
+        .select('id, name, address, state, box_count, admin_id, store_subscriptions(status, stripe_status, payment_provider, current_period_end, cancel_at_period_end, cancel_at)')
         .eq('id', storeId)
         .single();
 
@@ -584,6 +911,70 @@
       }
 
       storeData = store;
+      currentSession = session;
+
+      // Load team members
+      fetchAndRenderMembers();
+
+      // Invite form toggle
+      document.getElementById('btn-invite-member').addEventListener('click', () => {
+        const wrap = document.getElementById('invite-form-wrap');
+        const isOpen = wrap.classList.contains('open');
+        wrap.classList.toggle('open', !isOpen);
+        if (!isOpen) {
+          document.getElementById('invite-email').focus();
+          document.getElementById('invite-feedback').className = 'invite-feedback';
+          document.getElementById('invite-feedback').textContent = '';
+        }
+      });
+
+      document.getElementById('btn-cancel-invite').addEventListener('click', () => {
+        document.getElementById('invite-form-wrap').classList.remove('open');
+        document.getElementById('invite-email').value = '';
+        document.getElementById('invite-feedback').className = 'invite-feedback';
+      });
+
+      document.getElementById('btn-send-invite').addEventListener('click', async () => {
+        const email = document.getElementById('invite-email').value.trim();
+        const role  = document.getElementById('invite-role').value;
+        const feedback = document.getElementById('invite-feedback');
+        const btn = document.getElementById('btn-send-invite');
+
+        if (!email) {
+          feedback.className = 'invite-feedback err';
+          feedback.textContent = 'Please enter an email address.';
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        feedback.className = 'invite-feedback';
+        feedback.textContent = '';
+
+        try {
+          const { data: { session: s } } = await db.auth.getSession();
+          const res = await fetch('https://fnnuakksfrurmjcjikib.supabase.co/functions/v1/invite-member', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${s.access_token}` },
+            body: JSON.stringify({ storeId, email, role }),
+          });
+          const result = await res.json();
+          if (result.error) throw new Error(result.message || result.error);
+
+          feedback.className = 'invite-feedback ok';
+          feedback.textContent = result.isNewUser
+            ? `Invite sent to ${email}. They'll receive an email to create their Lottery Track account.`
+            : `Invite sent to ${email}. They'll see the invitation next time they open the app.`;
+          document.getElementById('invite-email').value = '';
+          await fetchAndRenderMembers();
+        } catch (err) {
+          feedback.className = 'invite-feedback err';
+          feedback.textContent = err.message;
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Send Invite';
+        }
+      });
 
       const sub = store.store_subscriptions || {};
 

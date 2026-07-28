@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open LotteryTrack — Lottery Track</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .portal-wrap {
+      min-height: calc(100vh - 64px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+    }
+    .auth-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-hover);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    .auth-card h1 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+    .auth-card p {
+      font-size: 15px;
+      color: #556070;
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #E8EDF1;
+      border-top-color: var(--green);
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .checkmark {
+      width: 56px;
+      height: 56px;
+      background: #EEF7F2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .checkmark svg { display: block; }
+    .app-store-btn {
+      display: inline-block;
+      margin: 20px auto 0;
+      background: var(--navy);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .app-store-btn:hover { background: #253648; }
+    .retry-link {
+      display: block;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #7A9BB0;
+      cursor: pointer;
+      text-decoration: underline;
+      background: none;
+      border: none;
+      font-family: var(--font-sans);
+    }
+    .retry-link:hover { color: var(--navy); }
+    @media (max-width: 480px) {
+      .auth-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Lottery <span>Track</span></a>
+    </div>
+  </nav>
+
+  <div class="portal-wrap">
+    <div class="auth-card">
+
+      <!-- Loading state -->
+      <div id="loading-state">
+        <div class="spinner"></div>
+        <h1>Opening LotteryTrack…</h1>
+        <p>Redirecting you to the app.</p>
+      </div>
+
+      <!-- Desktop / app-not-installed state -->
+      <div id="download-state" style="display:none">
+        <div class="checkmark">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12l5 5L19 7" stroke="#2E7D5B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h1>You're all set!</h1>
+        <p>Your LotteryTrack account is ready. Open the app on your iPhone to access your store.</p>
+        <a href="https://apps.apple.com/app/id6783105590" class="app-store-btn">Download on the App Store</a>
+        <button class="retry-link" onclick="tryOpenApp()">Already installed? Open LotteryTrack</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const fragment = window.location.hash;
+    const appLink = 'lotterytrack://auth-confirm' + fragment;
+
+    function tryOpenApp() {
+      window.location.href = appLink;
+    }
+
+    // Attempt to open the app immediately via the deep link.
+    // On iOS with the app installed this opens the app; on desktop
+    // or with no app installed the browser stays on this page.
+    if (fragment) {
+      // Use a hidden iframe so navigating to an unregistered scheme
+      // doesn't produce a browser error page on some desktop browsers.
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = appLink;
+      document.body.appendChild(iframe);
+      setTimeout(() => {
+        try { document.body.removeChild(iframe); } catch (_) {}
+      }, 2000);
+    }
+
+    // After a short wait, show the desktop / fallback content.
+    setTimeout(() => {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('download-state').style.display = 'block';
+    }, 1500);
+  </script>
+
+</body>
+</html>

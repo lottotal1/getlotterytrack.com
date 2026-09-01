@@ -288,6 +288,37 @@ section {
 }
 
 /* ============================================================
+   STORE BADGES (App Store / Google Play)
+   ============================================================ */
+
+.store-badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.store-badges.center {
+  justify-content: center;
+}
+
+.store-badge {
+  height: 48px;
+  width: auto;
+  display: block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+}
+
+.store-badge:hover {
+  transform: scale(1.03);
+}
+
+@media (max-width: 480px) {
+  .store-badge { height: 42px; }
+}
+
+/* ============================================================
    BUTTONS
    ============================================================ */
 

@@ -43,7 +43,84 @@
     @media (max-width: 640px) {
       .purchase-cta-inner { flex-direction: column; align-items: flex-start; }
     }
-    .contact-method-cards.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .contact-method-cards.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* This rule must also collapse on phones: its higher specificity used to
+       override style.css's 1-column mobile rule and force a 2-column grid. */
+    @media (max-width: 680px) {
+      .contact-method-cards.cols-2 { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* ---- Mobile hero: get the hook + primary action on the first screen ---- */
+    @media (max-width: 680px) {
+      .hero { padding: 28px 0 32px; }
+      .hero-inner { gap: 0; }
+      .hero-badge {
+        font-size: 11px;
+        letter-spacing: 0.6px;
+        padding: 5px 12px;
+        margin-bottom: 16px;
+        max-width: 100%;
+      }
+      .hero h1 {
+        font-size: clamp(27px, 7.6vw, 34px);
+        line-height: 1.15;
+        margin-bottom: 14px;
+        text-wrap: balance;
+      }
+      .hero-sub {
+        font-size: 16px;
+        line-height: 1.55;
+        margin: 0 auto 22px;
+        max-width: 36ch;
+      }
+      .hero-buttons { gap: 12px; margin-bottom: 12px; }
+      .hero-buttons .store-badges { justify-content: center; gap: 10px; }
+      /* Store badges are the one primary action; demote the secondary link */
+      .hero-buttons .btn-outline-white {
+        min-height: 0;
+        width: auto;
+        align-self: center;
+        padding: 6px 4px;
+        border: 0;
+        font-size: 15px;
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        color: rgba(255,255,255,0.85);
+      }
+      .hero-social-proof { font-size: 13px; margin-top: 2px; }
+      .hero .trial-note { margin-top: 6px; font-size: 13px; }
+
+      /* Compact the purchase band to one row */
+      .purchase-cta-bar { padding: 10px 0; }
+      .purchase-cta-inner {
+        flex-direction: row;
+        align-items: center;
+        padding: 0 16px;
+        gap: 12px;
+      }
+      .purchase-cta-copy span { display: none; }
+      .purchase-cta-btn { padding: 8px 16px; }
+
+      /* Trust strip: wrap instead of a clipped sideways scroller */
+      .trust-bar { padding: 10px 0; }
+      .trust-bar-inner {
+        flex-wrap: wrap;
+        justify-content: center;
+        white-space: normal;
+        overflow: visible;
+        padding: 0 12px;
+        row-gap: 4px;
+      }
+      .trust-bar-sep { display: none; }
+      .trust-bar-item { font-size: 12px; padding: 0 8px; }
+    }
+    @media (max-width: 374px) {
+      .hero h1 { font-size: 26px; }
+      .hero-badge { font-size: 10px; letter-spacing: 0.3px; padding: 5px 10px; }
+      .purchase-cta-copy strong { font-size: 14px; }
+    }
+
     .demo-steps-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);

@@ -40,6 +40,9 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Safety net only. Real overflow causes are fixed at the source.
+     clip (not hidden) so position:sticky/fixed keep working. */
+  overflow-x: clip;
 }
 
 img { display: block; max-width: 100%; }
@@ -2363,7 +2366,9 @@ section {
 
 .contact-method-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* minmax(0,1fr): let columns shrink below their content's min width
+     (a long email address otherwise widens the whole page on phones) */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   margin-bottom: 48px;
 }
@@ -2393,6 +2398,7 @@ section {
   font-weight: 700;
   color: var(--green);
   margin-bottom: 8px;
+  overflow-wrap: anywhere;
 }
 
 .contact-method-desc {

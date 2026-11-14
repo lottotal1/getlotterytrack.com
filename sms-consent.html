@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How LotteryTrack users opt in to text messages, what they receive, and how to stop.">
+  <title>Text Message Consent — Lottery Track</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .optin-mock {
+      max-width: 420px; margin: 24px auto 32px; background: #F7F9FB;
+      border: 1px solid #dfe5ec; border-radius: 18px; padding: 20px 16px;
+      box-shadow: 0 6px 24px rgba(28, 42, 57, 0.08);
+    }
+    .optin-mock .mock-head { font-size: 13px; color: #6b7785; margin-bottom: 12px; text-align: center; }
+    .optin-mock .mock-label { font-size: 13px; font-weight: 700; color: #1C2A39; margin-bottom: 6px; }
+    .optin-mock .mock-input {
+      background: #fff; border: 1px solid #cfd8e3; border-radius: 10px; padding: 10px 12px;
+      font-size: 15px; color: #1C2A39; margin-bottom: 12px;
+    }
+    .optin-row {
+      display: flex; align-items: flex-start; gap: 10px; background: #fff;
+      border: 1px solid #dfe5ec; border-radius: 10px; padding: 12px; margin-bottom: 12px;
+    }
+    .optin-box {
+      width: 22px; height: 22px; border: 2px solid #1C2A39; border-radius: 5px;
+      background: #fff; flex-shrink: 0; margin-top: 1px;
+    }
+    .optin-row strong { display: block; font-size: 13px; color: #1C2A39; margin-bottom: 4px; }
+    .optin-row span { font-size: 12px; color: #555; line-height: 1.45; }
+    .optin-row a { color: #1C2A39; text-decoration: underline; }
+    .optin-note { font-size: 12px; color: #6b7785; text-align: center; margin-top: 4px; }
+    .sms-bubble {
+      background: #e9edf2; color: #1C2A39; border-radius: 16px; padding: 10px 14px;
+      font-size: 14px; line-height: 1.45; margin: 8px 0 14px; max-width: 520px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><img src="/logo.png" alt="Lottery Track logo">Lottery <span>Track</span></a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="why-switch.html">Why Switch</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
+    <a href="demo/index.html">Demo</a>
+        <a href="portal/index.html">Sign In</a>
+        <a href="index.html#get-app" class="btn-nav-download">Download</a>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="why-switch.html">Why Switch</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="demo/index.html">Demo</a>
+    <a href="portal/index.html">Sign In</a>
+    <div class="store-badges" style="padding:12px 20px;">
+      <a href="https://apps.apple.com/app/id6783105590" aria-label="Download on the App Store"><img src="badges/app-store-badge.svg" alt="Download on the App Store" class="store-badge"></a>
+      <a href="https://play.google.com/store/apps/details?id=com.getlotterytrack.lotterytrack" aria-label="Get it on Google Play"><img src="badges/google-play-badge.png" alt="Get it on Google Play" class="store-badge"></a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero hero-sm">
+    <div class="container">
+      <h1>Text Message Consent</h1>
+      <p class="hero-sub">How LotteryTrack users opt in to text messages, what they receive, and how to stop.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTENT
+       ============================================================ -->
+  <section class="bg-white" style="padding-top:64px; padding-bottom:80px;">
+    <div class="legal-content">
+
+      <span class="last-updated">Last updated: November 14, 2026</span>
+
+      <p>LotteryTrack (operated by Foundr Technologies LLC) is a mobile app that lottery retailers use to track scratch-off inventory and close out each day. We send text messages only to LotteryTrack account holders who opt in inside the app. We never text numbers we did not collect this way, and we never buy or rent phone lists.</p>
+
+      <div class="legal-divider"></div>
+
+      <h2>How to opt in</h2>
+      <ul>
+        <li>Sign in to the LotteryTrack app and open <strong>Settings</strong>.</li>
+        <li>Enter your mobile number in the <strong>Mobile phone number</strong> field.</li>
+        <li>The opt-in checkboxes appear under the phone number. <strong>Every box is unchecked by default.</strong> Check only the programs you want.</li>
+        <li>Tap <strong>Save</strong>. Each program you just joined sends you one confirmation text.</li>
+      </ul>
+      <p>Consent to receive text messages is not a condition of using LotteryTrack or of any purchase.</p>
+
+      <h2>What the opt-in looks like in the app</h2>
+      <p>This is the exact wording shown in the app's Settings screen:</p>
+
+      <div class="optin-mock" aria-label="Recreation of the LotteryTrack Settings opt-in section">
+        <div class="mock-head">LotteryTrack app · Settings</div>
+        <div class="mock-label">Mobile phone number (optional)</div>
+        <div class="mock-input">(555) 123-4567</div>
+
+        <div class="optin-row">
+          <div class="optin-box" aria-hidden="true"></div>
+          <div>
+            <strong>Text message offers (optional)</strong>
+            <span>Yes, text me tips, updates, and offers from LotteryTrack. Consent is not a condition of using LotteryTrack. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to unsubscribe or HELP for help. See our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>.</span>
+          </div>
+        </div>
+
+        <div class="optin-row">
+          <div class="optin-box" aria-hidden="true"></div>
+          <div>
+            <strong>Missed close alerts (optional)</strong>
+            <span>Yes, text me when my store misses an expected daily close. Message frequency varies (only sent when a close is missed). Msg &amp; data rates may apply. Reply STOP to unsubscribe or HELP for help. See our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>.</span>
+          </div>
+        </div>
+
+        <div class="optin-row">
+          <div class="optin-box" aria-hidden="true"></div>
+          <div>
+            <strong>App update notices (optional)</strong>
+            <span>Yes, text me when a new version of LotteryTrack is available. Message frequency varies (only sent when the app updates). Msg &amp; data rates may apply. Reply STOP to unsubscribe or HELP for help. See our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>.</span>
+          </div>
+        </div>
+
+        <div class="optin-row">
+          <div class="optin-box" aria-hidden="true"></div>
+          <div>
+            <strong>Daily key metrics text (optional)</strong>
+            <span>Yes, send me a daily text with my store's key numbers (instant sales, online sales, books activated, and cash balance) after I close. Up to 1 message per day. Msg &amp; data rates may apply. Reply STOP to unsubscribe or HELP for help. See our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>.</span>
+          </div>
+        </div>
+
+        <div class="optin-note">All boxes start unchecked. Nothing is sent until you check a box and tap Save.</div>
+      </div>
+
+      <h2>Confirmation texts</h2>
+      <p>Right after you save, each program you joined sends one confirmation:</p>
+      <div class="sms-bubble">Welcome to LotteryTrack Missed-Close Alerts! You'll get a text if your store misses an expected close. Msg &amp; data rates may apply. Reply HELP for help, STOP to cancel.</div>
+      <div class="sms-bubble">Welcome to LotteryTrack App Update Notices! You'll get a text when a new app version is available. Msg &amp; data rates may apply. Reply HELP for help, STOP to cancel.</div>
+      <div class="sms-bubble">Welcome to LotteryTrack Daily Digest! You'll get up to 1 text per day with your store's key numbers after you close. Msg &amp; data rates may apply. Reply HELP for help, STOP to cancel.</div>
+
+      <h2>Message frequency and cost</h2>
+      <ul>
+        <li><strong>Missed close alerts:</strong> only when your store misses an expected daily close.</li>
+        <li><strong>App update notices:</strong> only when a new version of the app is available.</li>
+        <li><strong>Daily key metrics text:</strong> up to 1 message per day.</li>
+        <li><strong>Text message offers:</strong> frequency varies.</li>
+      </ul>
+      <p>Msg &amp; data rates may apply.</p>
+
+      <h2>How to stop or get help</h2>
+      <p>Reply <strong>STOP</strong> to any message to unsubscribe. You'll get one final text confirming it. You can also uncheck any program in the app's Settings at any time. Reply <strong>HELP</strong> for help, call (347) 716-7990, or email <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a>. Carriers are not liable for delayed or undelivered messages.</p>
+
+      <h2>Your privacy</h2>
+      <p>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging originator opt-in data and consent will not be shared with any third parties. Read more in our <a href="privacy.html#sms">Privacy Policy</a> and <a href="terms.html#sms">Terms of Service</a>.</p>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a href="index.html" class="footer-logo">Lottery <span>Track</span></a>
+        <p class="footer-tagline">Lottery inventory management for bodegas, delis, newsstands, and any store selling lottery tickets.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Navigation</p>
+        <nav class="footer-nav-links">
+          <a href="index.html">Home</a>
+          <a href="why-switch.html">Why Switch</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">Contact</a>
+          <a href="demo/index.html">Demo</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="sms-consent.html">Text Message Consent</a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer-col-title">Have questions?</p>
+        <div class="footer-contact-info">
+          <a href="mailto:admin@getlotterytrack.com">admin@getlotterytrack.com</a>
+          <span>New York City</span>
+          <span>We respond within 4 hours</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 Lottery Track. All rights reserved.</span>
+      <nav class="footer-legal-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+  <script>
+    const nav = document.getElementById('site-nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    const hamburger = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('nav-mobile-menu');
+    hamburger.addEventListener('click', function() {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+  </script>
+
+</body>
+</html>
